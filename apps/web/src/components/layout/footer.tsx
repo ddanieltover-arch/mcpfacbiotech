@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Beaker, Mail, MapPin, Phone } from 'lucide-react';
 

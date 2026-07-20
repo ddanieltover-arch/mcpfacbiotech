@@ -54,7 +54,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         path: request.url,
         method: request.method,
         requestId: request.headers['x-request-id'],
-        userId: (request as Record<string, unknown>).userId,
+        userId: (request as unknown as Record<string, unknown>).userId,
         ...(statusCode === HttpStatus.INTERNAL_SERVER_ERROR && exception instanceof Error
           ? { stack: exception.stack }
           : {}),
