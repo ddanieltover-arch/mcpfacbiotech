@@ -1,0 +1,67 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// Document Domain (Volume 5)
+// COA, MSDS, HPLC, certificates, technical documents
+// ──────────────────────────────────────────────────────────────────────────────
+
+enum DocumentType {
+  COA
+  MSDS
+  HPLC
+  TECHNICAL_DATASHEET
+  RESEARCH_DOCUMENT
+  CERTIFICATE
+  OTHER
+}
+
+enum DocumentPermission {
+  PUBLIC
+  REGISTERED
+  CUSTOMER
+  DISTRIBUTOR
+  ADMIN
+}
+
+model Document {
+  id             String             @id @default(uuid()) @db.Uuid
+  createdAt      DateTime           @default(now()) @map("created_at")
+  updatedAt      DateTime           @updatedAt @map("updated_at")
+  deletedAt      DateTime?          @map("deleted_at")
+  createdBy      String?            @map("created_by") @db.Uuid
+  title          String             @db.VarChar(300)
+  type           DocumentType
+  permission     DocumentPermission @default(PUBLIC)
+  fileUrl        String             @map("file_url") @db.VarChar(500)
+  fileName       String             @map("file_name") @db.VarChar(300)
+  fileSize       Int?               @map("file_size") // bytes
+  mimeType       String?            @map("mime_type") @db.VarChar(100)
+  version        String             @default("1.0") @db.VarChar(20)
+  language       String             @default("en") @db.VarChar(10)
+  description    String?            @db.Text
+  isApproved     Boolean            @default(false) @map("is_approved")
+  downloadCount  Int                @default(0) @map("download_count")
+
+  // Relations
+  productDocuments ProductDocument[]
+  downloadLogs     DownloadLog[]
+
+  @@index([type])
+  @@index([permission])
+  @@index([isApproved])
+  @@map("documents")
+}
+
+model DownloadLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+  documentId String   @map("document_id") @db.Uuid
+  customerId String?  @map("customer_id") @db.Uuid
+  ipAddress  String?  @map("ip_address") @db.VarChar(45)
+
+  document Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  @@index([documentId])
+  @@index([customerId])
+  @@index([createdAt])
+  @@map("download_logs")
+}

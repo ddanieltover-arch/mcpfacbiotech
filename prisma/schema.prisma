@@ -1,0 +1,14 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// MCPFAC BIOTECH — Prisma Schema Configuration
+// Generator and datasource only. Models live in prisma/models/*.prisma
+// ──────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}

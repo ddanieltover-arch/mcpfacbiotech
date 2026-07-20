@@ -1,0 +1,47 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// Category Domain (Volume 5)
+// Unlimited-depth nested categories
+// ──────────────────────────────────────────────────────────────────────────────
+
+model Category {
+  id          String    @id @default(uuid()) @db.Uuid
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+  name        String    @db.VarChar(200)
+  slug        String    @unique @db.VarChar(300)
+  description String?   @db.Text
+  imageUrl    String?   @map("image_url") @db.VarChar(500)
+  bannerUrl   String?   @map("banner_url") @db.VarChar(500)
+  icon        String?   @db.VarChar(100)
+  parentId    String?   @map("parent_id") @db.Uuid
+  sortOrder   Int       @default(0) @map("sort_order")
+  isVisible   Boolean   @default(true) @map("is_visible")
+  isFeatured  Boolean   @default(false) @map("is_featured")
+
+  // Self-referencing relation for tree structure
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children Category[] @relation("CategoryTree")
+
+  // Product pivot
+  productCategories ProductCategoryPivot[]
+
+  @@index([parentId])
+  @@index([slug])
+  @@index([isVisible, isFeatured])
+  @@map("categories")
+}
+
+model ProductCategoryPivot {
+  id         String @id @default(uuid()) @db.Uuid
+  productId  String @map("product_id") @db.Uuid
+  categoryId String @map("category_id") @db.Uuid
+
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, categoryId])
+  @@index([productId])
+  @@index([categoryId])
+  @@map("product_category")
+}

@@ -1,0 +1,30 @@
+{
+  "name": "mcpfac-biotech",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCPFAC BIOTECH Enterprise B2B E-Commerce Platform",
+  "author": "MCPFAC BIOTECH",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "db:generate": "pnpm --filter @mcpfac/database generate",
+    "db:migrate": "pnpm --filter @mcpfac/database migrate",
+    "db:seed": "pnpm --filter @mcpfac/database seed",
+    "db:studio": "pnpm --filter @mcpfac/database studio",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.10.5"
+  }
+}

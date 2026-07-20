@@ -1,0 +1,114 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// Shipping Domain (Volume 5)
+// Shipping methods, shipments, tracking
+// ──────────────────────────────────────────────────────────────────────────────
+
+enum ShipmentStatus {
+  PENDING
+  PICKED_UP
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  FAILED
+  RETURNED
+}
+
+model ShippingMethod {
+  id          String   @id @default(uuid()) @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  name        String   @db.VarChar(200)
+  carrier     String   @db.VarChar(100) // FedEx, UPS, DHL, EMS, etc.
+  description String?  @db.Text
+  isActive    Boolean  @default(true) @map("is_active")
+  sortOrder   Int      @default(0) @map("sort_order")
+
+  shipments Shipment[]
+
+  @@map("shipping_methods")
+}
+
+model Shipment {
+  id               String         @id @default(uuid()) @db.Uuid
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+  orderId          String         @map("order_id") @db.Uuid
+  shippingMethodId String         @map("shipping_method_id") @db.Uuid
+  trackingNumber   String?        @map("tracking_number") @db.VarChar(200)
+  trackingUrl      String?        @map("tracking_url") @db.VarChar(500)
+  status           ShipmentStatus @default(PENDING)
+  estimatedDelivery DateTime?     @map("estimated_delivery")
+  shippedAt        DateTime?      @map("shipped_at")
+  deliveredAt      DateTime?      @map("delivered_at")
+  notes            String?        @db.Text
+
+  order          Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  shippingMethod ShippingMethod @relation(fields: [shippingMethodId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([trackingNumber])
+  @@map("shipments")
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Settings Domain (Volume 5)
+// System configuration, company information
+// ──────────────────────────────────────────────────────────────────────────────
+
+model SystemSetting {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  key       String   @unique @db.VarChar(200)
+  value     String   @db.Text
+  group     String   @default("general") @db.VarChar(100)
+
+  @@index([group])
+  @@map("system_settings")
+}
+
+model EmailTemplate {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  name      String   @unique @db.VarChar(200) // e.g. "order_confirmation"
+  subject   String   @db.VarChar(300)
+  body      String   @db.Text
+  isActive  Boolean  @default(true) @map("is_active")
+
+  @@map("email_templates")
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Newsletter Domain (Volume 5)
+// ──────────────────────────────────────────────────────────────────────────────
+
+model NewsletterSubscriber {
+  id              String    @id @default(uuid()) @db.Uuid
+  createdAt       DateTime  @default(now()) @map("created_at")
+  email           String    @unique @db.VarChar(300)
+  isActive        Boolean   @default(true) @map("is_active")
+  unsubscribedAt  DateTime? @map("unsubscribed_at")
+
+  @@map("newsletter_subscribers")
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Media Domain (Volume 5)
+// ──────────────────────────────────────────────────────────────────────────────
+
+model Media {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  fileName  String   @map("file_name") @db.VarChar(300)
+  fileUrl   String   @map("file_url") @db.VarChar(500)
+  fileSize  Int?     @map("file_size")
+  mimeType  String   @map("mime_type") @db.VarChar(100)
+  alt       String?  @db.VarChar(300)
+  folder    String   @default("general") @db.VarChar(200)
+  uploadedBy String? @map("uploaded_by") @db.Uuid
+
+  @@index([folder])
+  @@index([createdAt])
+  @@map("media")
+}

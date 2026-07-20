@@ -1,0 +1,120 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// Blog & Research Domain (Volume 5)
+// Blog posts, research articles, FAQ
+// ──────────────────────────────────────────────────────────────────────────────
+
+enum BlogPostStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+model BlogPost {
+  id           String         @id @default(uuid()) @db.Uuid
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  deletedAt    DateTime?      @map("deleted_at")
+  title        String         @db.VarChar(300)
+  slug         String         @unique @db.VarChar(300)
+  excerpt      String?        @db.Text
+  content      String         @db.Text
+  coverImage   String?        @map("cover_image") @db.VarChar(500)
+  authorName   String         @map("author_name") @db.VarChar(200)
+  status       BlogPostStatus @default(DRAFT)
+  publishedAt  DateTime?      @map("published_at")
+  isFeatured   Boolean        @default(false) @map("is_featured")
+  categoryId   String?        @map("category_id") @db.Uuid
+
+  category BlogCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags     BlogPostTag[]
+
+  @@index([slug])
+  @@index([status, publishedAt])
+  @@index([categoryId])
+  @@map("blog_posts")
+}
+
+model BlogCategory {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  name      String   @db.VarChar(200)
+  slug      String   @unique @db.VarChar(300)
+
+  posts BlogPost[]
+
+  @@map("blog_categories")
+}
+
+model BlogTag {
+  id   String @id @default(uuid()) @db.Uuid
+  name String @unique @db.VarChar(100)
+  slug String @unique @db.VarChar(100)
+
+  posts BlogPostTag[]
+
+  @@map("blog_tags")
+}
+
+model BlogPostTag {
+  id     String @id @default(uuid()) @db.Uuid
+  postId String @map("post_id") @db.Uuid
+  tagId  String @map("tag_id") @db.Uuid
+
+  post BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag  BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, tagId])
+  @@map("blog_post_tags")
+}
+
+// ─── Research Articles ───────────────────────────────────────────────────────
+
+model ResearchArticle {
+  id          String         @id @default(uuid()) @db.Uuid
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+  deletedAt   DateTime?      @map("deleted_at")
+  title       String         @db.VarChar(300)
+  slug        String         @unique @db.VarChar(300)
+  excerpt     String?        @db.Text
+  content     String         @db.Text
+  coverImage  String?        @map("cover_image") @db.VarChar(500)
+  authorName  String         @map("author_name") @db.VarChar(200)
+  status      BlogPostStatus @default(DRAFT)
+  publishedAt DateTime?      @map("published_at")
+
+  @@index([slug])
+  @@index([status, publishedAt])
+  @@map("research_articles")
+}
+
+// ─── FAQ ─────────────────────────────────────────────────────────────────────
+
+model FaqCategory {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  name      String   @db.VarChar(200)
+  sortOrder Int      @default(0) @map("sort_order")
+  isVisible Boolean  @default(true) @map("is_visible")
+
+  questions FaqQuestion[]
+
+  @@map("faq_categories")
+}
+
+model FaqQuestion {
+  id         String   @id @default(uuid()) @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  categoryId String   @map("category_id") @db.Uuid
+  question   String   @db.Text
+  answer     String   @db.Text
+  sortOrder  Int      @default(0) @map("sort_order")
+  isVisible  Boolean  @default(true) @map("is_visible")
+
+  category FaqCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([categoryId])
+  @@map("faq_questions")
+}

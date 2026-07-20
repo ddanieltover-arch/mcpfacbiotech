@@ -1,0 +1,51 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// Customer Domain (Volume 5)
+// Customer profiles, groups, notes, preferences
+// ──────────────────────────────────────────────────────────────────────────────
+
+enum CustomerGroup {
+  RETAIL
+  RESEARCH
+  UNIVERSITY
+  DISTRIBUTOR
+  WHOLESALE
+  GOVERNMENT
+  VIP
+  INSTITUTION
+}
+
+model Customer {
+  id               String        @id @default(uuid()) @db.Uuid
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+  deletedAt        DateTime?     @map("deleted_at")
+  profileId        String        @unique @map("profile_id") @db.Uuid
+  customerGroup    CustomerGroup @default(RETAIL) @map("customer_group")
+  organizationName String?       @map("organization_name") @db.VarChar(200)
+  department       String?       @db.VarChar(200)
+  researchArea     String?       @map("research_area") @db.VarChar(200)
+  taxId            String?       @map("tax_id") @db.VarChar(100)
+  website          String?       @db.VarChar(300)
+  country          String?       @db.VarChar(100)
+  isVerified       Boolean       @default(false) @map("is_verified")
+  isSuspended      Boolean       @default(false) @map("is_suspended")
+  notes            String?       @db.Text
+
+  // Relations
+  profile       Profile          @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  orders        Order[]
+  quotes        Quote[]
+  invoices      Invoice[]
+  shoppingCarts ShoppingCart[]
+  supportTickets SupportTicket[]
+  conversations  ConversationMember[]
+  downloads     DownloadLog[]
+  wishlistItems WishlistItem[]
+  compareItems  CompareItem[]
+  productReviews ProductReview[]
+
+  @@index([profileId])
+  @@index([customerGroup])
+  @@index([organizationName])
+  @@map("customers")
+}

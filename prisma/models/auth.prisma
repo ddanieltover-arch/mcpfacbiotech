@@ -1,0 +1,143 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// Auth & Users Domain (Volume 5)
+// Profiles, roles, permissions, addresses, sessions
+// ──────────────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  GUEST
+  CUSTOMER
+  RESEARCH_CUSTOMER
+  DISTRIBUTOR
+  WHOLESALE_CUSTOMER
+  SUPPORT
+  CONTENT_EDITOR
+  INVENTORY_MANAGER
+  ADMINISTRATOR
+  SUPER_ADMINISTRATOR
+}
+
+model Profile {
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  // Links to Supabase Auth user
+  authUserId String  @unique @map("auth_user_id") @db.Uuid
+  email      String  @unique
+  firstName  String  @map("first_name") @db.VarChar(100)
+  lastName   String  @map("last_name") @db.VarChar(100)
+  phone      String? @db.VarChar(30)
+  avatarUrl  String? @map("avatar_url")
+
+  // Relations
+  userRoles  UserRoleAssignment[]
+  addresses  Address[]
+  customer   Customer?
+  activities ActivityLog[]
+
+  @@index([authUserId])
+  @@index([email])
+  @@map("profiles")
+}
+
+model Role {
+  id          String   @id @default(uuid()) @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  name        UserRole @unique
+  displayName String   @map("display_name") @db.VarChar(100)
+  description String?  @db.Text
+
+  // Relations
+  userRoles       UserRoleAssignment[]
+  rolePermissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(uuid()) @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  module      String   @db.VarChar(100) // e.g. "products", "orders"
+  action      String   @db.VarChar(50)  // e.g. "create", "read", "update", "delete", "approve", "export"
+  description String?  @db.Text
+
+  rolePermissions RolePermission[]
+
+  @@unique([module, action])
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           String @id @default(uuid()) @db.Uuid
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
+  @@map("role_permissions")
+}
+
+model UserRoleAssignment {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  profileId String   @map("profile_id") @db.Uuid
+  roleId    String   @map("role_id") @db.Uuid
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  role    Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, roleId])
+  @@index([profileId])
+  @@index([roleId])
+  @@map("user_roles")
+}
+
+model Address {
+  id               String    @id @default(uuid()) @db.Uuid
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  deletedAt        DateTime? @map("deleted_at")
+  profileId        String    @map("profile_id") @db.Uuid
+  label            String?   @db.VarChar(100) // e.g. "Office", "Lab"
+  firstName        String    @map("first_name") @db.VarChar(100)
+  lastName         String    @map("last_name") @db.VarChar(100)
+  organizationName String?   @map("organization_name") @db.VarChar(200)
+  addressLine1     String    @map("address_line_1") @db.VarChar(300)
+  addressLine2     String?   @map("address_line_2") @db.VarChar(300)
+  city             String    @db.VarChar(100)
+  stateProvince    String?   @map("state_province") @db.VarChar(100)
+  postalCode       String    @map("postal_code") @db.VarChar(20)
+  country          String    @db.VarChar(100)
+  phone            String?   @db.VarChar(30)
+  isDefault        Boolean   @default(false) @map("is_default")
+
+  profile         Profile          @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  shippingOrders  Order[]          @relation("ShippingAddress")
+  billingOrders   Order[]          @relation("BillingAddress")
+
+  @@index([profileId])
+  @@map("addresses")
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  profileId String?  @map("profile_id") @db.Uuid
+  action    String   @db.VarChar(100) // e.g. "login", "order.created", "product.updated"
+  target    String?  @db.VarChar(200) // e.g. "product:uuid", "order:uuid"
+  details   Json?    // additional context
+  ipAddress String?  @map("ip_address") @db.VarChar(45)
+
+  profile Profile? @relation(fields: [profileId], references: [id], onDelete: SetNull)
+
+  @@index([profileId])
+  @@index([createdAt])
+  @@index([action])
+  @@map("activity_logs")
+}

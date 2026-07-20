@@ -1,0 +1,179 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// Product Domain (Volume 5/6)
+// Products, images, specifications, reviews, wishlist, compare
+// ──────────────────────────────────────────────────────────────────────────────
+
+enum ProductStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ProductAvailability {
+  IN_STOCK
+  LOW_STOCK
+  MADE_TO_ORDER
+  BACK_ORDER
+  PRE_ORDER
+  UNAVAILABLE
+  DISCONTINUED
+}
+
+model Product {
+  id               String              @id @default(uuid()) @db.Uuid
+  createdAt        DateTime            @default(now()) @map("created_at")
+  updatedAt        DateTime            @updatedAt @map("updated_at")
+  deletedAt        DateTime?           @map("deleted_at")
+  createdBy        String?             @map("created_by") @db.Uuid
+  updatedBy        String?             @map("updated_by") @db.Uuid
+
+  // Identifiers
+  sku              String              @unique @db.VarChar(100)
+  internalSku      String?             @map("internal_sku") @db.VarChar(100)
+  slug             String              @unique @db.VarChar(300)
+  name             String              @db.VarChar(300)
+
+  // Scientific information
+  casNumber        String?             @map("cas_number") @db.VarChar(50)
+  molecularFormula String?             @map("molecular_formula") @db.VarChar(200)
+  molecularWeight  String?             @map("molecular_weight") @db.VarChar(100)
+  purity           String?             @db.VarChar(50)
+  sequence         String?             @db.Text
+  storage          String?             @db.VarChar(200)
+  solubility       String?             @db.VarChar(300)
+  appearance       String?             @db.VarChar(200)
+
+  // Descriptions
+  shortDescription String?             @map("short_description") @db.Text
+  description      String?             @db.Text
+
+  // Pricing
+  retailPrice      Decimal?            @map("retail_price") @db.Decimal(12, 2)
+  wholesalePrice   Decimal?            @map("wholesale_price") @db.Decimal(12, 2)
+  distributorPrice Decimal?            @map("distributor_price") @db.Decimal(12, 2)
+
+  // Inventory
+  availability     ProductAvailability @default(IN_STOCK)
+  stockQuantity    Int                 @default(0) @map("stock_quantity")
+  minimumOrderQty  Int                 @default(1) @map("minimum_order_qty")
+  leadTimeDays     Int?                @map("lead_time_days")
+
+  // Status & visibility
+  status           ProductStatus       @default(DRAFT)
+  isVisible        Boolean             @default(true) @map("is_visible")
+  isFeatured       Boolean             @default(false) @map("is_featured")
+  sortOrder        Int                 @default(0) @map("sort_order")
+
+  // Relations
+  images           ProductImage[]
+  specifications   ProductSpecification[]
+  reviews          ProductReview[]
+  productCategories ProductCategoryPivot[]
+  orderItems       OrderItem[]
+  quoteItems       QuoteItem[]
+  cartItems        CartItem[]
+  wishlistItems    WishlistItem[]
+  compareItems     CompareItem[]
+  productDocuments ProductDocument[]
+
+  @@index([sku])
+  @@index([slug])
+  @@index([casNumber])
+  @@index([status, isVisible])
+  @@index([isFeatured])
+  @@index([availability])
+  @@index([createdAt])
+  @@map("products")
+}
+
+model ProductImage {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  productId String   @map("product_id") @db.Uuid
+  url       String   @db.VarChar(500)
+  alt       String   @default("") @db.VarChar(300)
+  isPrimary Boolean  @default(false) @map("is_primary")
+  sortOrder Int      @default(0) @map("sort_order")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("product_images")
+}
+
+model ProductSpecification {
+  id        String @id @default(uuid()) @db.Uuid
+  productId String @map("product_id") @db.Uuid
+  label     String @db.VarChar(200)
+  value     String @db.VarChar(500)
+  sortOrder Int    @default(0) @map("sort_order")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("product_specifications")
+}
+
+model ProductReview {
+  id         String   @id @default(uuid()) @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  productId  String   @map("product_id") @db.Uuid
+  customerId String   @map("customer_id") @db.Uuid
+  rating     Int      // 1-5
+  title      String?  @db.VarChar(200)
+  comment    String?  @db.Text
+  isApproved Boolean  @default(false) @map("is_approved")
+
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, customerId])
+  @@index([productId])
+  @@index([customerId])
+  @@map("product_reviews")
+}
+
+model ProductDocument {
+  id         String       @id @default(uuid()) @db.Uuid
+  createdAt  DateTime     @default(now()) @map("created_at")
+  productId  String       @map("product_id") @db.Uuid
+  documentId String       @map("document_id") @db.Uuid
+
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, documentId])
+  @@index([productId])
+  @@index([documentId])
+  @@map("product_documents")
+}
+
+model WishlistItem {
+  id         String   @id @default(uuid()) @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+  customerId String   @map("customer_id") @db.Uuid
+  productId  String   @map("product_id") @db.Uuid
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([customerId, productId])
+  @@index([customerId])
+  @@map("wishlist_items")
+}
+
+model CompareItem {
+  id         String   @id @default(uuid()) @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+  customerId String   @map("customer_id") @db.Uuid
+  productId  String   @map("product_id") @db.Uuid
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([customerId, productId])
+  @@index([customerId])
+  @@map("compare_items")
+}
