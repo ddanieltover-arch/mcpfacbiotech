@@ -18,13 +18,17 @@
     "test": "turbo run test",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "db:generate": "pnpm --filter @mcpfac/database generate",
-    "db:migrate": "pnpm --filter @mcpfac/database migrate",
-    "db:seed": "pnpm --filter @mcpfac/database seed",
-    "db:studio": "pnpm --filter @mcpfac/database studio",
+    "db:generate": "npx prisma generate --schema prisma",
+    "db:migrate": "npx prisma migrate dev --schema prisma",
+    "db:seed": "npx prisma db seed",
+    "db:studio": "npx prisma studio --schema prisma",
     "clean": "turbo run clean"
   },
   "devDependencies": {
+    "prisma": "^6.19.3",
     "turbo": "^2.10.5"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3"
   }
 }
