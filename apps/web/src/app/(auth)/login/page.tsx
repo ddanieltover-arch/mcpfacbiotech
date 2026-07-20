@@ -1,24 +1,59 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Suspense, useState, useTransition } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
+import { toast } from 'sonner';
+import { login } from '../actions';
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="h-96 animate-pulse rounded-lg bg-neutral-100" />}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+
+  // Show error from auth callback if present
+  const callbackError = searchParams.get('error');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    // TODO: Implement Supabase auth
-    setTimeout(() => setIsLoading(false), 1500);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+
+    startTransition(async () => {
+      const result = await login(formData);
+      if (result?.error) {
+        setError(result.error);
+        toast.error(result.error);
+      }
+      // On success, the Server Action redirects — no client-side handling needed.
+    });
   };
 
   return (
     <div>
       <h1 className="mb-2 font-heading text-3xl font-bold text-neutral-900">Welcome back</h1>
       <p className="mb-8 text-neutral-500">Sign in to your MCPFAC BIOTECH account</p>
+
+      {/* Error messages */}
+      {(error || callbackError) && (
+        <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+          <p className="text-sm text-red-700">
+            {error || 'Authentication failed. Please try signing in again.'}
+          </p>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
@@ -27,6 +62,7 @@ export default function LoginPage() {
           </label>
           <input
             id="email"
+            name="email"
             type="email"
             autoComplete="email"
             required
@@ -50,6 +86,7 @@ export default function LoginPage() {
           <div className="relative">
             <input
               id="password"
+              name="password"
               type={showPassword ? 'text' : 'password'}
               autoComplete="current-password"
               required
@@ -69,10 +106,10 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isPending}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-deep px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-natural disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isLoading ? (
+          {isPending ? (
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
           ) : (
             <>

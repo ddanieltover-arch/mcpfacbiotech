@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { Eye, EyeOff, ArrowRight, Check } from 'lucide-react';
+import { useState, useTransition } from 'react';
+import { Eye, EyeOff, ArrowRight, Check, AlertCircle, Mail } from 'lucide-react';
+import { toast } from 'sonner';
+import { register } from '../actions';
 
 const organizationTypes = [
   { value: 'INDIVIDUAL', label: 'Individual Researcher' },
@@ -23,14 +25,51 @@ const passwordRequirements = [
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    // TODO: Implement Supabase auth
-    setTimeout(() => setIsLoading(false), 1500);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+
+    startTransition(async () => {
+      const result = await register(formData);
+      if ('error' in result) {
+        setError(result.error);
+        toast.error(result.error);
+      } else {
+        setIsSuccess(true);
+        toast.success('Account created! Please check your email to verify.');
+      }
+    });
   };
+
+  // Success state — prompt user to check email
+  if (isSuccess) {
+    return (
+      <div className="text-center">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-brand-pale">
+          <Mail className="h-8 w-8 text-brand-deep" />
+        </div>
+        <h1 className="mb-2 font-heading text-2xl font-bold text-neutral-900">
+          Check your email
+        </h1>
+        <p className="mb-6 text-sm text-neutral-500">
+          We&apos;ve sent a verification link to your email address. Please click the link to
+          activate your account.
+        </p>
+        <Link
+          href="/login"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-brand-deep hover:text-brand-natural"
+        >
+          Continue to sign in
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -38,6 +77,14 @@ export default function RegisterPage() {
       <p className="mb-8 text-neutral-500">
         Join thousands of researchers and institutions worldwide
       </p>
+
+      {/* Error message */}
+      {error && (
+        <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+          <p className="text-sm text-red-700">{error}</p>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name row */}
@@ -48,6 +95,7 @@ export default function RegisterPage() {
             </label>
             <input
               id="firstName"
+              name="firstName"
               type="text"
               required
               className="w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-sm outline-none transition-colors focus:border-brand-leaf focus:ring-2 focus:ring-brand-leaf/20"
@@ -59,6 +107,7 @@ export default function RegisterPage() {
             </label>
             <input
               id="lastName"
+              name="lastName"
               type="text"
               required
               className="w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-sm outline-none transition-colors focus:border-brand-leaf focus:ring-2 focus:ring-brand-leaf/20"
@@ -73,6 +122,7 @@ export default function RegisterPage() {
           </label>
           <input
             id="email"
+            name="email"
             type="email"
             required
             placeholder="name@organization.com"
@@ -91,6 +141,7 @@ export default function RegisterPage() {
             </label>
             <input
               id="organizationName"
+              name="organizationName"
               type="text"
               placeholder="Optional"
               className="w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-sm outline-none transition-colors placeholder:text-neutral-400 focus:border-brand-leaf focus:ring-2 focus:ring-brand-leaf/20"
@@ -105,6 +156,7 @@ export default function RegisterPage() {
             </label>
             <select
               id="organizationType"
+              name="organizationType"
               className="w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-sm outline-none transition-colors focus:border-brand-leaf focus:ring-2 focus:ring-brand-leaf/20"
             >
               <option value="">Select...</option>
@@ -124,6 +176,7 @@ export default function RegisterPage() {
           </label>
           <input
             id="country"
+            name="country"
             type="text"
             required
             className="w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-sm outline-none transition-colors focus:border-brand-leaf focus:ring-2 focus:ring-brand-leaf/20"
@@ -138,6 +191,7 @@ export default function RegisterPage() {
           <div className="relative">
             <input
               id="password"
+              name="password"
               type={showPassword ? 'text' : 'password'}
               required
               value={password}
@@ -181,6 +235,7 @@ export default function RegisterPage() {
           </label>
           <input
             id="confirmPassword"
+            name="confirmPassword"
             type="password"
             required
             className="w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-sm outline-none transition-colors focus:border-brand-leaf focus:ring-2 focus:ring-brand-leaf/20"
@@ -209,10 +264,10 @@ export default function RegisterPage() {
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isPending}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-deep px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-natural disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isLoading ? (
+          {isPending ? (
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
           ) : (
             <>

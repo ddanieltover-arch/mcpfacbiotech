@@ -1,21 +1,31 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Mail } from 'lucide-react';
+import { useState, useTransition } from 'react';
+import { ArrowLeft, ArrowRight, Mail, AlertCircle } from 'lucide-react';
+import { toast } from 'sonner';
+import { forgotPassword } from '../actions';
 
 export default function ForgotPasswordPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    // TODO: Implement Supabase password reset
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSubmitted(true);
-    }, 1500);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+
+    startTransition(async () => {
+      const result = await forgotPassword(formData);
+      if ('error' in result) {
+        setError(result.error);
+        toast.error(result.error);
+      } else {
+        setIsSubmitted(true);
+      }
+    });
   };
 
   if (isSubmitted) {
@@ -47,6 +57,14 @@ export default function ForgotPasswordPage() {
         Enter your email address and we&apos;ll send you a reset link
       </p>
 
+      {/* Error message */}
+      {error && (
+        <div className="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+          <p className="text-sm text-red-700">{error}</p>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-neutral-700">
@@ -54,6 +72,7 @@ export default function ForgotPasswordPage() {
           </label>
           <input
             id="email"
+            name="email"
             type="email"
             autoComplete="email"
             required
@@ -64,10 +83,10 @@ export default function ForgotPasswordPage() {
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isPending}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-deep px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-natural disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isLoading ? (
+          {isPending ? (
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
           ) : (
             <>

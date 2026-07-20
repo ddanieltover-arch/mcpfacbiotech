@@ -1,10 +1,18 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-/**
- * Supabase middleware helper — refreshes the auth session on every request.
- * Required for proper cookie-based auth in Next.js App Router.
- */
+// ──────────────────────────────────────────────────────────────────────────────
+// MCPFAC BIOTECH — Next.js Middleware (Volume 3)
+// Refreshes Supabase auth sessions on every request and enforces route
+// protection for authenticated/unauthenticated users.
+// ──────────────────────────────────────────────────────────────────────────────
+
+/** Routes that require authentication. */
+const PROTECTED_ROUTES = ['/account', '/checkout', '/orders'];
+
+/** Routes that should redirect authenticated users away. */
+const AUTH_ROUTES = ['/login', '/register', '/forgot-password'];
+
 async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -32,7 +40,29 @@ async function updateSession(request: NextRequest) {
   );
 
   // Refresh the session — this is critical for keeping the session alive
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { pathname } = request.nextUrl;
+
+  // ── Route Protection ────────────────────────────────────────────────────
+  // Redirect unauthenticated users away from protected routes
+  const isProtectedRoute = PROTECTED_ROUTES.some((route) => pathname.startsWith(route));
+  if (isProtectedRoute && !user) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = '/login';
+    loginUrl.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Redirect authenticated users away from auth pages (login, register, etc.)
+  const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
+  if (isAuthRoute && user) {
+    const homeUrl = request.nextUrl.clone();
+    homeUrl.pathname = '/';
+    return NextResponse.redirect(homeUrl);
+  }
 
   return supabaseResponse;
 }
