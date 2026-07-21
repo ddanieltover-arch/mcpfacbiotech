@@ -10,5 +10,8 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5"
   }
 }

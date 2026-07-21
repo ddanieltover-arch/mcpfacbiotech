@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createClient } from '@/lib/supabase/client';
+import { syncProfileWithBackend } from '@/lib/auth-sync';
 import type { User } from '@supabase/supabase-js';
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -17,6 +18,16 @@ interface AuthState {
   initialize: () => () => void;
 }
 
+async function syncSessionProfile(accessToken: string | undefined): Promise<void> {
+  if (!accessToken) return;
+
+  try {
+    await syncProfileWithBackend(accessToken);
+  } catch (error) {
+    console.error('Profile sync failed:', error);
+  }
+}
+
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isLoading: true,
@@ -24,19 +35,27 @@ export const useAuthStore = create<AuthState>((set) => ({
   initialize: () => {
     const supabase = createClient();
 
-    // Read the current session on mount
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      set({ user, isLoading: false });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      set({ user: session?.user ?? null, isLoading: false });
+      void syncSessionProfile(session?.access_token);
     });
 
-    // Subscribe to auth state changes (sign in, sign out, token refresh)
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       set({ user: session?.user ?? null, isLoading: false });
+
+      if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'USER_UPDATED') {
+        void syncSessionProfile(session?.access_token);
+      }
+
+      if (event === 'SIGNED_IN') {
+        void import('@/stores/cart.store').then(({ useCartStore }) => {
+          void useCartStore.getState().mergeOnLogin();
+        });
+      }
     });
 
-    // Return the unsubscribe function for cleanup
     return () => {
       subscription.unsubscribe();
     };

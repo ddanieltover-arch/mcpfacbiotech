@@ -96,13 +96,35 @@ export const quoteItemSchema = z.object({
 });
 
 export const quoteRequestSchema = z.object({
-  items: z.array(quoteItemSchema).min(1, 'At least one product is required'),
+  items: z.array(quoteItemSchema).min(1, 'At least one product is required').optional(),
+  fromCart: z.boolean().optional(),
   notes: z.string().max(5000).optional(),
   purchaseOrderNumber: z.string().max(100).optional(),
-  shippingAddressId: z.string().uuid().optional(),
+}).refine((data) => data.fromCart === true || (data.items?.length ?? 0) > 0, {
+  message: 'Provide items or set fromCart=true',
+  path: ['items'],
 });
 
 export type QuoteRequestInput = z.infer<typeof quoteRequestSchema>;
+
+export const addCartItemSchema = z.object({
+  productId: z.string().uuid(),
+  quantity: z.number().int().positive('Quantity must be at least 1').default(1),
+});
+
+export type AddCartItemInput = z.infer<typeof addCartItemSchema>;
+
+export const updateCartItemSchema = z.object({
+  quantity: z.number().int().min(0, 'Quantity cannot be negative'),
+});
+
+export type UpdateCartItemInput = z.infer<typeof updateCartItemSchema>;
+
+export const updateCartSchema = z.object({
+  notes: z.string().max(5000).optional(),
+});
+
+export type UpdateCartInput = z.infer<typeof updateCartSchema>;
 
 // ─── Address ─────────────────────────────────────────────────────────────────
 
@@ -122,6 +144,27 @@ export const addressSchema = z.object({
 });
 
 export type AddressInput = z.infer<typeof addressSchema>;
+
+export const checkoutSchema = z
+  .object({
+    fromCart: z.boolean().optional(),
+    quoteId: z.string().uuid().optional(),
+    notes: z.string().max(5000).optional(),
+    purchaseOrderNumber: z.string().max(100).optional(),
+    paymentMethod: z
+      .enum(['BANK_TRANSFER', 'PURCHASE_ORDER', 'CRYPTO', 'OTHER'])
+      .default('BANK_TRANSFER'),
+    shippingAddressId: z.string().uuid().optional(),
+    billingAddressId: z.string().uuid().optional(),
+    shippingAddress: addressSchema.optional(),
+    billingAddress: addressSchema.optional(),
+  })
+  .refine((data) => data.fromCart === true || Boolean(data.quoteId), {
+    message: 'Provide fromCart=true or quoteId',
+    path: ['fromCart'],
+  });
+
+export type CheckoutInput = z.infer<typeof checkoutSchema>;
 
 // ─── Newsletter ──────────────────────────────────────────────────────────────
 

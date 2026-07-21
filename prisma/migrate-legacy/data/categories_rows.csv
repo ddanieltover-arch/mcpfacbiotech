@@ -1,0 +1,21 @@
+id,name,slug,description,image_url,parent_id,sort_order,created_at
+03921416-554a-4aa9-9892-92bb7ba91c4a,Mitochondrial & Cellular Energy,mitochondrial-cellular-energy,,,,0,2026-05-03 17:33:53.588768+00
+05b6e1fc-fae2-43da-bfd9-d90eb107465f,ACCESSORIES,accessories,Research supplies and accessories,,,11,2026-05-03 17:34:17.883427+00
+09992b0a-7b77-4870-b63f-b603e0ee57c2,Growth & Repair,growth-repair,,,,0,2026-05-03 17:34:21.049322+00
+1c15e951-5303-460e-a466-9e24deb49c8b,Primary Peptides,primary-peptides,,,,0,2026-05-03 17:36:56.42759+00
+1e2b9fc5-e041-4766-a66f-b9968936a910,Peptide M,peptide-m,,,,0,2026-05-03 17:37:00.094489+00
+1ebb9573-447b-4d7a-9b1b-23268e19faa5,INJECTABLES,injectables,Injectable research compounds,,,2,2026-05-03 17:34:19.457557+00
+318a3190-b604-43d2-9eec-63ec8839631f,ORALS,orals,,,,0,2026-05-03 17:33:58.344866+00
+4864ea1f-6aba-455b-885a-b51a91563aaa,Oncology & Cell Fate,oncology-cell-fate,,,,0,2026-05-03 17:37:11.317291+00
+56338638-b39d-4fe8-9764-9589095d8ef1,Reproductive & Neuroendocrine,reproductive-neuroendocrine,,,,0,2026-05-03 17:35:37.69005+00
+5cbcef2a-953e-4850-b1df-10b079963d09,Peptide T,peptide-t,,,,0,2026-05-05 18:57:21.107994+00
+623985fd-b2dc-400c-b9c9-9b2bfb9376a4,ANTI-ESTROGEN,anti-estrogen,Anti-estrogen research compounds,,,7,2026-05-05 11:40:21.164638+00
+632f9176-0bbb-46a7-8830-ce721833b212,SKIN CARE,skin-care,Dermatological research peptides,,,9,2026-05-03 17:33:48.755843+00
+81424d91-30f2-491f-bf99-3336585fc32f,Cognitive & Neuro,cognitive-neuro,,,,0,2026-05-03 17:34:49.119047+00
+9269ce79-bc47-4d16-a087-b6b0641e8d59,Metabolic,metabolic,,,,0,2026-05-03 17:33:46.954293+00
+d7b55d7c-dfbd-44bc-8d61-31426a6fa926,PEPTIDES,peptides,Research peptides for in-vitro laboratory studies,,,1,2026-05-03 17:34:06.306998+00
+d87995e2-1c42-408e-a1b3-b1fb38c048b8,Reconstitution Solution,reconstitution-solution,,,,0,2026-05-03 17:33:50.380225+00
+e4313385-aff2-4635-b076-7671b9f21b01,Dermal,dermal,,,,0,2026-05-03 17:35:03.797494+00
+e8785c02-2278-45b0-883f-d6105c4ad147,Immune & Inflammatory,immune-inflammatory,,,,0,2026-05-03 17:34:09.862644+00
+e8fd8295-00ae-418a-9874-9d2c56dc4629,Regeneration & Longevity,regeneration-longevity,,,,0,2026-05-03 17:35:10.218421+00
+f37ca332-02c0-40b9-85bb-172d2a8cfd59,SARMS,sarms,Selective Androgen Receptor Modulators for research,,,4,2026-05-03 17:33:51.989789+00

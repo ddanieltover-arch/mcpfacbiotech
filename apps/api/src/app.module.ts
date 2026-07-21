@@ -3,7 +3,20 @@ import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { HealthModule } from './modules/health/health.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { ProductsModule } from './modules/products/products.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { CustomersModule } from './modules/customers/customers.module';
+import { WishlistModule } from './modules/wishlist/wishlist.module';
+import { CompareModule } from './modules/compare/compare.module';
+import { CartModule } from './modules/cart/cart.module';
+import { QuotesModule } from './modules/quotes/quotes.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { InvoicesModule } from './modules/invoices/invoices.module';
+import { AccountModule } from './modules/account/account.module';
 import { DatabaseModule } from './database/database.module';
+import { SupabaseAuthGuard } from './common/guards/supabase-auth.guard';
+import { RolesGuard } from './common/guards/roles.guard';
 
 @Module({
   imports: [
@@ -31,6 +44,17 @@ import { DatabaseModule } from './database/database.module';
     DatabaseModule,
 
     // ─── Feature Modules (add as built) ──────────────────────────────────
+    AuthModule,
+    ProductsModule,
+    CategoriesModule,
+    CustomersModule,
+    WishlistModule,
+    CompareModule,
+    CartModule,
+    QuotesModule,
+    OrdersModule,
+    InvoicesModule,
+    AccountModule,
     HealthModule,
   ],
   providers: [
@@ -38,6 +62,14 @@ import { DatabaseModule } from './database/database.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: SupabaseAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

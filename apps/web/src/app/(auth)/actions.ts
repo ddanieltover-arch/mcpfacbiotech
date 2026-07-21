@@ -29,6 +29,27 @@ export async function login(formData: FormData): Promise<{ error: string } | voi
     return { error: error.message };
   }
 
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session?.access_token) {
+    const backendUrl =
+      process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3001';
+
+    try {
+      await fetch(`${backendUrl}/api/v1/auth/sync`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (syncError) {
+      console.error('Login profile sync failed:', syncError);
+    }
+  }
+
   revalidatePath('/', 'layout');
   redirect('/');
 }
@@ -73,7 +94,7 @@ export async function register(formData: FormData): Promise<{ error: string } | 
         organization_type: organizationType,
         country,
       },
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_URL ? '' : ''}${getBaseUrl()}/auth/callback`,
+      emailRedirectTo: `${getBaseUrl()}/auth/callback`,
     },
   });
 
@@ -105,6 +126,37 @@ export async function forgotPassword(formData: FormData): Promise<{ error: strin
   }
 
   return { success: true };
+}
+
+/**
+ * Update the password after a password-reset email link.
+ */
+export async function resetPassword(formData: FormData): Promise<{ error: string } | void> {
+  const supabase = await createClient();
+
+  const password = formData.get('password') as string;
+  const confirmPassword = formData.get('confirmPassword') as string;
+
+  if (!password || !confirmPassword) {
+    return { error: 'Password fields are required.' };
+  }
+
+  if (password !== confirmPassword) {
+    return { error: 'Passwords do not match.' };
+  }
+
+  if (password.length < 8) {
+    return { error: 'Password must be at least 8 characters.' };
+  }
+
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  revalidatePath('/', 'layout');
+  redirect('/login?message=password_reset_success');
 }
 
 /**

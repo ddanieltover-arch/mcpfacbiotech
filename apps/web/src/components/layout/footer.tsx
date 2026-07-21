@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Beaker, Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react';
+import { Logo } from '@/components/brand/logo';
 
 const productLinks = [
   { name: 'Research Peptides', href: '/products?category=research-peptides' },
@@ -42,17 +43,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand column */}
           <div className="lg:col-span-2">
-            <Link href="/" className="mb-4 flex items-center gap-2">
-              <Beaker className="h-7 w-7 text-brand-deep" strokeWidth={1.5} />
-              <div className="flex flex-col leading-none">
-                <span className="font-heading text-lg font-bold tracking-tight text-brand-deep">
-                  MCPFAC
-                </span>
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-natural">
-                  BIOTECH
-                </span>
-              </div>
-            </Link>
+            <Logo size="sm" className="mb-4" />
             <p className="mb-6 max-w-xs text-sm text-neutral-600">
               Global biotechnology research laboratory and supplier of peptides,
               research chemicals, and laboratory products. Established 2016.

@@ -95,6 +95,19 @@ export interface ProductSummary {
   categoryName?: string;
 }
 
+export interface ProductVariant {
+  id: string;
+  name: string;
+  value: string;
+  priceModifier: number;
+  /** Effective retail price = product base price + priceModifier */
+  price?: number;
+  stockQuantity: number;
+  sku?: string;
+  isDefault: boolean;
+  sortOrder: number;
+}
+
 export interface ProductDetail extends ProductSummary {
   description?: string;
   shortDescription?: string;
@@ -111,6 +124,7 @@ export interface ProductDetail extends ProductSummary {
   status: ProductStatus;
   images: ProductImage[];
   specifications: ProductSpecification[];
+  variants: ProductVariant[];
   downloads: ProductDownload[];
   relatedProducts: ProductSummary[];
 }
@@ -176,6 +190,40 @@ export interface OrderSummary {
   createdAt: string;
 }
 
+export interface OrderItem {
+  id: string;
+  productId: string;
+  productName: string;
+  productSku: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+}
+
+export interface OrderStatusHistoryEntry {
+  id: string;
+  fromStatus?: OrderStatus;
+  toStatus: OrderStatus;
+  note?: string;
+  changedBy?: string;
+  createdAt: string;
+}
+
+export interface OrderDetail extends OrderSummary {
+  subtotal: number;
+  shippingCost: number;
+  taxAmount: number;
+  notes?: string;
+  purchaseOrderNumber?: string;
+  quoteId?: string;
+  shippingAddressId?: string;
+  billingAddressId?: string;
+  updatedAt: string;
+  items: OrderItem[];
+  statusHistory: OrderStatusHistoryEntry[];
+  invoiceIds: string[];
+}
+
 // ─── Quote ───────────────────────────────────────────────────────────────────
 
 export type QuoteStatus =
@@ -199,6 +247,36 @@ export interface QuoteSummary {
   createdAt: string;
 }
 
+export interface QuoteItem {
+  id: string;
+  productId: string;
+  productName: string;
+  productSku: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+  notes?: string;
+}
+
+export interface QuoteStatusHistoryEntry {
+  id: string;
+  fromStatus?: QuoteStatus;
+  toStatus: QuoteStatus;
+  note?: string;
+  changedBy?: string;
+  createdAt: string;
+}
+
+export interface QuoteDetail extends QuoteSummary {
+  subtotal: number;
+  shippingCost: number;
+  notes?: string;
+  purchaseOrderNumber?: string;
+  updatedAt: string;
+  items: QuoteItem[];
+  statusHistory: QuoteStatusHistoryEntry[];
+}
+
 // ─── Invoice ─────────────────────────────────────────────────────────────────
 
 export type InvoiceStatus = 'DRAFT' | 'ISSUED' | 'PAID' | 'OVERDUE' | 'CANCELLED' | 'REFUNDED';
@@ -211,6 +289,26 @@ export interface InvoiceSummary {
   currency: string;
   dueDate: string;
   createdAt: string;
+}
+
+export interface InvoiceItem {
+  id: string;
+  productName: string;
+  productSku: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+}
+
+export interface InvoiceDetail extends InvoiceSummary {
+  orderId: string;
+  subtotal: number;
+  taxAmount: number;
+  shippingCost: number;
+  notes?: string;
+  paidAt?: string;
+  updatedAt: string;
+  items: InvoiceItem[];
 }
 
 // ─── Document ────────────────────────────────────────────────────────────────
@@ -241,6 +339,7 @@ export interface CartItem {
   productId: string;
   productName: string;
   productSku: string;
+  productSlug?: string;
   productImage?: string;
   quantity: number;
   unitPrice: number;
@@ -253,6 +352,7 @@ export interface CartSummary {
   itemCount: number;
   subtotal: number;
   currency: string;
+  notes?: string;
 }
 
 // ─── Customer ────────────────────────────────────────────────────────────────
@@ -266,6 +366,52 @@ export type CustomerGroup =
   | 'GOVERNMENT'
   | 'VIP'
   | 'INSTITUTION';
+
+export interface AccountProfile {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  role: UserRole;
+  customerId: string;
+  customerGroup: CustomerGroup;
+  organizationName?: string;
+  department?: string;
+  country?: string;
+  isVerified: boolean;
+  isSuspended: boolean;
+}
+
+export interface AddressSummary {
+  id: string;
+  label?: string;
+  firstName: string;
+  lastName: string;
+  organizationName?: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  stateProvince?: string;
+  postalCode: string;
+  country: string;
+  phone?: string;
+  isDefault: boolean;
+}
+
+export interface AccountDashboard {
+  profile: AccountProfile;
+  counts: {
+    orders: number;
+    quotes: number;
+    invoices: number;
+    wishlist: number;
+    addresses: number;
+  };
+  recentOrders: OrderSummary[];
+  recentQuotes: QuoteSummary[];
+  recentInvoices: InvoiceSummary[];
+}
 
 // ─── Shipping ────────────────────────────────────────────────────────────────
 

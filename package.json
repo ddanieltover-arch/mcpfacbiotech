@@ -21,12 +21,19 @@
     "db:generate": "npx prisma generate --schema prisma",
     "db:migrate": "npx prisma migrate dev --schema prisma",
     "db:seed": "npx prisma db seed",
+    "db:migrate-legacy": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/migrate-legacy/import-products.ts",
+    "db:migrate-legacy:dry-run": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/migrate-legacy/import-products.ts --dry-run",
     "db:studio": "npx prisma studio --schema prisma",
     "clean": "turbo run clean"
   },
   "devDependencies": {
+    "pg": "^8.16.0",
     "prisma": "^6.19.3",
+    "ts-node": "^10.9.0",
     "turbo": "^2.10.5"
+  },
+  "prisma": {
+    "seed": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3"

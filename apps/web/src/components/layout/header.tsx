@@ -7,19 +7,24 @@ import {
   Menu,
   X,
   ShoppingCart,
-  Search,
   User,
   ChevronDown,
-  Beaker,
   LogOut,
   Package,
   Settings,
+  Heart,
+  Scale,
+  FileText,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCartStore } from '@/stores/cart.store';
 import { useAuthStore } from '@/stores/auth.store';
+import { useWishlistStore } from '@/stores/wishlist.store';
+import { useCompareStore } from '@/stores/compare.store';
 import { fadeInDown } from '@/lib/motion';
 import { logout } from '@/app/(auth)/actions';
+import { Logo } from '@/components/brand/logo';
+import { ProductSearch } from '@/components/products/product-search';
 
 const navigation = [
   {
@@ -53,6 +58,8 @@ export function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const cartItemCount = useCartStore((s) => s.itemCount());
+  const wishlistCount = useWishlistStore((s) => s.count());
+  const compareCount = useCompareStore((s) => s.count());
   const { user, isLoading: authLoading } = useAuthStore();
   const [isPending, startTransition] = useTransition();
 
@@ -93,18 +100,7 @@ export function Header() {
       {/* Main navigation */}
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex h-16 items-center justify-between gap-4">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <Beaker className="h-7 w-7 text-brand-deep" strokeWidth={1.5} />
-            <div className="flex flex-col leading-none">
-              <span className="font-heading text-lg font-bold tracking-tight text-brand-deep">
-                MCPFAC
-              </span>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-natural">
-                BIOTECH
-              </span>
-            </div>
-          </Link>
+          <Logo size="sm" />
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
@@ -160,13 +156,33 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-brand-deep"
-              aria-label="Search products"
+            <ProductSearch />
+
+            <Link
+              href="/wishlist"
+              className="relative hidden rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-brand-deep sm:block"
+              aria-label={`Wishlist with ${wishlistCount} items`}
             >
-              <Search className="h-5 w-5" />
-            </button>
+              <Heart className="h-5 w-5" />
+              {wishlistCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-deep text-[10px] font-bold text-white">
+                  {wishlistCount > 9 ? '9+' : wishlistCount}
+                </span>
+              )}
+            </Link>
+
+            <Link
+              href="/compare"
+              className="relative hidden rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-brand-deep sm:block"
+              aria-label={`Compare with ${compareCount} items`}
+            >
+              <Scale className="h-5 w-5" />
+              {compareCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-deep text-[10px] font-bold text-white">
+                  {compareCount > 9 ? '9+' : compareCount}
+                </span>
+              )}
+            </Link>
 
             {/* ── User Account ──────────────────────────────────────── */}
             {!authLoading && user ? (
@@ -210,11 +226,25 @@ export function Header() {
                           My Account
                         </Link>
                         <Link
+                          href="/quotes"
+                          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-neutral-700 transition-colors hover:bg-brand-pale hover:text-brand-deep"
+                        >
+                          <FileText className="h-4 w-4" />
+                          My Quotes
+                        </Link>
+                        <Link
                           href="/orders"
                           className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-neutral-700 transition-colors hover:bg-brand-pale hover:text-brand-deep"
                         >
                           <Package className="h-4 w-4" />
                           My Orders
+                        </Link>
+                        <Link
+                          href="/invoices"
+                          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-neutral-700 transition-colors hover:bg-brand-pale hover:text-brand-deep"
+                        >
+                          <FileText className="h-4 w-4" />
+                          My Invoices
                         </Link>
                       </div>
                       <div className="border-t border-neutral-100 pt-1">
@@ -328,11 +358,25 @@ export function Header() {
                       My Account
                     </Link>
                     <Link
+                      href="/quotes"
+                      className="block rounded-lg px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      My Quotes
+                    </Link>
+                    <Link
                       href="/orders"
                       className="block rounded-lg px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                       onClick={() => setMobileOpen(false)}
                     >
                       My Orders
+                    </Link>
+                    <Link
+                      href="/invoices"
+                      className="block rounded-lg px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      My Invoices
                     </Link>
                     <button
                       type="button"

@@ -41,6 +41,10 @@ export const metadata: Metadata = {
   authors: [{ name: 'MCPFAC BIOTECH' }],
   creator: 'MCPFAC BIOTECH',
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
+  icons: {
+    icon: '/logo.jpg',
+    apple: '/logo.jpg',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -49,6 +53,22 @@ export const metadata: Metadata = {
     description:
       'Global biotechnology research laboratory and supplier of peptides, research chemicals, ' +
       'and laboratory products.',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 512,
+        height: 512,
+        alt: 'MCPFAC BIOTECH — Learn • Understand • Grow',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'MCPFAC BIOTECH — Biotechnology Research Products',
+    description:
+      'Global biotechnology research laboratory and supplier of peptides, research chemicals, ' +
+      'and laboratory products.',
+    images: ['/og-image.jpg'],
   },
   robots: {
     index: true,

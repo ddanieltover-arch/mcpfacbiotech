@@ -23,6 +23,7 @@ function LoginForm() {
 
   // Show error from auth callback if present
   const callbackError = searchParams.get('error');
+  const successMessage = searchParams.get('message');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,6 +52,14 @@ function LoginForm() {
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
           <p className="text-sm text-red-700">
             {error || 'Authentication failed. Please try signing in again.'}
+          </p>
+        </div>
+      )}
+
+      {successMessage === 'password_reset_success' && !error && !callbackError && (
+        <div className="mb-6 flex items-start gap-3 rounded-lg border border-brand-pale bg-brand-pale/40 p-4">
+          <p className="text-sm text-brand-deep">
+            Your password has been updated. You can now sign in with your new password.
           </p>
         </div>
       )}

@@ -18,7 +18,7 @@ async function bootstrap() {
     origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID', 'X-Cart-Session'],
   });
 
   // ─── Global Validation Pipe ──────────────────────────────────────────────
@@ -64,6 +64,7 @@ async function bootstrap() {
     .addTag('downloads', 'Download center')
     .addTag('blog', 'Blog & research articles')
     .addTag('support', 'Support ticket system')
+    .addTag('account', 'Customer portal & account settings')
     .addTag('health', 'System health checks')
     .build();
 

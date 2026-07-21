@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
         hostname: '*.supabase.co',
         pathname: '/storage/v1/object/public/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'peptidepeak.online',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },

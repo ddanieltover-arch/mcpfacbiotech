@@ -8,7 +8,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 // ──────────────────────────────────────────────────────────────────────────────
 
 /** Routes that require authentication. */
-const PROTECTED_ROUTES = ['/account', '/checkout', '/orders'];
+const PROTECTED_ROUTES = ['/account', '/checkout', '/orders', '/quotes', '/invoices'];
 
 /** Routes that should redirect authenticated users away. */
 const AUTH_ROUTES = ['/login', '/register', '/forgot-password'];
