@@ -7,6 +7,14 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
+  // Surface missing production secrets early in Vercel Runtime Logs
+  const required = ['DATABASE_URL', 'DIRECT_URL'] as const;
+  for (const key of required) {
+    if (!process.env[key]) {
+      console.error(`[boot] Missing required env: ${key}`);
+    }
+  }
+
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.useLogger(app.get(Logger));
 
@@ -19,8 +27,10 @@ async function bootstrap() {
 
   // ─── CORS ────────────────────────────────────────────────────────────────
   // FRONTEND_URL may be a single origin or comma-separated list
-  // (e.g. https://mcpfacbiotech.site,https://*.vercel.app previews as exact URLs).
-  const corsOrigins = (process.env.FRONTEND_URL ?? 'http://localhost:3000')
+  // (e.g. https://www.mcpfacbiotech.site,https://mcpfacbiotech.site).
+  const corsOrigins = (
+    process.env.FRONTEND_URL ?? 'http://localhost:3000,https://www.mcpfacbiotech.site,https://mcpfacbiotech.site'
+  )
     .split(',')
     .map((o) => o.trim())
     .filter(Boolean);
@@ -95,12 +105,16 @@ async function bootstrap() {
   });
 
   // ─── Start Server ────────────────────────────────────────────────────────
-  const port = process.env.PORT ?? 3001;
+  // Vercel injects PORT; keep listen() for Nest zero-config detection.
+  const port = Number(process.env.PORT ?? 3001);
   await app.listen(port);
 
   const logger = app.get(Logger);
-  logger.log(`MCPFAC BIOTECH API running on http://localhost:${port}`);
-  logger.log(`Swagger docs available at http://localhost:${port}/api/docs`);
+  logger.log(`MCPFAC BIOTECH API running on port ${port}`);
+  logger.log(`Swagger docs available at /api/docs`);
 }
 
-bootstrap();
+bootstrap().catch((error) => {
+  console.error('[boot] NestJS bootstrap failed', error);
+  throw error;
+});

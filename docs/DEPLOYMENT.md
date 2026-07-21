@@ -32,7 +32,7 @@ No Render/Railway required. NestJS deploys on Vercel as a single Fluid Function 
 2. **Root Directory:** `apps/api`
 3. Framework: NestJS (zero-config; do not set `framework: null`)
 4. Uses `apps/api/vercel.json` install/build for the pnpm monorepo
-5. Environment variables (Production):
+5. Environment variables (Production) — **all of these must be set or the function crashes**:
 
 | Variable | Required |
 |----------|----------|
@@ -41,8 +41,8 @@ No Render/Railway required. NestJS deploys on Vercel as a single Fluid Function 
 | `SUPABASE_URL` or `NEXT_PUBLIC_SUPABASE_URL` | Yes |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes |
 | `SUPABASE_SERVICE_ROLE_KEY` | Yes |
-| `FRONTEND_URL` | Yes → `https://mcpfacbiotech.site` |
-| `APP_URL` | Recommended → same as site |
+| `FRONTEND_URL` | Yes → `https://www.mcpfacbiotech.site` (comma-separate apex if needed) |
+| `APP_URL` | Recommended → `https://www.mcpfacbiotech.site` |
 | `RESEND_API_KEY` | Yes (email) |
 | `RESEND_FROM_EMAIL` | `info@mcpfacbiotech.site` |
 | `RESEND_FROM_NAME` | `MCPFAC BIOTECH` |
@@ -50,8 +50,12 @@ No Render/Railway required. NestJS deploys on Vercel as a single Fluid Function 
 | `NODE_ENV` | `production` |
 | `LOG_LEVEL` | `info` |
 
-6. After first deploy, open `https://<api-host>/api/v1/health`.
-7. Domains → add `api.mcpfacbiotech.site`, then update the web project's `NEXT_PUBLIC_BACKEND_URL` to that URL.
+After saving env vars, **Redeploy** the API project (Deployments → … → Redeploy). Env changes do not apply to the old deployment.
+
+If you see `FUNCTION_INVOCATION_FAILED`, open the API project → **Logs** / **Observability** for `[boot] Missing required env` or Prisma errors.
+
+6. After deploy, open `https://api.mcpfacbiotech.site/api/v1/health`.
+7. On the **web** project set `NEXT_PUBLIC_BACKEND_URL=https://api.mcpfacbiotech.site` and redeploy.
 
 ### What is `NEXT_PUBLIC_BACKEND_URL` on the live site?
 
