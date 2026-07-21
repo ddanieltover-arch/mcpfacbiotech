@@ -4,8 +4,13 @@ import { useEffect, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
+import type { OrderShippingMethod, PaymentMethod } from '@mcpfac/shared-types';
+import { PAYMENT_METHOD_OPTIONS, getShippingMethodPrice } from '@mcpfac/shared-types';
+import { Alert, Button, Input, Label, Textarea } from '@/components/ui';
+import { ShippingMethodSelector } from '@/components/checkout/shipping-method-selector';
 import { checkoutOrder } from '@/lib/commerce-api';
 import { useCartStore } from '@/stores/cart.store';
+import { useAuthStore } from '@/stores/auth.store';
 import { formatCurrency } from '@/lib/utils';
 
 export function CheckoutPageClient() {
@@ -13,6 +18,8 @@ export function CheckoutPageClient() {
   const searchParams = useSearchParams();
   const quoteId = searchParams.get('quoteId') ?? undefined;
   const fromCart = !quoteId;
+  const user = useAuthStore((s) => s.user);
+  const authLoading = useAuthStore((s) => s.isLoading);
 
   const items = useCartStore((s) => s.items);
   const subtotal = useCartStore((s) => s.subtotal());
@@ -21,6 +28,7 @@ export function CheckoutPageClient() {
 
   const [isPending, startTransition] = useTransition();
   const [form, setForm] = useState({
+    email: '',
     firstName: '',
     lastName: '',
     organizationName: '',
@@ -33,14 +41,26 @@ export function CheckoutPageClient() {
     phone: '',
     purchaseOrderNumber: '',
     notes: '',
-    paymentMethod: 'BANK_TRANSFER' as const,
+    paymentMethod: 'BANK_TRANSFER' as PaymentMethod,
+    shippingMethod: 'STANDARD' as OrderShippingMethod,
   });
+
+  const selectedPayment = PAYMENT_METHOD_OPTIONS.find((o) => o.value === form.paymentMethod);
+  const shippingCost = getShippingMethodPrice(form.shippingMethod);
+  const orderTotal = subtotal + shippingCost;
+  const isGuest = !authLoading && !user;
 
   useEffect(() => {
     if (fromCart) {
       void refreshFromServer();
     }
   }, [fromCart, refreshFromServer]);
+
+  useEffect(() => {
+    if (quoteId && !authLoading && !user) {
+      router.replace(`/login?redirect=${encodeURIComponent(`/checkout?quoteId=${quoteId}`)}`);
+    }
+  }, [quoteId, authLoading, user, router]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -50,14 +70,21 @@ export function CheckoutPageClient() {
       return;
     }
 
+    if (isGuest && !form.email.trim()) {
+      toast.error('Enter your email so we can send order confirmation');
+      return;
+    }
+
     startTransition(async () => {
       try {
         const order = await checkoutOrder({
           fromCart: fromCart || undefined,
           quoteId,
+          guestEmail: isGuest ? form.email.trim() : undefined,
           notes: form.notes || undefined,
           purchaseOrderNumber: form.purchaseOrderNumber || undefined,
           paymentMethod: form.paymentMethod,
+          shippingMethod: form.shippingMethod,
           shippingAddress: {
             firstName: form.firstName,
             lastName: form.lastName,
@@ -76,8 +103,15 @@ export function CheckoutPageClient() {
           await clearCart().catch(() => undefined);
         }
 
-        toast.success(`Order ${order.orderNumber} placed`);
-        router.push(`/orders/${order.id}`);
+        toast.success(`Order ${order.orderNumber} placed — payment instructions will follow`);
+
+        if (isGuest) {
+          router.push(
+            `/checkout/confirmation?orderNumber=${encodeURIComponent(order.orderNumber)}&email=${encodeURIComponent(form.email.trim())}`,
+          );
+        } else {
+          router.push(`/orders/${order.id}`);
+        }
       } catch (error) {
         toast.error(error instanceof Error ? error.message : 'Checkout failed');
       }
@@ -86,7 +120,7 @@ export function CheckoutPageClient() {
 
   const update =
     (field: keyof typeof form) =>
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setForm((prev) => ({ ...prev, [field]: event.target.value }));
     };
 
@@ -98,54 +132,199 @@ export function CheckoutPageClient() {
           <p className="mt-3 text-neutral-600">
             {quoteId
               ? 'Convert your submitted quote into a pending research order.'
-              : 'Place an order from your cart. Prices are recalculated from the live catalog.'}
+              : 'Place an order from your cart. Select how you will pay — we settle manually (no online card capture).'}
           </p>
         </div>
       </section>
 
-      <form onSubmit={handleSubmit} className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1fr_320px]">
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1fr_320px]"
+      >
         <div className="space-y-6 rounded-xl border border-neutral-200 bg-white p-6">
+          {isGuest ? (
+            <Alert variant="brand">
+              <p className="font-medium text-brand-deep">Checkout as a guest</p>
+              <p className="mt-1 text-sm text-neutral-600">
+                An account is optional. Create one to track orders, save addresses, and request
+                quotes faster — or continue below with your email.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-3 text-sm">
+                <Link
+                  href={`/register?redirect=${encodeURIComponent('/checkout')}`}
+                  className="font-semibold text-brand-deep underline-offset-2 hover:underline"
+                >
+                  Create account
+                </Link>
+                <Link
+                  href={`/login?redirect=${encodeURIComponent('/checkout')}`}
+                  className="font-semibold text-brand-natural underline-offset-2 hover:underline"
+                >
+                  Sign in
+                </Link>
+              </div>
+            </Alert>
+          ) : null}
+
+          {isGuest ? (
+            <div>
+              <h2 className="font-heading text-lg font-semibold text-brand-deep">Contact</h2>
+              <div className="mt-4">
+                <Label htmlFor="email" isRequired>
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={update('email')}
+                  placeholder="name@lab.org"
+                />
+                <p className="mt-1.5 text-xs text-neutral-500">
+                  We&apos;ll send order confirmation and payment instructions here.
+                </p>
+              </div>
+            </div>
+          ) : null}
+
           <h2 className="font-heading text-lg font-semibold text-brand-deep">Shipping address</h2>
           <div className="grid gap-4 sm:grid-cols-2">
-            <input required placeholder="First name" value={form.firstName} onChange={update('firstName')} className="rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
-            <input required placeholder="Last name" value={form.lastName} onChange={update('lastName')} className="rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
-            <input placeholder="Organization" value={form.organizationName} onChange={update('organizationName')} className="sm:col-span-2 rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
-            <input required placeholder="Address line 1" value={form.addressLine1} onChange={update('addressLine1')} className="sm:col-span-2 rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
-            <input placeholder="Address line 2" value={form.addressLine2} onChange={update('addressLine2')} className="sm:col-span-2 rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
-            <input required placeholder="City" value={form.city} onChange={update('city')} className="rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
-            <input placeholder="State / Province" value={form.stateProvince} onChange={update('stateProvince')} className="rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
-            <input required placeholder="Postal code" value={form.postalCode} onChange={update('postalCode')} className="rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
-            <input required placeholder="Country" value={form.country} onChange={update('country')} className="rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
-            <input placeholder="Phone" value={form.phone} onChange={update('phone')} className="sm:col-span-2 rounded-lg border border-neutral-300 px-3 py-2 text-sm" />
+            <div>
+              <Label htmlFor="firstName" isRequired>
+                First name
+              </Label>
+              <Input id="firstName" required value={form.firstName} onChange={update('firstName')} />
+            </div>
+            <div>
+              <Label htmlFor="lastName" isRequired>
+                Last name
+              </Label>
+              <Input id="lastName" required value={form.lastName} onChange={update('lastName')} />
+            </div>
+            <div className="sm:col-span-2">
+              <Label htmlFor="organizationName">Organization</Label>
+              <Input
+                id="organizationName"
+                value={form.organizationName}
+                onChange={update('organizationName')}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <Label htmlFor="addressLine1" isRequired>
+                Address line 1
+              </Label>
+              <Input
+                id="addressLine1"
+                required
+                value={form.addressLine1}
+                onChange={update('addressLine1')}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <Label htmlFor="addressLine2">Address line 2</Label>
+              <Input id="addressLine2" value={form.addressLine2} onChange={update('addressLine2')} />
+            </div>
+            <div>
+              <Label htmlFor="city" isRequired>
+                City
+              </Label>
+              <Input id="city" required value={form.city} onChange={update('city')} />
+            </div>
+            <div>
+              <Label htmlFor="stateProvince">State / Province</Label>
+              <Input
+                id="stateProvince"
+                value={form.stateProvince}
+                onChange={update('stateProvince')}
+              />
+            </div>
+            <div>
+              <Label htmlFor="postalCode" isRequired>
+                Postal code
+              </Label>
+              <Input
+                id="postalCode"
+                required
+                value={form.postalCode}
+                onChange={update('postalCode')}
+              />
+            </div>
+            <div>
+              <Label htmlFor="country" isRequired>
+                Country
+              </Label>
+              <Input id="country" required value={form.country} onChange={update('country')} />
+            </div>
+            <div className="sm:col-span-2">
+              <Label htmlFor="phone">Phone</Label>
+              <Input id="phone" value={form.phone} onChange={update('phone')} />
+            </div>
+          </div>
+
+          <ShippingMethodSelector
+            value={form.shippingMethod}
+            onChange={(shippingMethod) => setForm((prev) => ({ ...prev, shippingMethod }))}
+          />
+
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-brand-deep">Payment method</h2>
+            <p className="mt-1 text-sm text-neutral-500">
+              Choose how you will pay. MCPFAC BIOTECH will send settlement details after the order is
+              placed — nothing is charged online at checkout.
+            </p>
+            <fieldset className="mt-4 grid gap-3 sm:grid-cols-2">
+              <legend className="sr-only">Payment method</legend>
+              {PAYMENT_METHOD_OPTIONS.map((option) => {
+                const selected = form.paymentMethod === option.value;
+                return (
+                  <label
+                    key={option.value}
+                    className={`cursor-pointer rounded-lg border px-4 py-3 transition-colors ${
+                      selected
+                        ? 'border-brand-leaf bg-brand-pale/40 ring-2 ring-brand-leaf/30'
+                        : 'border-neutral-200 hover:border-brand-light'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value={option.value}
+                      checked={selected}
+                      onChange={() => setForm((prev) => ({ ...prev, paymentMethod: option.value }))}
+                      className="sr-only"
+                    />
+                    <span className="block text-sm font-semibold text-brand-deep">{option.label}</span>
+                    <span className="mt-1 block text-xs text-neutral-600">{option.description}</span>
+                  </label>
+                );
+              })}
+            </fieldset>
+            {selectedPayment && (
+              <Alert variant="brand" className="mt-3">
+                Selected: <strong>{selectedPayment.label}</strong> — instructions for this method are
+                emailed after your order is received.
+              </Alert>
+            )}
           </div>
 
           <h2 className="font-heading text-lg font-semibold text-brand-deep">Order details</h2>
-          <input
-            placeholder="Purchase order number (optional)"
-            value={form.purchaseOrderNumber}
-            onChange={update('purchaseOrderNumber')}
-            className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-          />
-          <select
-            value={form.paymentMethod}
-            onChange={update('paymentMethod')}
-            className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-          >
-            <option value="BANK_TRANSFER">Bank transfer</option>
-            <option value="PURCHASE_ORDER">Purchase order</option>
-            <option value="CRYPTO">Cryptocurrency</option>
-            <option value="OTHER">Other</option>
-          </select>
-          <textarea
-            placeholder="Order notes"
-            value={form.notes}
-            onChange={update('notes')}
-            rows={3}
-            className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-          />
+          <div>
+            <Label htmlFor="purchaseOrderNumber">Purchase order number (optional)</Label>
+            <Input
+              id="purchaseOrderNumber"
+              value={form.purchaseOrderNumber}
+              onChange={update('purchaseOrderNumber')}
+            />
+          </div>
+          <div>
+            <Label htmlFor="notes">Order notes</Label>
+            <Textarea id="notes" value={form.notes} onChange={update('notes')} rows={3} />
+          </div>
         </div>
 
-        <aside className="h-fit rounded-xl border border-neutral-200 bg-white p-6">
+        <aside className="h-fit self-start rounded-xl border border-neutral-200 bg-white p-6 lg:sticky lg:top-24">
           <h2 className="font-heading text-lg font-semibold text-brand-deep">Summary</h2>
           {fromCart ? (
             <>
@@ -159,24 +338,44 @@ export function CheckoutPageClient() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-4 flex justify-between border-t border-neutral-100 pt-3 text-sm font-semibold text-brand-deep">
-                <span>Subtotal</span>
-                <span>{formatCurrency(subtotal)}</span>
+              <div className="mt-4 space-y-2 border-t border-neutral-100 pt-3 text-sm">
+                <div className="flex justify-between text-neutral-600">
+                  <span>Subtotal</span>
+                  <span>{formatCurrency(subtotal)}</span>
+                </div>
+                <div className="flex justify-between text-neutral-600">
+                  <span>Shipping</span>
+                  <span>{formatCurrency(shippingCost)}</span>
+                </div>
+                <div className="flex justify-between font-semibold text-brand-deep">
+                  <span>Total</span>
+                  <span>{formatCurrency(orderTotal)}</span>
+                </div>
               </div>
             </>
           ) : (
             <p className="mt-4 text-sm text-neutral-600">
-              Totals will be taken from quote snapshot pricing on the server.
+              Product totals come from quote pricing; shipping is added from your selected method.
             </p>
           )}
-          <button
+          <p className="mt-4 text-xs text-neutral-500">
+            Pay with: <span className="font-medium text-brand-deep">{selectedPayment?.label}</span>
+            {' · '}
+            Ship: <span className="font-medium text-brand-deep">{formatCurrency(shippingCost)}</span>
+          </p>
+          <Button
             type="submit"
-            disabled={isPending || (fromCart && items.length === 0)}
-            className="mt-6 w-full rounded-lg bg-brand-deep px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural disabled:opacity-60"
+            fullWidth
+            isLoading={isPending}
+            disabled={(fromCart && items.length === 0) || Boolean(quoteId && !user)}
+            className="mt-4"
           >
             {isPending ? 'Placing order…' : 'Place Order'}
-          </button>
-          <Link href={quoteId ? `/quotes/${quoteId}` : '/cart'} className="mt-3 block text-center text-sm text-brand-deep hover:underline">
+          </Button>
+          <Link
+            href={quoteId ? `/quotes/${quoteId}` : '/cart'}
+            className="mt-3 block text-center text-sm text-brand-deep hover:underline"
+          >
             Back
           </Link>
         </aside>

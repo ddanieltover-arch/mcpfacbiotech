@@ -152,8 +152,9 @@ export const checkoutSchema = z
     notes: z.string().max(5000).optional(),
     purchaseOrderNumber: z.string().max(100).optional(),
     paymentMethod: z
-      .enum(['BANK_TRANSFER', 'PURCHASE_ORDER', 'CRYPTO', 'OTHER'])
+      .enum(['BITCOIN', 'USDT', 'CREDIT_CARD', 'BANK_TRANSFER', 'CHIME', 'CASH_APP'])
       .default('BANK_TRANSFER'),
+    shippingMethod: z.enum(['STANDARD', 'PRIORITY_EXPRESS']).default('STANDARD'),
     shippingAddressId: z.string().uuid().optional(),
     billingAddressId: z.string().uuid().optional(),
     shippingAddress: addressSchema.optional(),

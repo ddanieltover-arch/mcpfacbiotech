@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { InvoicesPageClient } from './invoices-page-client';
 
 export const metadata: Metadata = {
-  title: 'My Invoices | MCPFAC BIOTECH',
+  title: 'My Invoices',
   description: 'View invoices issued for confirmed orders.',
 };
 

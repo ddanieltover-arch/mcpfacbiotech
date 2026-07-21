@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { join } from 'path';
 import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductsModule } from './modules/products/products.module';
@@ -14,7 +15,12 @@ import { QuotesModule } from './modules/quotes/quotes.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { InvoicesModule } from './modules/invoices/invoices.module';
 import { AccountModule } from './modules/account/account.module';
+import { AdminModule } from './modules/admin/admin.module';
+import { ContactModule } from './modules/contact/contact.module';
+import { NewsletterModule } from './modules/newsletter/newsletter.module';
 import { DatabaseModule } from './database/database.module';
+import { AppLoggerModule } from './common/logging/logger.module';
+import { EmailModule } from './modules/email/email.module';
 import { SupabaseAuthGuard } from './common/guards/supabase-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 
@@ -23,8 +29,16 @@ import { RolesGuard } from './common/guards/roles.guard';
     // ─── Environment Configuration ───────────────────────────────────────
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.local', '.env'],
+      envFilePath: [
+        '.env.local',
+        '.env',
+        join(process.cwd(), '../../.env.local'),
+        join(process.cwd(), '../../.env'),
+      ],
     }),
+
+    // ─── Structured logging (Pino) ───────────────────────────────────────
+    AppLoggerModule,
 
     // ─── Rate Limiting (100 req/min default per Appendix C) ──────────────
     ThrottlerModule.forRoot([
@@ -42,6 +56,7 @@ import { RolesGuard } from './common/guards/roles.guard';
 
     // ─── Database ────────────────────────────────────────────────────────
     DatabaseModule,
+    EmailModule,
 
     // ─── Feature Modules (add as built) ──────────────────────────────────
     AuthModule,
@@ -55,6 +70,9 @@ import { RolesGuard } from './common/guards/roles.guard';
     OrdersModule,
     InvoicesModule,
     AccountModule,
+    AdminModule,
+    ContactModule,
+    NewsletterModule,
     HealthModule,
   ],
   providers: [

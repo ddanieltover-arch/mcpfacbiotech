@@ -21,6 +21,8 @@
     "db:generate": "npx prisma generate --schema prisma",
     "db:migrate": "npx prisma migrate dev --schema prisma",
     "db:seed": "npx prisma db seed",
+    "db:promote-admin": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/promote-admin.ts",
+    "db:smoke-admin": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/smoke-admin.ts",
     "db:migrate-legacy": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/migrate-legacy/import-products.ts",
     "db:migrate-legacy:dry-run": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/migrate-legacy/import-products.ts --dry-run",
     "db:studio": "npx prisma studio --schema prisma",

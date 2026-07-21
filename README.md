@@ -19,7 +19,7 @@
 | Database | Supabase PostgreSQL |
 | Storage | Supabase Storage |
 | Auth | Supabase Auth |
-| Deployment | Vercel (frontend), TBD (backend) |
+| Deployment | Vercel (frontend staging), Render Docker (API staging) — see `docs/STAGING.md` |
 
 ## Project Structure
 

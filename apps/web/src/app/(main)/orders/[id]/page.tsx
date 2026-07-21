@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { OrderDetailClient } from './order-detail-client';
 
 export const metadata: Metadata = {
-  title: 'Order Detail | MCPFAC BIOTECH',
+  title: 'Order Detail',
   description: 'View order details, confirm, and access invoices.',
 };
 

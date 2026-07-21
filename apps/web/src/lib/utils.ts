@@ -22,6 +22,15 @@ export function formatCurrency(amount: number, currency = 'USD'): string {
 }
 
 /**
+ * Hide legacy UUID-style SKUs in cart / commerce UI — they are not buyer-facing codes.
+ */
+export function displayProductSku(sku: string | null | undefined): string | null {
+  if (!sku) return null;
+  if (/^LEGACY-[0-9a-f-]{20,}$/i.test(sku)) return null;
+  return sku;
+}
+
+/**
  * Format a date string for display.
  */
 export function formatDate(dateString: string, options?: Intl.DateTimeFormatOptions): string {

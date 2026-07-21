@@ -46,9 +46,11 @@ const EMPTY_CATALOG = {
   items: [] as ProductSummary[],
   total: 0,
   page: 1,
-  limit: 12,
+  limit: 30,
   totalPages: 0,
 };
+
+export const PRODUCTS_PAGE_SIZE = 30;
 
 export type ProductListParams = {
   page?: number;
@@ -64,10 +66,11 @@ export type ProductListParams = {
   direction?: 'asc' | 'desc';
 };
 
-export async function getProducts(params: ProductListParams = {}) {
+export async function getProducts(params: ProductListParams = {}, options?: { cache?: boolean }) {
   try {
     const response = await fetchJson<ApiPaginatedResponse<ProductSummary>>(
-      buildUrl('/products', params),
+      buildUrl('/products', { limit: PRODUCTS_PAGE_SIZE, ...params }),
+      options?.cache ?? true,
     );
 
     return response.data;

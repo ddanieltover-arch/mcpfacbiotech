@@ -36,13 +36,19 @@ export class AuthService {
     const url =
       this.config.get<string>('SUPABASE_URL') ??
       this.config.get<string>('NEXT_PUBLIC_SUPABASE_URL');
-    const serviceRoleKey = this.config.get<string>('SUPABASE_SERVICE_ROLE_KEY');
+    // Prefer anon for JWT validation (`auth.getUser(token)`). Service role is
+    // only required for admin Auth APIs; a misconfigured service key must not
+    // break ordinary login/session verification.
+    const apiKey =
+      this.config.get<string>('NEXT_PUBLIC_SUPABASE_ANON_KEY') ??
+      this.config.get<string>('SUPABASE_ANON_KEY') ??
+      this.config.get<string>('SUPABASE_SERVICE_ROLE_KEY');
 
-    if (!url || !serviceRoleKey) {
-      throw new Error('Supabase URL and service role key must be configured');
+    if (!url || !apiKey) {
+      throw new Error('Supabase URL and anon/service key must be configured');
     }
 
-    this.supabase = createClient(url, serviceRoleKey, {
+    this.supabase = createClient(url, apiKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false,
@@ -94,17 +100,42 @@ export class AuthService {
     const country = (metadata.country as string | undefined)?.trim() || null;
     const customerGroup =
       ORG_TYPE_TO_CUSTOMER_GROUP[organizationType ?? ''] ?? CustomerGroup.RETAIL;
+    const email = supabaseUser.email!;
+
+    // Reclaim a guest checkout profile that used this email before signup.
+    const existingByEmail = await this.prisma.profile.findUnique({
+      where: { email },
+      select: { id: true, authUserId: true },
+    });
+
+    if (existingByEmail && existingByEmail.authUserId !== supabaseUser.id) {
+      const conflict = await this.prisma.profile.findUnique({
+        where: { authUserId: supabaseUser.id },
+        select: { id: true },
+      });
+
+      if (!conflict) {
+        await this.prisma.profile.update({
+          where: { id: existingByEmail.id },
+          data: {
+            authUserId: supabaseUser.id,
+            firstName,
+            lastName,
+          },
+        });
+      }
+    }
 
     const profile = await this.prisma.profile.upsert({
       where: { authUserId: supabaseUser.id },
       create: {
         authUserId: supabaseUser.id,
-        email: supabaseUser.email!,
+        email,
         firstName,
         lastName,
       },
       update: {
-        email: supabaseUser.email!,
+        email,
         firstName,
         lastName,
       },

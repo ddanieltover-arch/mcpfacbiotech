@@ -12,6 +12,13 @@ describe('QuotesService', () => {
       create: jest.fn(),
       update: jest.fn(),
     },
+    profile: {
+      findUnique: jest.fn().mockResolvedValue({
+        email: 'lab@example.com',
+        firstName: 'Ada',
+        lastName: 'Lab',
+      }),
+    },
     $transaction: jest.fn(),
   };
 
@@ -39,11 +46,16 @@ describe('QuotesService', () => {
     clearCartById: jest.fn(),
   };
 
+  const emailService = {
+    sendQuoteSubmitted: jest.fn().mockResolvedValue(true),
+  };
+
   const service = new QuotesService(
     prisma as never,
     customerContext as never,
     pricing as never,
     cartService as never,
+    emailService as never,
   );
 
   beforeEach(() => {

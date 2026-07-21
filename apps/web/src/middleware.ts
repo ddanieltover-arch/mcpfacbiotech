@@ -7,8 +7,8 @@ import { NextResponse, type NextRequest } from 'next/server';
 // protection for authenticated/unauthenticated users.
 // ──────────────────────────────────────────────────────────────────────────────
 
-/** Routes that require authentication. */
-const PROTECTED_ROUTES = ['/account', '/checkout', '/orders', '/quotes', '/invoices'];
+/** Routes that require authentication. Checkout is public (guest checkout supported). */
+const PROTECTED_ROUTES = ['/account', '/orders', '/quotes', '/invoices', '/admin'];
 
 /** Routes that should redirect authenticated users away. */
 const AUTH_ROUTES = ['/login', '/register', '/forgot-password'];

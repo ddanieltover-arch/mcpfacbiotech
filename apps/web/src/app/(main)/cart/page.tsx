@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { CartPageClient } from './cart-page-client';
 
 export const metadata: Metadata = {
-  title: 'Shopping Cart | MCPFAC BIOTECH',
+  title: 'Shopping Cart',
   description: 'Review cart items from the live research catalog and request a quotation.',
 };
 

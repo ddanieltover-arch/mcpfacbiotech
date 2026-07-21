@@ -12,6 +12,13 @@ describe('OrdersService', () => {
       create: jest.fn(),
       update: jest.fn(),
     },
+    profile: {
+      findUnique: jest.fn().mockResolvedValue({
+        email: 'lab@example.com',
+        firstName: 'Ada',
+        lastName: 'Lab',
+      }),
+    },
     quote: {
       findFirst: jest.fn(),
       findUnique: jest.fn(),
@@ -52,11 +59,16 @@ describe('OrdersService', () => {
     clearCartById: jest.fn(),
   };
 
+  const emailService = {
+    sendOrderConfirmation: jest.fn().mockResolvedValue(true),
+  };
+
   const service = new OrdersService(
     prisma as never,
     customerContext as never,
     pricing as never,
     cartService as never,
+    emailService as never,
   );
 
   beforeEach(() => {
@@ -113,7 +125,10 @@ describe('OrdersService', () => {
       invoices: [],
     });
 
-    const result = await service.checkout('profile-1', { fromCart: true });
+    const result = await service.checkout({
+      profileId: 'profile-1',
+      dto: { fromCart: true },
+    });
 
     expect(result.status).toBe('PENDING');
     expect(result.items[0]?.productSku).toBe('5-AMINO-1MQ');
@@ -128,7 +143,7 @@ describe('OrdersService', () => {
     });
 
     await expect(
-      service.checkout('profile-1', { quoteId: 'quote-1' }),
+      service.checkout({ profileId: 'profile-1', dto: { quoteId: 'quote-1' } }),
     ).rejects.toBeInstanceOf(BadRequestException);
   });
 

@@ -13,6 +13,8 @@ import {
 
 @Injectable()
 export class ProductsService {
+  private static readonly RELATED_PRODUCTS_LIMIT = 4;
+
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(query: ProductQueryDto) {
@@ -67,25 +69,57 @@ export class ProductsService {
     }
 
     const categoryIds = product.productCategories.map((item) => item.categoryId);
+    const relatedProducts = await this.findRelatedProducts(product.id, categoryIds);
 
-    const relatedProducts = categoryIds.length
-      ? await this.prisma.product.findMany({
-          where: {
-            ...publishedProductWhere,
-            id: { not: product.id },
-            productCategories: {
-              some: {
-                categoryId: { in: categoryIds },
-              },
+    return toProductDetail(product, relatedProducts);
+  }
+
+  private async findRelatedProducts(
+    productId: string,
+    categoryIds: string[],
+  ): Promise<ProductSummary[]> {
+    const limit = ProductsService.RELATED_PRODUCTS_LIMIT;
+    const orderBy: Prisma.ProductOrderByWithRelationInput[] = [
+      { isFeatured: 'desc' },
+      { sortOrder: 'asc' },
+    ];
+    const related = [];
+
+    if (categoryIds.length > 0) {
+      const sameCategory = await this.prisma.product.findMany({
+        where: {
+          ...publishedProductWhere,
+          id: { not: productId },
+          productCategories: {
+            some: {
+              categoryId: { in: categoryIds },
             },
           },
-          include: productListInclude,
-          orderBy: [{ isFeatured: 'desc' }, { sortOrder: 'asc' }],
-          take: 4,
-        })
-      : [];
+        },
+        include: productListInclude,
+        orderBy,
+        take: limit,
+      });
 
-    return toProductDetail(product, relatedProducts.map(toProductSummary));
+      related.push(...sameCategory);
+    }
+
+    if (related.length < limit) {
+      const excludeIds = [productId, ...related.map((item) => item.id)];
+      const backfill = await this.prisma.product.findMany({
+        where: {
+          ...publishedProductWhere,
+          id: { notIn: excludeIds },
+        },
+        include: productListInclude,
+        orderBy,
+        take: limit - related.length,
+      });
+
+      related.push(...backfill);
+    }
+
+    return related.slice(0, limit).map(toProductSummary);
   }
 
   async suggest(query: string, limit = 8) {

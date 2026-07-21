@@ -183,9 +183,17 @@ export async function submitQuote(id: string): Promise<QuoteDetail> {
 export async function checkoutOrder(input: {
   fromCart?: boolean;
   quoteId?: string;
+  guestEmail?: string;
   notes?: string;
   purchaseOrderNumber?: string;
-  paymentMethod?: 'BANK_TRANSFER' | 'PURCHASE_ORDER' | 'CRYPTO' | 'OTHER';
+  paymentMethod?:
+    | 'BITCOIN'
+    | 'USDT'
+    | 'CREDIT_CARD'
+    | 'BANK_TRANSFER'
+    | 'CHIME'
+    | 'CASH_APP';
+  shippingMethod?: 'STANDARD' | 'PRIORITY_EXPRESS';
   shippingAddress?: {
     firstName: string;
     lastName: string;

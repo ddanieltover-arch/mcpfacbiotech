@@ -180,6 +180,79 @@ export type OrderStatus =
   | 'CANCELLED'
   | 'RETURNED';
 
+/** Manual payment options shown at checkout (no gateway capture). */
+export type PaymentMethod =
+  | 'BITCOIN'
+  | 'USDT'
+  | 'CREDIT_CARD'
+  | 'BANK_TRANSFER'
+  | 'CHIME'
+  | 'CASH_APP';
+
+export const PAYMENT_METHOD_OPTIONS: ReadonlyArray<{
+  value: PaymentMethod;
+  label: string;
+  description: string;
+}> = [
+  {
+    value: 'BITCOIN',
+    label: 'Bitcoin',
+    description: 'Pay with BTC. Wallet details are sent after order placement.',
+  },
+  {
+    value: 'USDT',
+    label: 'USDT',
+    description: 'Pay with USDT (stablecoin). Transfer details follow by email.',
+  },
+  {
+    value: 'CREDIT_CARD',
+    label: 'Credit card',
+    description: 'Card payment arranged manually with our team — no online charge at checkout.',
+  },
+  {
+    value: 'BANK_TRANSFER',
+    label: 'Bank transfer',
+    description: 'Wire / ACH / SEPA. Banking details are provided after confirmation.',
+  },
+  {
+    value: 'CHIME',
+    label: 'Chime',
+    description: 'Pay via Chime. Recipient details are shared after your order is placed.',
+  },
+  {
+    value: 'CASH_APP',
+    label: 'Cash App',
+    description: 'Pay via Cash App. Cashtag / instructions follow after order placement.',
+  },
+] as const;
+
+/** Flat-rate shipping options at checkout. */
+export type OrderShippingMethod = 'STANDARD' | 'PRIORITY_EXPRESS';
+
+export const SHIPPING_METHOD_OPTIONS: ReadonlyArray<{
+  value: OrderShippingMethod;
+  label: string;
+  eta: string;
+  price: number;
+}> = [
+  {
+    value: 'STANDARD',
+    label: 'Standard Delivery',
+    eta: '3-5 Business Days',
+    price: 25,
+  },
+  {
+    value: 'PRIORITY_EXPRESS',
+    label: 'Priority Express',
+    eta: '1-2 Business Days',
+    price: 50,
+  },
+] as const;
+
+export function getShippingMethodPrice(method: OrderShippingMethod): number {
+  return SHIPPING_METHOD_OPTIONS.find((option) => option.value === method)?.price ?? 25;
+}
+
 export interface OrderSummary {
   id: string;
   orderNumber: string;
@@ -188,6 +261,8 @@ export interface OrderSummary {
   currency: string;
   itemCount: number;
   createdAt: string;
+  paymentMethod?: PaymentMethod;
+  shippingMethod?: OrderShippingMethod;
 }
 
 export interface OrderItem {
@@ -450,3 +525,128 @@ export type NotificationType =
   | 'SUPPORT_REPLY'
   | 'DOCUMENT_UPDATED'
   | 'SYSTEM';
+
+// ─── Admin ───────────────────────────────────────────────────────────────────
+
+/** Staff roles that may access `/admin` and `/api/v1/admin/*`. */
+export const ADMIN_ACCESS_ROLES: UserRole[] = [
+  'SUPER_ADMINISTRATOR',
+  'ADMINISTRATOR',
+  'SUPPORT',
+  'CONTENT_EDITOR',
+  'INVENTORY_MANAGER',
+];
+
+export function isAdminRole(role: UserRole | string | undefined | null): boolean {
+  if (!role) return false;
+  return (ADMIN_ACCESS_ROLES as string[]).includes(role);
+}
+
+export interface AdminDashboard {
+  counts: {
+    products: number;
+    publishedProducts: number;
+    lowStockProducts: number;
+    customers: number;
+    pendingQuotes: number;
+    pendingOrders: number;
+    openOrders: number;
+    invoicesIssued: number;
+  };
+  recentOrders: AdminOrderSummary[];
+  recentQuotes: AdminQuoteSummary[];
+  recentCustomers: AdminCustomerSummary[];
+}
+
+export interface AdminProductSummary {
+  id: string;
+  name: string;
+  slug: string;
+  sku: string;
+  status: ProductStatus;
+  availability: ProductAvailability;
+  stockQuantity: number;
+  lowStockThreshold: number;
+  isLowStock: boolean;
+  retailPrice?: number;
+  isFeatured: boolean;
+  isVisible: boolean;
+  categoryName?: string;
+  updatedAt: string;
+}
+
+export interface AdminCategorySummary {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  imageUrl?: string;
+  parentId?: string;
+  parentName?: string;
+  sortOrder: number;
+  isVisible: boolean;
+  isFeatured: boolean;
+  productCount: number;
+  childrenCount: number;
+  updatedAt: string;
+}
+
+export interface AdminInventoryItem {
+  id: string;
+  name: string;
+  sku: string;
+  slug: string;
+  status: ProductStatus;
+  availability: ProductAvailability;
+  stockQuantity: number;
+  lowStockThreshold: number;
+  isLowStock: boolean;
+  leadTimeDays?: number;
+  categoryName?: string;
+  updatedAt: string;
+}
+
+export interface AdminCustomerSummary {
+  id: string;
+  profileId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  organizationName?: string;
+  customerGroup: CustomerGroup;
+  country?: string;
+  isVerified: boolean;
+  isSuspended: boolean;
+  ordersCount: number;
+  quotesCount: number;
+  createdAt: string;
+}
+
+export interface AdminQuoteSummary {
+  id: string;
+  quoteNumber: string;
+  status: QuoteStatus;
+  totalAmount: number;
+  currency: string;
+  itemCount: number;
+  customerEmail: string;
+  customerName: string;
+  organizationName?: string;
+  expiresAt?: string;
+  createdAt: string;
+}
+
+export interface AdminOrderSummary {
+  id: string;
+  orderNumber: string;
+  status: OrderStatus;
+  totalAmount: number;
+  currency: string;
+  itemCount: number;
+  customerEmail: string;
+  customerName: string;
+  organizationName?: string;
+  paymentMethod?: PaymentMethod;
+  shippingMethod?: OrderShippingMethod;
+  createdAt: string;
+}

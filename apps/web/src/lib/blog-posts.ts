@@ -1,0 +1,128 @@
+/**
+ * Static blog seed posts (CONTENT-8) until CMS (Phase 17) is live.
+ * Editorial / lab-operations voice — not medical advice.
+ */
+
+export type BlogSection = {
+  heading: string;
+  paragraphs: string[];
+  bullets?: string[];
+};
+
+export type BlogPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  publishedAt: string;
+  readingTime: string;
+  sections: BlogSection[];
+};
+
+export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: 'coa-first-procurement',
+    title: 'Why COA-first procurement matters for research labs',
+    excerpt:
+      'How lot documentation, HPLC context, and receiving checklists reduce back-and-forth before experiments start.',
+    category: 'Documentation',
+    publishedAt: '2026-07-01',
+    readingTime: '5 min',
+    sections: [
+      {
+        heading: 'The problem with vague certificates',
+        paragraphs: [
+          'Institutional buyers often stall orders when certificates arrive late, lack lot numbers, or cannot be matched to the vials on the bench. A COA-first catalog reduces that friction by linking documentation to SKUs before checkout.',
+          'MCPFAC BIOTECH surfaces Certificates of Analysis, MSDS, and HPLC reports on product pages where published, with a dedicated COA library for batch lookup when files need to be requested.',
+        ],
+      },
+      {
+        heading: 'A practical receiving checklist',
+        paragraphs: ['Before locking a protocol to a lot, confirm:'],
+        bullets: [
+          'Batch / lot number on the vial matches the COA',
+          'Purity and identity methods are stated (e.g. HPLC, LC–MS when on file)',
+          'Storage guidance is recorded in the lab notebook',
+          'MSDS is accessible to the group handling the material',
+        ],
+      },
+      {
+        heading: 'Next steps',
+        paragraphs: [
+          'Browse the COA library for batch requests, or open any product page documentation section. Pair this with Quality Assurance notes for purity expectations.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'shipping-tiers-explained',
+    title: 'Shipping tiers explained: Standard vs Priority Express',
+    excerpt:
+      'What checkout rates cover, how dispatch windows work, and when Priority Express is worth selecting.',
+    category: 'Logistics',
+    publishedAt: '2026-07-08',
+    readingTime: '4 min',
+    sections: [
+      {
+        heading: 'Rates that match checkout',
+        paragraphs: [
+          'MCPFAC BIOTECH checkout offers two flat shipping methods: Standard Delivery (3–5 business days, $25) and Priority Express (1–2 business days, $50). Cart totals use the same figures shown on the Shipping Information page — no surprise carrier markup at payment time.',
+        ],
+      },
+      {
+        heading: 'Dispatch vs transit',
+        paragraphs: [
+          'Most in-stock orders enter preparation within a 24–48 hour window on business days when inventory allows. Priority Express shortens transit after dispatch; it does not replace stock verification or documentation review before shipment.',
+        ],
+      },
+      {
+        heading: 'Packaging notes',
+        paragraphs: [
+          'Lyophilized and temperature-sensitive materials ship in protective packaging. Follow product-page handling notes on receipt, and contact support within 7 days if a shipment arrives damaged or incorrect.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'research-use-only-reminder',
+    title: 'Research-use only: framing procurement for compliance teams',
+    excerpt:
+      'Clear language for buyers, IBC packages, and receiving docks — what “laboratory use only” means on this storefront.',
+    category: 'Compliance',
+    publishedAt: '2026-07-15',
+    readingTime: '4 min',
+    sections: [
+      {
+        heading: 'What we mean by research use',
+        paragraphs: [
+          'All MCPFAC BIOTECH catalog products are intended for laboratory research and development. They are not for human or animal consumption, diagnosis, or therapy. Buyers assume regulatory responsibility in their jurisdiction.',
+        ],
+      },
+      {
+        heading: 'Helpful language for internal packets',
+        paragraphs: [
+          'When preparing purchase requests or IBC submissions, cite product specifications, lot COAs where published, and the research-use disclaimer on product and checkout surfaces. Educational research briefs in our library are literature-oriented notes — not clinical guidance.',
+        ],
+        bullets: [
+          'Not for human or animal consumption',
+          'For laboratory and R&D use only',
+          'Verify lot documentation before experimental use',
+        ],
+      },
+      {
+        heading: 'Where to go next',
+        paragraphs: [
+          'Read FAQ for common procurement questions, browse the research library for peptide briefs, or contact support for institutional quotation workflows.',
+        ],
+      },
+    ],
+  },
+];
+
+export function getBlogPost(slug: string): BlogPost | undefined {
+  return BLOG_POSTS.find((post) => post.slug === slug);
+}
+
+export function getAllBlogSlugs(): string[] {
+  return BLOG_POSTS.map((post) => post.slug);
+}

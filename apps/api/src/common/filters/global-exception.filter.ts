@@ -11,6 +11,7 @@ import { Request, Response } from 'express';
 /**
  * Global exception filter that normalizes all errors into the standard
  * API error envelope (Appendix C). Never exposes stack traces to clients.
+ * Errors are emitted through Nest Logger (backed by Pino after bootstrap).
  */
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -19,7 +20,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getRequest<Request>();
+    const request = ctx.getRequest<Request & { id?: string; user?: { id?: string } }>();
 
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'An unexpected error occurred';
@@ -46,21 +47,28 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       }
     }
 
-    // Log the error with full details for debugging (never exposed to client)
-    this.logger.error(
-      {
-        statusCode,
-        message,
-        path: request.url,
-        method: request.method,
-        requestId: request.headers['x-request-id'],
-        userId: (request as unknown as Record<string, unknown>).userId,
-        ...(statusCode === HttpStatus.INTERNAL_SERVER_ERROR && exception instanceof Error
-          ? { stack: exception.stack }
-          : {}),
-      },
-      exception instanceof Error ? exception.stack : undefined,
-    );
+    const requestId =
+      request.id ??
+      (typeof request.headers['x-request-id'] === 'string'
+        ? request.headers['x-request-id']
+        : undefined);
+
+    // Structured fields for Pino; stack only for unexpected 500s (never to client)
+    this.logger.error({
+      statusCode,
+      message,
+      path: request.url,
+      method: request.method,
+      requestId,
+      userId: request.user?.id,
+      ...(statusCode >= HttpStatus.INTERNAL_SERVER_ERROR && exception instanceof Error
+        ? { err: { type: exception.name, message: exception.message, stack: exception.stack } }
+        : {}),
+    });
+
+    if (requestId && !response.getHeader('X-Request-ID')) {
+      response.setHeader('X-Request-ID', requestId);
+    }
 
     response.status(statusCode).json({
       success: false,
@@ -68,6 +76,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       message,
       errors,
       timestamp: new Date().toISOString(),
+      ...(requestId ? { metadata: { requestId } } : {}),
     });
   }
 }

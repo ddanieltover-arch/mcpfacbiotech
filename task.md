@@ -1,6 +1,6 @@
 # MCPFAC BIOTECH — Project Backlog
 
-> Maintained by Enterprise Project Manager. Last updated: 2026-07-20
+> Maintained by Enterprise Project Manager. Last updated: 2026-07-21
 
 ## Current Phase
 
@@ -11,7 +11,16 @@
 **Milestone 3 — Cart & Quotation Engine** is complete.  
 **Milestone 4 — Orders, Invoices & Checkout** is complete.  
 **Milestone 5 — Customer Portal** is complete.  
-**Next milestone:** Milestone 6 — Admin Platform.
+**Milestone 6 — Admin Platform** is in progress (ops + categories/inventory).  
+**Milestone 7 — Platform Hardening** is largely complete (CI, envelope, pino, coverage, staging scaffolding).  
+**Phase 3 — Design System** is complete (tokens + `components/ui` primitives + showcase).  
+**Phase 14 — Payments (manual methods)** is complete.  
+**Phase 15 — Shipping methods** is complete (Standard $25 / Priority Express $50).  
+**Phase 16 — Administration** is complete at Partial (ops console + inventory/categories).  
+**Phase 17 — CMS** is ❌ Deferred (ADM-9c media / blog / documents).  
+**Phase 18 — Reporting** is ❌ Deferred (analytics / sales / inventory reports).  
+**Phase 21 — Content & Marketing (M8)** is ✅ Complete (CONTENT-0–11).  
+**Next focus:** Phase 19 Testing, Phase 20 staging go-live, or un-defer CMS.
 
 ---
 
@@ -26,14 +35,39 @@
 | M3 | Cart & quotation engine (live imported catalog) | ✅ Complete |
 | M4 | Orders, invoices, checkout | ✅ Complete |
 | M5 | Customer portal (account, orders, quotes, downloads) | ✅ Complete |
-| M6 | Admin platform (CMS, inventory, reports) | ⬜ Not started |
-| M7 | Integration, testing, CI/CD, deployment | ⬜ Not started |
+| M6 | Admin platform (CMS, inventory, reports) | 🔄 In progress (ops + categories/inventory) |
+| M7 | Integration, testing, CI/CD, deployment | 🔄 In Progress |
+| M8 | Content & marketing pages (reference-driven) | ✅ Complete |
+
+---
+
+### M8 — Content & Marketing (reference: [PH Research](https://www.ph-research.store/) · [Premium Peptides Lab](https://www.premiumpeptideslab.online/))
+
+> **Rule:** Adapt and rebrand for MCPFAC BIOTECH — do not copy competitor text verbatim. Use reference sites for structure, section types, and tone only.
+
+| ID | Task | Layer | Deps | Status |
+|----|------|-------|------|--------|
+| CONTENT-0 | Content map + shared marketing components (promo bar, stat grid, comparison table, testimonial, process steps, category hub card) | Frontend | Phase 3 | ✅ Done |
+| CONTENT-1 | Homepage — hero, trust stats, category grid, featured products, why-us, process, FAQ teaser, research-use banner | Frontend | CONTENT-0 | ✅ Done |
+| CONTENT-2 | `/quality` + `/shipping` — enrich with COA/HPLC/cold-chain + checkout shipping tiers ($25/$50, free-ship threshold TBD) | Frontend | CONTENT-0 | ✅ Done |
+| CONTENT-3 | `/faq` expand (research-use, purity, COA, payments, returns) + link from home | Frontend | CONTENT-2 | ✅ Done |
+| CONTENT-4 | `/research` hub + 4–6 static article pages (BPC-157, TB-500, GLP-1, GHK-Cu, reconstitution basics) | Frontend | CONTENT-0 | ✅ Done |
+| CONTENT-5 | **Create** `/coa` (COA library landing + batch lookup UI stub) + wire `/downloads` | Frontend | CONTENT-4 | ✅ Done |
+| CONTENT-6 | **Create** `/calculator` (peptide reconstitution calculator) | Frontend | CONTENT-0 | ✅ Done |
+| CONTENT-7 | `/about` + `/contact` — align copy, hours, support CTAs with reference patterns | Frontend | — | ✅ Done |
+| CONTENT-8 | `/blog` — replace stub with list + 2–3 seed posts (or link to `/research` until CMS) | Frontend | CONTENT-4 | ✅ Done |
+| CONTENT-9 | Header/footer nav — add COA, Calculator, FAQ; category hubs from live catalog | Frontend | CONTENT-5,6 | ✅ Done |
+| CONTENT-10 | Legal polish — `/terms`, `/privacy`, `/returns`, `/cookies` research-use language | Frontend | — | ✅ Done |
+| CONTENT-11 | SEO metadata + internal links audit across marketing pages | Frontend | CONTENT-1–10 | ✅ Done |
+
+**M8 exit criteria:** All public marketing routes populated or created; nav/footer complete; no “coming soon” on primary paths; research-use disclaimer on checkout + footer.
+
+**M8 status:** ✅ Complete (CONTENT-0–11)
 
 ---
 
 ## Active Backlog
 
-### P0 — Blockers (must resolve before M2)
 
 | ID | Task | Layer | Status | Owner |
 |----|------|-------|--------|-------|
@@ -137,15 +171,37 @@ Depends on **M2.5 live imported catalog** (not `MBT-*` sample seed products).
 
 ---
 
+### M6 — Admin Platform
+
+| ID | Task | Layer | Status |
+|----|------|-------|--------|
+| ADM-1 | NestJS `AdminModule` — role-gated dashboard metrics | Backend | ✅ Done |
+| ADM-2 | Admin products list/update (status, stock, pricing, featured) | Backend | ✅ Done |
+| ADM-3 | Admin quotes list + review/approve/reject | Backend | ✅ Done |
+| ADM-4 | Admin orders list + fulfillment status transitions (+ invoice on confirm) | Backend | ✅ Done |
+| ADM-5 | Admin customers list + suspend/reactivate | Backend | ✅ Done |
+| ADM-6 | `/admin` console UI (dashboard, products, quotes, orders, customers) | Frontend | ✅ Done |
+| ADM-7 | Auth profile role in store + Admin Console nav link + middleware | Frontend | ✅ Done |
+| ADM-8 | `pnpm db:promote-admin` helper | DB/Tooling | ✅ Done |
+| ADM-9a | Admin categories CRUD (list/create/update/soft-delete) | Full stack | ✅ Done |
+| ADM-9b | Inventory list + per-product `lowStockThreshold` + auto LOW_STOCK | Full stack | ✅ Done |
+| ADM-9c | Document CMS / media library / blog / FAQ / COA workflows | Full stack | ❌ Deferred → Phase 17 |
+
+**M6 exit criteria (v1):** Staff roles can open `/admin`, manage catalog publish/stock, approve quotes, advance orders, suspend customers.
+
+**M6 status:** ✅ Partial complete (ops console + categories/inventory; media/CMS/reports → Phase 17–18)
+
+---
+
 ### M7 — Platform Hardening (ongoing, escalate before production)
 
 | ID | Task | Status |
 |----|------|--------|
-| PLAT-1 | GitHub Actions CI (lint, type-check, test, build) | ⬜ Open |
-| PLAT-2 | Global exception filter + response interceptor wired in `main.ts` | ⬜ Open |
-| PLAT-3 | Structured logging (pino) configured | ⬜ Open |
-| PLAT-4 | Test coverage for critical paths (≥80% controllers, ≥90% services) | ⬜ Open |
-| PLAT-5 | Staging deployment (Vercel frontend + backend host TBD) | ⬜ Open |
+| PLAT-1 | GitHub Actions CI (lint, type-check, test, build) | ✅ Done |
+| PLAT-2 | Global exception filter + response interceptor wired in `main.ts` | ✅ Done |
+| PLAT-3 | Structured logging (pino) configured | ✅ Done |
+| PLAT-4 | Test coverage for critical paths (≥80% controllers, ≥90% services) | ✅ Done (critical-path gate) |
+| PLAT-5 | Staging deployment (Vercel frontend + backend host TBD) | ✅ Done (Vercel + Render scaffolding) |
 
 ---
 
@@ -182,5 +238,11 @@ AUTH-5 (profile sync) ──► AUTH-6 (JWT guard)
 
 ## Next Action
 
-**Begin Milestone 6 — Admin Platform**, or smoke-test `/account` after login.  
-Download center (COA/MSDS) and support messaging remain deferred.
+**Recommended:** Phase 19 Testing or Phase 20 staging go-live (`docs/STAGING.md`).
+
+Alternatives:
+- Un-defer Phase 17 CMS v1 (documents + media)
+- Carrier tracking on admin fulfill
+
+**Recently closed:** Homepage multi-shelf products · M8 Content & Marketing (CONTENT-0–11) · Phase 16 Administration · Phase 15 shipping.  
+**Deferred:** Phase 17 CMS · Phase 18 Reporting.

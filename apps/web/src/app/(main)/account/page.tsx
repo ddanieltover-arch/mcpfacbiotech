@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { AccountDashboardClient } from './account-dashboard-client';
 
 export const metadata: Metadata = {
-  title: 'My Account | MCPFAC BIOTECH',
+  title: 'My Account',
   description: 'Customer portal dashboard for orders, quotes, and invoices.',
 };
 

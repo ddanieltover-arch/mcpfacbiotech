@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Account Settings | MCPFAC BIOTECH',
+  title: 'Account Settings',
   description: 'Account security and preferences.',
 };
 

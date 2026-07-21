@@ -1,10 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useLogger(app.get(Logger));
 
   // ─── API Versioning ──────────────────────────────────────────────────────
   app.setGlobalPrefix('api');
@@ -19,6 +23,7 @@ async function bootstrap() {
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID', 'X-Cart-Session'],
+    exposedHeaders: ['X-Request-ID'],
   });
 
   // ─── Global Validation Pipe ──────────────────────────────────────────────
@@ -32,6 +37,10 @@ async function bootstrap() {
       },
     }),
   );
+
+  // ─── Standard response envelope + error normalization (Appendix C) ───────
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   // ─── Swagger / OpenAPI ───────────────────────────────────────────────────
   const swaggerConfig = new DocumentBuilder()
@@ -65,6 +74,7 @@ async function bootstrap() {
     .addTag('blog', 'Blog & research articles')
     .addTag('support', 'Support ticket system')
     .addTag('account', 'Customer portal & account settings')
+    .addTag('admin', 'Administration console')
     .addTag('health', 'System health checks')
     .build();
 
@@ -82,8 +92,9 @@ async function bootstrap() {
   const port = process.env.PORT ?? 3001;
   await app.listen(port);
 
-  console.log(`🧬 MCPFAC BIOTECH API running on http://localhost:${port}`);
-  console.log(`📖 Swagger docs available at http://localhost:${port}/api/docs`);
+  const logger = app.get(Logger);
+  logger.log(`MCPFAC BIOTECH API running on http://localhost:${port}`);
+  logger.log(`Swagger docs available at http://localhost:${port}/api/docs`);
 }
 
 bootstrap();

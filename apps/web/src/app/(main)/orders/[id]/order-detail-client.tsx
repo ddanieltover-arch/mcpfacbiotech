@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
 import type { OrderDetail } from '@mcpfac/shared-types';
+import { PAYMENT_METHOD_OPTIONS, SHIPPING_METHOD_OPTIONS } from '@mcpfac/shared-types';
 import { cancelOrder, confirmOrder, getOrder } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
@@ -85,6 +86,26 @@ export function OrderDetailClient() {
               <h1 className="font-heading text-4xl font-bold text-brand-deep">{order.orderNumber}</h1>
               <p className="mt-2 text-neutral-600">
                 Status: <span className="font-medium">{order.status}</span>
+                {order.paymentMethod && (
+                  <>
+                    {' '}
+                    · Payment:{' '}
+                    <span className="font-medium">
+                      {PAYMENT_METHOD_OPTIONS.find((o) => o.value === order.paymentMethod)?.label ??
+                        order.paymentMethod}
+                    </span>
+                  </>
+                )}
+                {order.shippingMethod && (
+                  <>
+                    {' '}
+                    · Shipping:{' '}
+                    <span className="font-medium">
+                      {SHIPPING_METHOD_OPTIONS.find((o) => o.value === order.shippingMethod)?.label ??
+                        order.shippingMethod}
+                    </span>
+                  </>
+                )}
               </p>
             </div>
             {order.status === 'PENDING' && (
@@ -166,6 +187,17 @@ export function OrderDetailClient() {
 
         <aside className="h-fit space-y-4 rounded-xl border border-neutral-200 bg-white p-5">
           <h2 className="font-heading text-lg font-semibold text-brand-deep">Totals</h2>
+          {order.paymentMethod && (
+            <div className="rounded-lg border border-brand-pale bg-brand-pale/30 px-3 py-2 text-sm">
+              <p className="font-medium text-brand-deep">
+                {PAYMENT_METHOD_OPTIONS.find((o) => o.value === order.paymentMethod)?.label ??
+                  order.paymentMethod}
+              </p>
+              <p className="mt-1 text-xs text-neutral-600">
+                Manual settlement — MCPFAC will send payment instructions for this method.
+              </p>
+            </div>
+          )}
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
               <dt className="text-neutral-600">Subtotal</dt>
@@ -173,7 +205,12 @@ export function OrderDetailClient() {
             </div>
             <div className="flex justify-between">
               <dt className="text-neutral-600">Shipping</dt>
-              <dd>{formatCurrency(order.shippingCost, order.currency)}</dd>
+              <dd>
+                {formatCurrency(order.shippingCost, order.currency)}
+                {order.shippingMethod
+                  ? ` (${SHIPPING_METHOD_OPTIONS.find((o) => o.value === order.shippingMethod)?.eta ?? order.shippingMethod})`
+                  : ''}
+              </dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-neutral-600">Tax</dt>

@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsBoolean,
+  IsEmail,
   IsEnum,
   IsOptional,
   IsString,
@@ -67,10 +68,17 @@ export class CheckoutAddressDto {
 }
 
 export enum CheckoutPaymentMethod {
+  BITCOIN = 'BITCOIN',
+  USDT = 'USDT',
+  CREDIT_CARD = 'CREDIT_CARD',
   BANK_TRANSFER = 'BANK_TRANSFER',
-  PURCHASE_ORDER = 'PURCHASE_ORDER',
-  CRYPTO = 'CRYPTO',
-  OTHER = 'OTHER',
+  CHIME = 'CHIME',
+  CASH_APP = 'CASH_APP',
+}
+
+export enum CheckoutShippingMethod {
+  STANDARD = 'STANDARD',
+  PRIORITY_EXPRESS = 'PRIORITY_EXPRESS',
 }
 
 export class CheckoutDto {
@@ -83,6 +91,14 @@ export class CheckoutDto {
   @IsOptional()
   @IsUUID()
   quoteId?: string;
+
+  @ApiPropertyOptional({
+    description: 'Required for guest checkout when not authenticated',
+  })
+  @IsOptional()
+  @IsEmail()
+  @MaxLength(320)
+  guestEmail?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -100,6 +116,14 @@ export class CheckoutDto {
   @IsOptional()
   @IsEnum(CheckoutPaymentMethod)
   paymentMethod?: CheckoutPaymentMethod = CheckoutPaymentMethod.BANK_TRANSFER;
+
+  @ApiPropertyOptional({
+    enum: CheckoutShippingMethod,
+    default: CheckoutShippingMethod.STANDARD,
+  })
+  @IsOptional()
+  @IsEnum(CheckoutShippingMethod)
+  shippingMethod?: CheckoutShippingMethod = CheckoutShippingMethod.STANDARD;
 
   @ApiPropertyOptional()
   @IsOptional()

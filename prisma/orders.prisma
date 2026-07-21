@@ -14,25 +14,43 @@ enum OrderStatus {
   RETURNED
 }
 
+/// Manual payment options selected at checkout (no online gateway capture).
+enum PaymentMethod {
+  BITCOIN
+  USDT
+  CREDIT_CARD
+  BANK_TRANSFER
+  CHIME
+  CASH_APP
+}
+
+/// Checkout shipping options (flat rates; carrier tracking comes later via Shipment).
+enum OrderShippingMethod {
+  STANDARD
+  PRIORITY_EXPRESS
+}
+
 model Order {
-  id                String      @id @default(uuid()) @db.Uuid
-  createdAt         DateTime    @default(now()) @map("created_at")
-  updatedAt         DateTime    @updatedAt @map("updated_at")
-  deletedAt         DateTime?   @map("deleted_at")
-  orderNumber       String      @unique @map("order_number") @db.VarChar(50)
-  customerId        String      @map("customer_id") @db.Uuid
-  status            OrderStatus @default(PENDING)
-  subtotal          Decimal     @db.Decimal(12, 2)
-  shippingCost      Decimal     @default(0) @map("shipping_cost") @db.Decimal(12, 2)
-  taxAmount         Decimal     @default(0) @map("tax_amount") @db.Decimal(12, 2)
-  totalAmount       Decimal     @map("total_amount") @db.Decimal(12, 2)
-  currency          String      @default("USD") @db.VarChar(3)
-  purchaseOrderNum  String?     @map("purchase_order_num") @db.VarChar(100)
-  notes             String?     @db.Text
-  internalNotes     String?     @map("internal_notes") @db.Text
-  shippingAddressId String?     @map("shipping_address_id") @db.Uuid
-  billingAddressId  String?     @map("billing_address_id") @db.Uuid
-  quoteId           String?     @map("quote_id") @db.Uuid
+  id                String               @id @default(uuid()) @db.Uuid
+  createdAt         DateTime             @default(now()) @map("created_at")
+  updatedAt         DateTime             @updatedAt @map("updated_at")
+  deletedAt         DateTime?            @map("deleted_at")
+  orderNumber       String               @unique @map("order_number") @db.VarChar(50)
+  customerId        String               @map("customer_id") @db.Uuid
+  status            OrderStatus          @default(PENDING)
+  paymentMethod     PaymentMethod        @default(BANK_TRANSFER) @map("payment_method")
+  shippingMethod    OrderShippingMethod  @default(STANDARD) @map("shipping_method")
+  subtotal          Decimal              @db.Decimal(12, 2)
+  shippingCost      Decimal              @default(0) @map("shipping_cost") @db.Decimal(12, 2)
+  taxAmount         Decimal              @default(0) @map("tax_amount") @db.Decimal(12, 2)
+  totalAmount       Decimal              @map("total_amount") @db.Decimal(12, 2)
+  currency          String               @default("USD") @db.VarChar(3)
+  purchaseOrderNum  String?              @map("purchase_order_num") @db.VarChar(100)
+  notes             String?              @db.Text
+  internalNotes     String?              @map("internal_notes") @db.Text
+  shippingAddressId String?              @map("shipping_address_id") @db.Uuid
+  billingAddressId  String?              @map("billing_address_id") @db.Uuid
+  quoteId           String?              @map("quote_id") @db.Uuid
 
   // Relations
   customer        Customer           @relation(fields: [customerId], references: [id], onDelete: Restrict)
@@ -47,6 +65,8 @@ model Order {
   @@index([customerId])
   @@index([orderNumber])
   @@index([status])
+  @@index([paymentMethod])
+  @@index([shippingMethod])
   @@index([createdAt])
   @@map("orders")
 }

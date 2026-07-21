@@ -288,13 +288,30 @@ export class CartService {
     return this.mapCart(customerCart.id);
   }
 
-  /** Used by QuotesModule when creating from cart. */
-  async getActiveCartRecord(profileId: string) {
-    const customer = await this.customerContext.assertActiveCustomer(profileId);
+  /** Used by QuotesModule / OrdersModule when creating from cart. */
+  async getActiveCartRecord(profileId?: string, sessionId?: string) {
+    if (profileId) {
+      const customer = await this.customerContext.assertActiveCustomer(profileId);
+      return this.prisma.shoppingCart.findFirst({
+        where: {
+          customerId: customer.id,
+          isActive: true,
+        },
+        include: cartInclude,
+      });
+    }
+
+    if (!sessionId) {
+      return null;
+    }
+
+    this.assertSessionId(sessionId);
+
     return this.prisma.shoppingCart.findFirst({
       where: {
-        customerId: customer.id,
+        sessionId,
         isActive: true,
+        customerId: null,
       },
       include: cartInclude,
     });

@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { CheckoutPageClient } from './checkout-page-client';
 
 export const metadata: Metadata = {
-  title: 'Checkout | MCPFAC BIOTECH',
+  title: 'Checkout',
   description: 'Place a research product order from cart or quote.',
 };
 

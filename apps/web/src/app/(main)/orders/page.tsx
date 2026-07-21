@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { OrdersPageClient } from './orders-page-client';
 
 export const metadata: Metadata = {
-  title: 'My Orders | MCPFAC BIOTECH',
+  title: 'My Orders',
   description: 'View and track your research product orders.',
 };
 

@@ -8,5 +8,12 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["seed.ts", "seed/**/*.ts", "migrate-legacy/**/*.ts"]
+  "include": [
+    "seed.ts",
+    "seed/**/*.ts",
+    "migrate-legacy/**/*.ts",
+    "promote-admin.ts",
+    "smoke-admin.ts",
+    "list-profiles.ts"
+  ]
 }

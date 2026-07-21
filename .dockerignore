@@ -1,0 +1,16 @@
+# Context is the monorepo root
+.git
+.github
+.turbo
+**/.turbo
+**/node_modules
+**/dist
+**/.next
+**/coverage
+apps/web
+*.md
+.env
+.env.*
+!.env.example
+mcpfac-biotech-engineering
+agent-transcripts

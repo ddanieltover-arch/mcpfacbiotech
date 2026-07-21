@@ -4,11 +4,13 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import {
   InvoiceStatus,
   OrderStatus,
   Prisma,
   QuoteStatus,
+  UserRole as PrismaUserRole,
 } from '@prisma/client';
 import type {
   OrderDetail,
@@ -16,10 +18,12 @@ import type {
   OrderStatusHistoryEntry,
   OrderSummary,
 } from '@mcpfac/shared-types';
+import { getShippingMethodPrice } from '@mcpfac/shared-types';
 import { PrismaService } from '@/database/prisma.service';
 import { CustomerContextService } from '@/modules/customers/customer-context.service';
 import { CommercePricingService } from '@/modules/commerce/commerce-pricing';
 import { CartService } from '@/modules/cart/cart.service';
+import { EmailService } from '@/modules/email/email.service';
 import { decimalToNumber } from '@/modules/products/products.mapper';
 import type { CheckoutAddressDto, CheckoutDto } from './dto/checkout.dto';
 
@@ -38,6 +42,7 @@ export class OrdersService {
     private readonly customerContext: CustomerContextService,
     private readonly pricing: CommercePricingService,
     private readonly cartService: CartService,
+    private readonly emailService: EmailService,
   ) {}
 
   async list(
@@ -66,6 +71,8 @@ export class OrdersService {
         id: order.id,
         orderNumber: order.orderNumber,
         status: order.status,
+        paymentMethod: order.paymentMethod,
+        shippingMethod: order.shippingMethod,
         totalAmount: decimalToNumber(order.totalAmount) ?? 0,
         currency: order.currency,
         itemCount: order._count.items,
@@ -95,15 +102,36 @@ export class OrdersService {
     return this.toDetail(order);
   }
 
-  async checkout(profileId: string, dto: CheckoutDto): Promise<OrderDetail> {
-    const customer = await this.customerContext.assertActiveCustomer(profileId);
+  async checkout(input: {
+    profileId?: string;
+    sessionId?: string;
+    dto: CheckoutDto;
+  }): Promise<OrderDetail> {
+    const { dto, sessionId } = input;
+    let profileId = input.profileId;
 
     if (!dto.fromCart && !dto.quoteId) {
       throw new BadRequestException('Provide fromCart=true or quoteId');
     }
 
+    if (!profileId) {
+      if (!dto.guestEmail) {
+        throw new BadRequestException('Email is required for guest checkout');
+      }
+      if (!dto.fromCart) {
+        throw new BadRequestException('Guest checkout requires fromCart=true');
+      }
+      if (!dto.shippingAddress) {
+        throw new BadRequestException('Shipping address is required for guest checkout');
+      }
+
+      profileId = await this.findOrCreateGuestProfileId(dto.guestEmail, dto.shippingAddress);
+    }
+
+    const customer = await this.customerContext.assertActiveCustomer(profileId);
+
     const lines = dto.fromCart
-      ? await this.linesFromCart(profileId)
+      ? await this.linesFromCart(profileId, sessionId)
       : await this.linesFromQuote(customer.id, dto.quoteId!);
 
     if (lines.length === 0) {
@@ -122,14 +150,13 @@ export class OrdersService {
     const subtotal = Number(
       lines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0).toFixed(2),
     );
-    const shippingCost = 0;
+    const paymentMethod = dto.paymentMethod ?? 'BANK_TRANSFER';
+    const shippingMethod = dto.shippingMethod ?? 'STANDARD';
+    const shippingCost = getShippingMethodPrice(shippingMethod);
     const taxAmount = 0;
     const totalAmount = Number((subtotal + shippingCost + taxAmount).toFixed(2));
     const orderNumber = await this.generateOrderNumber();
-    const paymentMethod = dto.paymentMethod ?? 'BANK_TRANSFER';
-    const notes = [dto.notes, `Payment method: ${paymentMethod}`]
-      .filter(Boolean)
-      .join('\n');
+    const notes = dto.notes?.trim() || null;
 
     const order = await this.prisma.$transaction(async (tx) => {
       const created = await tx.order.create({
@@ -137,12 +164,14 @@ export class OrdersService {
           orderNumber,
           customerId: customer.id,
           status: OrderStatus.PENDING,
+          paymentMethod,
+          shippingMethod,
           subtotal,
           shippingCost,
           taxAmount,
           totalAmount,
           currency: 'USD',
-          notes: notes || null,
+          notes,
           purchaseOrderNum: dto.purchaseOrderNumber,
           shippingAddressId,
           billingAddressId,
@@ -161,7 +190,11 @@ export class OrdersService {
             create: {
               fromStatus: null,
               toStatus: OrderStatus.PENDING,
-              note: dto.fromCart ? 'Order placed from cart' : 'Order placed from quote',
+              note: dto.fromCart
+                ? input.profileId
+                  ? 'Order placed from cart'
+                  : 'Guest order placed from cart'
+                : 'Order placed from quote',
               changedBy: customer.id,
             },
           },
@@ -181,13 +214,89 @@ export class OrdersService {
     }
 
     if (dto.fromCart) {
-      const cart = await this.cartService.getActiveCartRecord(profileId);
+      const cart = await this.cartService.getActiveCartRecord(
+        input.profileId ? profileId : undefined,
+        input.profileId ? undefined : sessionId,
+      );
       if (cart) {
         await this.cartService.clearCartById(cart.id);
+        if (!input.profileId && cart.sessionId) {
+          await this.prisma.shoppingCart.update({
+            where: { id: cart.id },
+            data: { isActive: false },
+          });
+        }
       }
     }
 
+    void this.notifyOrderConfirmation(profileId, order.orderNumber, totalAmount, 'USD');
+
     return this.getById(profileId, order.id);
+  }
+
+  /**
+   * Create or reuse a lightweight profile/customer for guest checkout.
+   * Later sign-up with the same email reclaims this profile via AuthService.syncProfile.
+   */
+  private async findOrCreateGuestProfileId(
+    email: string,
+    address: CheckoutAddressDto,
+  ): Promise<string> {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const existing = await this.prisma.profile.findUnique({
+      where: { email: normalizedEmail },
+      include: { customer: true },
+    });
+
+    if (existing) {
+      if (existing.customer?.isSuspended) {
+        throw new ForbiddenException('Customer account is suspended');
+      }
+
+      if (!existing.customer) {
+        await this.prisma.customer.create({
+          data: {
+            profileId: existing.id,
+            customerGroup: 'RETAIL',
+            organizationName: address.organizationName,
+            country: address.country,
+          },
+        });
+      }
+
+      return existing.id;
+    }
+
+    const guestRole = await this.prisma.role.findUnique({
+      where: { name: PrismaUserRole.GUEST },
+    });
+
+    const profile = await this.prisma.profile.create({
+      data: {
+        authUserId: randomUUID(),
+        email: normalizedEmail,
+        firstName: address.firstName.trim(),
+        lastName: address.lastName.trim(),
+        phone: address.phone,
+        customer: {
+          create: {
+            customerGroup: 'RETAIL',
+            organizationName: address.organizationName,
+            country: address.country,
+          },
+        },
+        ...(guestRole
+          ? {
+              userRoles: {
+                create: { roleId: guestRole.id },
+              },
+            }
+          : {}),
+      },
+    });
+
+    return profile.id;
   }
 
   async confirm(profileId: string, orderId: string): Promise<OrderDetail> {
@@ -238,7 +347,7 @@ export class OrdersService {
             totalAmount: existing.totalAmount,
             currency: existing.currency,
             dueDate,
-            notes: 'Invoice issued on order confirmation. Pay by bank transfer / PO terms.',
+            notes: 'Invoice issued on order confirmation. Pay using the method selected at checkout.',
             items: {
               create: existing.items.map((item) => ({
                 productName: item.productName,
@@ -288,8 +397,37 @@ export class OrdersService {
     return this.getById(profileId, orderId);
   }
 
-  private async linesFromCart(profileId: string): Promise<LineInput[]> {
-    const cart = await this.cartService.getActiveCartRecord(profileId);
+  private async notifyOrderConfirmation(
+    profileId: string,
+    orderNumber: string,
+    totalAmount: number,
+    currency: string,
+  ): Promise<void> {
+    const profile = await this.prisma.profile.findUnique({
+      where: { id: profileId },
+      select: { email: true, firstName: true, lastName: true },
+    });
+
+    if (!profile?.email) {
+      return;
+    }
+
+    const customerName = [profile.firstName, profile.lastName].filter(Boolean).join(' ').trim();
+
+    await this.emailService.sendOrderConfirmation({
+      to: profile.email,
+      customerName: customerName || undefined,
+      orderNumber,
+      totalAmount,
+      currency,
+    });
+  }
+
+  private async linesFromCart(
+    profileId?: string,
+    sessionId?: string,
+  ): Promise<LineInput[]> {
+    const cart = await this.cartService.getActiveCartRecord(profileId, sessionId);
     if (!cart || cart.items.length === 0) {
       throw new BadRequestException('Cart is empty');
     }
@@ -443,6 +581,8 @@ export class OrdersService {
     id: string;
     orderNumber: string;
     status: OrderStatus;
+    paymentMethod: import('@prisma/client').PaymentMethod;
+    shippingMethod: import('@prisma/client').OrderShippingMethod;
     subtotal: Prisma.Decimal;
     shippingCost: Prisma.Decimal;
     taxAmount: Prisma.Decimal;
@@ -497,6 +637,8 @@ export class OrdersService {
       id: order.id,
       orderNumber: order.orderNumber,
       status: order.status,
+      paymentMethod: order.paymentMethod,
+      shippingMethod: order.shippingMethod,
       subtotal: decimalToNumber(order.subtotal) ?? 0,
       shippingCost: decimalToNumber(order.shippingCost) ?? 0,
       taxAmount: decimalToNumber(order.taxAmount) ?? 0,

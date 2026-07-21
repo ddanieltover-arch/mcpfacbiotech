@@ -51,7 +51,13 @@ export async function login(formData: FormData): Promise<{ error: string } | voi
   }
 
   revalidatePath('/', 'layout');
-  redirect('/');
+
+  const redirectTo = (formData.get('redirect') as string | null)?.trim();
+  const safeRedirect =
+    redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//')
+      ? redirectTo
+      : '/';
+  redirect(safeRedirect);
 }
 
 /**

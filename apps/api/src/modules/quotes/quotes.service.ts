@@ -15,6 +15,7 @@ import { PrismaService } from '@/database/prisma.service';
 import { CustomerContextService } from '@/modules/customers/customer-context.service';
 import { CommercePricingService } from '@/modules/commerce/commerce-pricing';
 import { CartService } from '@/modules/cart/cart.service';
+import { EmailService } from '@/modules/email/email.service';
 import { decimalToNumber } from '@/modules/products/products.mapper';
 import type { CreateQuoteDto, UpdateQuoteDto } from './dto/quote.dto';
 
@@ -25,6 +26,7 @@ export class QuotesService {
     private readonly customerContext: CustomerContextService,
     private readonly pricing: CommercePricingService,
     private readonly cartService: CartService,
+    private readonly emailService: EmailService,
   ) {}
 
   async list(
@@ -314,7 +316,40 @@ export class QuotesService {
       await this.cartService.clearCartById(cart.id);
     }
 
+    void this.notifyQuoteSubmitted(
+      profileId,
+      quote.quoteNumber,
+      decimalToNumber(quote.totalAmount) ?? 0,
+      quote.currency,
+    );
+
     return this.toDetail(quote);
+  }
+
+  private async notifyQuoteSubmitted(
+    profileId: string,
+    quoteNumber: string,
+    totalAmount: number,
+    currency: string,
+  ): Promise<void> {
+    const profile = await this.prisma.profile.findUnique({
+      where: { id: profileId },
+      select: { email: true, firstName: true, lastName: true },
+    });
+
+    if (!profile?.email) {
+      return;
+    }
+
+    const customerName = [profile.firstName, profile.lastName].filter(Boolean).join(' ').trim();
+
+    await this.emailService.sendQuoteSubmitted({
+      to: profile.email,
+      customerName: customerName || undefined,
+      quoteNumber,
+      totalAmount,
+      currency,
+    });
   }
 
   private async resolveCreateLines(profileId: string, dto: CreateQuoteDto) {

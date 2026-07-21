@@ -5,8 +5,8 @@ import {
   CallHandler,
 } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
-import { Request } from 'express';
+import { randomUUID } from 'crypto';
+import { Request, Response } from 'express';
 
 /**
  * Wraps all successful responses in the standard API response envelope
@@ -15,8 +15,19 @@ import { Request } from 'express';
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
-    const request = context.switchToHttp().getRequest<Request>();
-    const requestId = (request.headers['x-request-id'] as string) ?? uuidv4();
+    const http = context.switchToHttp();
+    const request = http.getRequest<Request & { id?: string }>();
+    const response = http.getResponse<Response>();
+
+    const requestId =
+      (typeof request.id === 'string' && request.id) ||
+      (request.headers['x-request-id'] as string) ||
+      randomUUID();
+
+    request.headers['x-request-id'] = requestId;
+    if (!response.getHeader('X-Request-ID')) {
+      response.setHeader('X-Request-ID', requestId);
+    }
 
     return next.handle().pipe(
       map((data) => {

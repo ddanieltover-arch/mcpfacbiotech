@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { AVAILABILITY_OPTIONS, CATEGORY_OPTIONS } from '@/lib/catalog-api';
 
 type ProductFiltersProps = {
@@ -18,10 +18,10 @@ export function ProductFilters({ searchParams }: ProductFiltersProps) {
   const currentSort = getParam(searchParams, 'sort') || 'featured';
 
   return (
-    <aside className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm">
-      <div className="mb-5 flex items-center gap-2">
-        <SlidersHorizontal className="h-4 w-4 text-brand-deep" />
-        <h2 className="font-heading text-lg font-semibold text-brand-deep">Filters</h2>
+    <aside className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-neutral-200/80 lg:sticky lg:top-24 lg:max-h-[calc(100dvh-7rem)] lg:self-start lg:overflow-y-auto">
+      <div className="mb-5">
+        <p className="text-xs font-semibold uppercase tracking-wide text-brand-natural">Refine</p>
+        <h2 className="mt-1 font-heading text-lg font-semibold text-brand-deep">Filters</h2>
       </div>
 
       <form method="GET" className="space-y-6">
@@ -42,31 +42,22 @@ export function ProductFilters({ searchParams }: ProductFiltersProps) {
         </div>
 
         <div>
-          <p className="mb-2 text-sm font-medium text-neutral-700">Category</p>
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm text-neutral-700">
-              <input
-                type="radio"
-                name="category"
-                value=""
-                defaultChecked={!currentCategory}
-                className="text-brand-deep focus:ring-brand-leaf"
-              />
-              All categories
-            </label>
+          <label htmlFor="category" className="mb-2 block text-sm font-medium text-neutral-700">
+            Category
+          </label>
+          <select
+            id="category"
+            name="category"
+            defaultValue={currentCategory}
+            className="w-full rounded-lg border border-neutral-300 px-3 py-2.5 text-sm outline-none focus:border-brand-leaf focus:ring-2 focus:ring-brand-leaf/20"
+          >
+            <option value="">All categories</option>
             {CATEGORY_OPTIONS.map((category) => (
-              <label key={category.slug} className="flex items-center gap-2 text-sm text-neutral-700">
-                <input
-                  type="radio"
-                  name="category"
-                  value={category.slug}
-                  defaultChecked={currentCategory === category.slug}
-                  className="text-brand-deep focus:ring-brand-leaf"
-                />
+              <option key={category.slug} value={category.slug}>
                 {category.label}
-              </label>
+              </option>
             ))}
-          </div>
+          </select>
         </div>
 
         <div>

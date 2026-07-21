@@ -1,15 +1,19 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
+  Headers,
   Param,
   ParseUUIDPipe,
   Post,
   Query,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { AuthUser } from '@mcpfac/shared-types';
 import { CurrentUser } from '@/common/decorators/current-user.decorator';
+import { Public } from '@/common/decorators/public.decorator';
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { OrdersService } from './orders.service';
 import { CheckoutDto } from './dto/checkout.dto';
@@ -55,10 +59,38 @@ export class OrdersController {
     };
   }
 
+  @Public()
   @Post('checkout')
-  @ApiOperation({ summary: 'Place an order from cart or convert a quote' })
-  async checkout(@CurrentUser() user: AuthUser, @Body() body: CheckoutDto) {
-    const data = await this.ordersService.checkout(user.profileId!, body);
+  @ApiHeader({
+    name: 'X-Cart-Session',
+    required: false,
+    description: 'Guest cart session UUID (required for guest checkout)',
+  })
+  @ApiOperation({
+    summary: 'Place an order from cart or convert a quote (guest checkout supported)',
+  })
+  async checkout(
+    @CurrentUser() user: AuthUser | undefined,
+    @Headers('x-cart-session') sessionId: string | undefined,
+    @Body() body: CheckoutDto,
+  ) {
+    if (!user?.profileId && body.quoteId) {
+      throw new UnauthorizedException('Sign in to convert a quote to an order');
+    }
+
+    if (!user?.profileId && !body.guestEmail) {
+      throw new BadRequestException('Email is required for guest checkout');
+    }
+
+    if (!user?.profileId && !body.fromCart) {
+      throw new BadRequestException('Guest checkout requires fromCart=true');
+    }
+
+    const data = await this.ordersService.checkout({
+      profileId: user?.profileId,
+      sessionId,
+      dto: body,
+    });
 
     return {
       message: 'Order created',
