@@ -1,4 +1,6 @@
-# Render Blueprint — staging Nest API
+# Render Blueprint — OPTIONAL / LEGACY
+# Preferred production path: Vercel (web + API) + Supabase — see docs/DEPLOYMENT.md
+# Keep this file only if you intentionally want a Docker API on Render instead.
 # Dashboard: New → Blueprint → connect this repo → select render.yaml
 # Docs: https://render.com/docs/blueprint-spec
 

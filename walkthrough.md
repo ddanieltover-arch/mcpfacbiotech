@@ -539,7 +539,7 @@ Content & marketing milestone complete (CONTENT-0–11).
 
 ### Scope delivered
 - **Created** `/coa` — library landing, illustrative packet, how-to steps, ResearchUseBanner
-- Batch lookup stub (`CoaBatchLookup`) → mailto to `info@mcpfacbiotech.cn` until CMS search
+- Batch lookup stub (`CoaBatchLookup`) → mailto to `info@mcpfacbiotech.site` until CMS search
 - `/downloads` CTA + copy wired to COA library
 - Home hero secondary CTA → `/coa`
 - Header top bar + footer support link for COA

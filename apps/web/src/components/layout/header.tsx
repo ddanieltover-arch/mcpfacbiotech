@@ -112,10 +112,10 @@ export function Header() {
                 </Link>
               ))}
               <a
-                href="mailto:info@mcpfacbiotech.cn"
+                href="mailto:info@mcpfacbiotech.site"
                 className="hidden shrink-0 text-brand-pale transition-colors hover:text-white xl:inline"
               >
-                info@mcpfacbiotech.cn
+                info@mcpfacbiotech.site
               </a>
             </nav>
           </div>

@@ -227,7 +227,7 @@ export const SHIPPING_EXPECTATIONS = [
 ] as const;
 
 export const CONTACT_CHANNELS = {
-  email: 'info@mcpfacbiotech.cn',
+  email: 'info@mcpfacbiotech.site',
   address: 'No. 9 Tangkeng Road, Longgang District, Shenzhen, Guangdong 518115, China',
   hours: 'Mon–Fri 9:00–18:00 CST (China Standard Time)',
   response: 'Most inquiries receive a reply within one business day',
@@ -285,7 +285,7 @@ export const CAREERS_ROLE_FAMILIES = [
 ] as const;
 
 export const CAREERS_APPLY_STEPS = [
-  'Email your CV and a short introduction to info@mcpfacbiotech.cn',
+  'Email your CV and a short introduction to info@mcpfacbiotech.site',
   'Include the role family you are interested in',
   'Tell us about relevant laboratory, commerce, or operations experience',
 ] as const;

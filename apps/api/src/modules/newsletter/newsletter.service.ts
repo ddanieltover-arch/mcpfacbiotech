@@ -12,7 +12,7 @@ export class NewsletterService {
 
     if (!sent) {
       throw new BadRequestException(
-        'Unable to complete subscription right now. Please email info@mcpfacbiotech.cn directly.',
+        'Unable to complete subscription right now. Please email info@mcpfacbiotech.site directly.',
       );
     }
   }

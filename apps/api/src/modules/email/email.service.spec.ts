@@ -19,7 +19,7 @@ describe('EmailService', () => {
     const config = {
       get: jest.fn((key: string) => {
         if (key === 'RESEND_API_KEY') return undefined;
-        if (key === 'COMPANY_EMAIL') return 'info@mcpfacbiotech.cn';
+        if (key === 'COMPANY_EMAIL') return 'info@mcpfacbiotech.site';
         return undefined;
       }),
     };
@@ -41,7 +41,7 @@ describe('EmailService', () => {
       get: jest.fn((key: string) => {
         if (key === 'RESEND_API_KEY') return 're_test_key';
         if (key === 'RESEND_FROM_NAME') return 'MCPFAC BIOTECH';
-        if (key === 'RESEND_FROM_EMAIL') return 'info@mcpfacbiotech.cn';
+        if (key === 'RESEND_FROM_EMAIL') return 'info@mcpfacbiotech.site';
         return undefined;
       }),
     };
@@ -58,7 +58,7 @@ describe('EmailService', () => {
     expect(sent).toBe(true);
     expect(sendMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        from: 'MCPFAC BIOTECH <info@mcpfacbiotech.cn>',
+        from: 'MCPFAC BIOTECH <info@mcpfacbiotech.site>',
         to: ['lab@example.com'],
         subject: 'Order confirmation ORD-1 — MCPFAC BIOTECH',
       }),

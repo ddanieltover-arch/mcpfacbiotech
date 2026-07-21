@@ -29,7 +29,7 @@ export function CoaBatchLookup() {
         'Notes:',
       ].join('\n'),
     );
-    window.location.href = `mailto:info@mcpfacbiotech.cn?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:info@mcpfacbiotech.site?subject=${subject}&body=${body}`;
   }
 
   return (
@@ -40,7 +40,7 @@ export function CoaBatchLookup() {
       <div>
         <p className="font-heading text-lg font-semibold text-brand-deep">Request form</p>
         <p className="mt-1 text-sm text-neutral-500">
-          Opens your email client to info@mcpfacbiotech.cn
+          Opens your email client to info@mcpfacbiotech.site
         </p>
       </div>
       <div className="space-y-2">

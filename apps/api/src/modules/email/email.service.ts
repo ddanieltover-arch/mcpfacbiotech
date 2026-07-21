@@ -35,13 +35,13 @@ export class EmailService {
     const email =
       this.config.get<string>('RESEND_FROM_EMAIL') ??
       this.config.get<string>('COMPANY_EMAIL') ??
-      'info@mcpfacbiotech.cn';
+      'info@mcpfacbiotech.site';
 
     return `${name} <${email}>`;
   }
 
   private getCompanyInbox(): string {
-    return this.config.get<string>('COMPANY_EMAIL') ?? 'info@mcpfacbiotech.cn';
+    return this.config.get<string>('COMPANY_EMAIL') ?? 'info@mcpfacbiotech.site';
   }
 
   async sendMail(options: SendMailOptions): Promise<boolean> {

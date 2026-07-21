@@ -29,7 +29,7 @@ export function ContactForm() {
       });
       setSubmitted(true);
     } catch {
-      setError('Unable to send your message right now. Please email info@mcpfacbiotech.cn directly.');
+      setError('Unable to send your message right now. Please email info@mcpfacbiotech.site directly.');
     } finally {
       setPending(false);
     }

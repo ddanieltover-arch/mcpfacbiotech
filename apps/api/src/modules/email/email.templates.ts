@@ -36,7 +36,7 @@ function siteUrl(): string {
   return (
     process.env.FRONTEND_URL ??
     process.env.APP_URL ??
-    'https://mcpfacbiotech.cn'
+    'https://mcpfacbiotech.site'
   ).replace(/\/$/, '');
 }
 
@@ -177,7 +177,7 @@ function brandedHtml(options: BrandedEmailOptions): string {
                   &nbsp;·&nbsp;
                   <a href="${escapeHtml(base)}/support" style="color:${BRAND.natural};text-decoration:none;">Support</a>
                   &nbsp;·&nbsp;
-                  <a href="mailto:info@mcpfacbiotech.cn" style="color:${BRAND.natural};text-decoration:none;">info@mcpfacbiotech.cn</a>
+                  <a href="mailto:info@mcpfacbiotech.site" style="color:${BRAND.natural};text-decoration:none;">info@mcpfacbiotech.site</a>
                 </p>
                 <p style="margin:14px 0 0;font-size:11px;color:#a3a3a3;">
                   © 2016–${year} MCPFAC BIOTECH. All rights reserved.

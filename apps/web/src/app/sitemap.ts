@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getAllBlogSlugs } from '@/lib/blog-posts';
 import { getAllResearchSlugs } from '@/lib/research-articles';
 
-const SITE = process.env.NEXT_PUBLIC_APP_URL ?? 'https://mcpfacbiotech.cn';
+const SITE = process.env.NEXT_PUBLIC_APP_URL ?? 'https://mcpfacbiotech.site';
 
 const STATIC_ROUTES = [
   '/',

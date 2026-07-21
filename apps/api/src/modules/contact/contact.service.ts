@@ -17,7 +17,7 @@ export class ContactService {
 
     if (!sent) {
       throw new BadRequestException(
-        'Unable to send your message right now. Please email info@mcpfacbiotech.cn directly.',
+        'Unable to send your message right now. Please email info@mcpfacbiotech.site directly.',
       );
     }
   }

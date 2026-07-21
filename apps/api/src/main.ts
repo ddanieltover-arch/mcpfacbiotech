@@ -18,8 +18,14 @@ async function bootstrap() {
   });
 
   // ─── CORS ────────────────────────────────────────────────────────────────
+  // FRONTEND_URL may be a single origin or comma-separated list
+  // (e.g. https://mcpfacbiotech.site,https://*.vercel.app previews as exact URLs).
+  const corsOrigins = (process.env.FRONTEND_URL ?? 'http://localhost:3000')
+    .split(',')
+    .map((o) => o.trim())
+    .filter(Boolean);
   app.enableCors({
-    origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
+    origin: corsOrigins.length === 1 ? corsOrigins[0] : corsOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID', 'X-Cart-Session'],
@@ -51,7 +57,7 @@ async function bootstrap() {
         'customer management, and administrative operations.',
     )
     .setVersion('1.0.0')
-    .setContact('MCPFAC BIOTECH', 'https://mcpfacbiotech.cn', 'info@mcpfacbiotech.cn')
+    .setContact('MCPFAC BIOTECH', 'https://mcpfacbiotech.site', 'info@mcpfacbiotech.site')
     .addBearerAuth(
       {
         type: 'http',

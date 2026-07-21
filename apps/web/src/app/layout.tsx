@@ -40,7 +40,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'MCPFAC BIOTECH' }],
   creator: 'MCPFAC BIOTECH',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? 'https://mcpfacbiotech.site',
+  ),
   icons: {
     icon: '/logo.jpg',
     apple: '/logo.jpg',
