@@ -77,8 +77,8 @@ It is **not** `https://mcpfacbiotech.site` (that is the Next.js storefront).
 
 Dashboard → Authentication → URL Configuration:
 
-- **Site URL:** `https://mcpfacbiotech.site`
-- **Redirect allow list:** `https://mcpfacbiotech.site/**`, `http://localhost:3000/**`, plus any Vercel preview URLs you use
+- **Site URL:** `https://www.mcpfacbiotech.site`
+- **Redirect allow list:** `https://www.mcpfacbiotech.site/**`, `https://mcpfacbiotech.site/**`, `http://localhost:3000/**`
 
 ## Post-deploy checklist
 
