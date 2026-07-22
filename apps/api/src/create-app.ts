@@ -9,16 +9,42 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 
 const isServerless = Boolean(process.env.VERCEL);
 
-function corsOrigins(): string | string[] {
-  const origins = (
-    process.env.FRONTEND_URL ??
-    'http://localhost:3000,https://www.mcpfacbiotech.site,https://mcpfacbiotech.site'
-  )
-    .split(',')
-    .map((o) => o.trim())
-    .filter(Boolean);
+function normalizeOrigin(url: string): string {
+  return url.trim().replace(/\/+$/, '');
+}
 
-  return origins.length === 1 ? origins[0]! : origins;
+/** Allowed browser origins — trailing slashes are stripped (CORS is exact-match). */
+function corsOriginOption():
+  | boolean
+  | string
+  | string[]
+  | ((
+      origin: string | undefined,
+      callback: (err: Error | null, allow?: boolean | string) => void,
+    ) => void) {
+  const allowed = new Set(
+    (
+      process.env.FRONTEND_URL ??
+      'http://localhost:3000,https://www.mcpfacbiotech.site,https://mcpfacbiotech.site'
+    )
+      .split(',')
+      .map(normalizeOrigin)
+      .filter(Boolean),
+  );
+
+  return (origin, callback) => {
+    // Non-browser / same-origin tools may omit Origin
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+    const normalized = normalizeOrigin(origin);
+    if (allowed.has(normalized)) {
+      callback(null, normalized);
+      return;
+    }
+    callback(null, false);
+  };
 }
 
 function logMissingEnv(): void {
@@ -37,7 +63,7 @@ export async function configureApp(app: INestApplication): Promise<void> {
   });
 
   app.enableCors({
-    origin: corsOrigins(),
+    origin: corsOriginOption(),
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID', 'X-Cart-Session'],

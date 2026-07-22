@@ -28,8 +28,11 @@ export function ContactForm() {
         message: String(formData.get('message') ?? ''),
       });
       setSubmitted(true);
-    } catch {
-      setError('Unable to send your message right now. Please email info@mcpfacbiotech.site directly.');
+    } catch (err) {
+      console.error('[contact-form]', err);
+      setError(
+        'Unable to send your message right now. Please email info@mcpfacbiotech.site directly.',
+      );
     } finally {
       setPending(false);
     }
