@@ -189,7 +189,7 @@ export function Header({ productCategories = [] }: HeaderProps) {
                           </Link>
                         </div>
                         <div className="max-h-80 overflow-y-auto p-1.5">
-                          {item.children.map((child) => {
+                          {(item.children ?? []).map((child) => {
                             const description = child.description;
                             return (
                               <Link
@@ -398,7 +398,7 @@ export function Header({ productCategories = [] }: HeaderProps) {
               <nav className="flex-1 overflow-y-auto px-3 py-4">
                 <div className="space-y-1">
                   {navigation.map((item) => {
-                    const hasChildren = 'children' in item;
+                    const hasChildren = Boolean(item.children?.length);
                     const isExpanded = expandedMobile === item.name;
 
                     if (!hasChildren) {
@@ -453,7 +453,7 @@ export function Header({ productCategories = [] }: HeaderProps) {
                               className="overflow-hidden"
                             >
                               <div className="mb-1 ml-2 space-y-1 border-l-2 border-brand-leaf/40 pl-2">
-                                {item.children.map((child) => {
+                                {(item.children ?? []).map((child) => {
                                   const description = child.description;
                                   return (
                                     <Link
