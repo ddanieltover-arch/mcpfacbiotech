@@ -1,9 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, VersioningType, type INestApplication } from '@nestjs/common';
-import { ExpressAdapter } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
-import express, { type Express } from 'express';
+import type { Express } from 'express';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
@@ -20,6 +19,14 @@ function corsOrigins(): string | string[] {
     .filter(Boolean);
 
   return origins.length === 1 ? origins[0]! : origins;
+}
+
+function logMissingEnv(): void {
+  for (const key of ['DATABASE_URL', 'DIRECT_URL'] as const) {
+    if (!process.env[key]) {
+      console.error(`[boot] Missing required env: ${key}`);
+    }
+  }
 }
 
 export async function configureApp(app: INestApplication): Promise<void> {
@@ -100,31 +107,26 @@ export async function configureApp(app: INestApplication): Promise<void> {
   }
 }
 
-/** Express instance for Vercel serverless (no listen). */
+/**
+ * Express instance for Vercel serverless (no listen).
+ * Use Nest's own Express app — wrapping an external express() via ExpressAdapter
+ * triggers Express 4's deprecated `app.router` getter and crashes cold start.
+ */
 export async function getExpressInstance(): Promise<Express> {
-  for (const key of ['DATABASE_URL', 'DIRECT_URL'] as const) {
-    if (!process.env[key]) {
-      console.error(`[boot] Missing required env: ${key}`);
-    }
-  }
+  logMissingEnv();
 
-  const server = express();
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
+  const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'log'],
   });
 
   await configureApp(app);
   await app.init();
-  return server;
+  return app.getHttpAdapter().getInstance() as Express;
 }
 
 /** Full Nest app for local `nest start` / `node dist/main`. */
 export async function createNestApp(): Promise<INestApplication> {
-  for (const key of ['DATABASE_URL', 'DIRECT_URL'] as const) {
-    if (!process.env[key]) {
-      console.error(`[boot] Missing required env: ${key}`);
-    }
-  }
+  logMissingEnv();
 
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.useLogger(app.get(Logger));
