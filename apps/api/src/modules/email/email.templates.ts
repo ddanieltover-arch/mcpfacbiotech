@@ -65,7 +65,7 @@ function detailRowsHtml(rows: DetailRow[]): string {
           <td style="padding:14px 16px;border-top:${index === 0 ? '0' : `1px solid ${BRAND.border}`};font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:${BRAND.muted};width:38%;vertical-align:top;">
             ${escapeHtml(row.label)}
           </td>
-          <td style="padding:14px 16px;border-top:${index === 0 ? '0' : `1px solid ${BRAND.border}`};font-size:15px;font-weight:600;color:${BRAND.deep};vertical-align:top;">
+          <td style="padding:14px 16px;border-top:${index === 0 ? '0' : `1px solid ${BRAND.border}`};font-size:15px;font-weight:600;color:${BRAND.deep};vertical-align:top;white-space:pre-line;">
             ${escapeHtml(row.value)}
           </td>
         </tr>`,
@@ -222,15 +222,135 @@ export function orderConfirmationEmail(options: {
   };
 }
 
+type OrderEmailAddress = {
+  firstName: string;
+  lastName: string;
+  organizationName?: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  stateProvince?: string;
+  postalCode: string;
+  country: string;
+  phone?: string;
+};
+
+type OrderEmailItem = {
+  productName: string;
+  productSku: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+};
+
+function formatAddressBlock(address: OrderEmailAddress): string {
+  return [
+    `${address.firstName} ${address.lastName}`.trim(),
+    address.organizationName,
+    address.addressLine1,
+    address.addressLine2,
+    [address.city, address.stateProvince, address.postalCode].filter(Boolean).join(', '),
+    address.country,
+    address.phone ? `Phone: ${address.phone}` : undefined,
+  ]
+    .filter(Boolean)
+    .join('\n');
+}
+
+function orderItemsHtml(items: OrderEmailItem[], currency: string): string {
+  if (items.length === 0) return '';
+
+  const rows = items
+    .map(
+      (item) => `
+      <tr>
+        <td style="padding:10px 12px;border-top:1px solid ${BRAND.border};font-size:13px;color:${BRAND.ink};">
+          <div style="font-weight:600;">${escapeHtml(item.productName)}</div>
+          <div style="font-size:11px;color:${BRAND.muted};">${escapeHtml(item.productSku)}</div>
+        </td>
+        <td style="padding:10px 12px;border-top:1px solid ${BRAND.border};font-size:13px;text-align:center;color:${BRAND.ink};">${item.quantity}</td>
+        <td style="padding:10px 12px;border-top:1px solid ${BRAND.border};font-size:13px;text-align:right;color:${BRAND.ink};">${escapeHtml(formatMoney(item.unitPrice, currency))}</td>
+        <td style="padding:10px 12px;border-top:1px solid ${BRAND.border};font-size:13px;text-align:right;font-weight:600;color:${BRAND.deep};">${escapeHtml(formatMoney(item.totalPrice, currency))}</td>
+      </tr>`,
+    )
+    .join('');
+
+  return `
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin:8px 0 24px;border:1px solid ${BRAND.border};border-radius:12px;overflow:hidden;">
+      <tr style="background:${BRAND.surface};">
+        <th align="left" style="padding:10px 12px;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:${BRAND.muted};">Item</th>
+        <th align="center" style="padding:10px 12px;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:${BRAND.muted};">Qty</th>
+        <th align="right" style="padding:10px 12px;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:${BRAND.muted};">Unit</th>
+        <th align="right" style="padding:10px 12px;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:${BRAND.muted};">Total</th>
+      </tr>
+      ${rows}
+    </table>`;
+}
+
 export function orderAdminEmail(options: {
   customerName?: string;
   customerEmail: string;
+  organizationName?: string;
+  phone?: string;
   orderNumber: string;
   totalAmount: number;
+  subtotal?: number;
+  shippingCost?: number;
+  taxAmount?: number;
   currency: string;
+  paymentMethod?: string;
+  shippingMethod?: string;
+  purchaseOrderNumber?: string;
+  notes?: string;
+  shippingAddress?: OrderEmailAddress;
+  billingAddress?: OrderEmailAddress;
+  items?: OrderEmailItem[];
 }) {
   const amount = formatMoney(options.totalAmount, options.currency);
   const base = siteUrl();
+  const details: DetailRow[] = [
+    { label: 'Order number', value: options.orderNumber },
+    { label: 'Customer', value: options.customerName || '—' },
+    { label: 'Email', value: options.customerEmail },
+  ];
+
+  if (options.organizationName) {
+    details.push({ label: 'Organization', value: options.organizationName });
+  }
+  if (options.phone) {
+    details.push({ label: 'Phone', value: options.phone });
+  }
+  if (options.paymentMethod) {
+    details.push({ label: 'Payment', value: options.paymentMethod });
+  }
+  if (options.shippingMethod) {
+    details.push({ label: 'Shipping method', value: options.shippingMethod });
+  }
+  if (options.purchaseOrderNumber) {
+    details.push({ label: 'PO number', value: options.purchaseOrderNumber });
+  }
+  if (options.shippingAddress) {
+    details.push({ label: 'Ship to', value: formatAddressBlock(options.shippingAddress) });
+  }
+  if (options.billingAddress) {
+    details.push({ label: 'Bill to', value: formatAddressBlock(options.billingAddress) });
+  }
+  if (options.notes) {
+    details.push({ label: 'Customer notes', value: options.notes });
+  }
+  if (options.subtotal !== undefined) {
+    details.push({ label: 'Subtotal', value: formatMoney(options.subtotal, options.currency) });
+  }
+  if (options.shippingCost !== undefined) {
+    details.push({
+      label: 'Shipping cost',
+      value: formatMoney(options.shippingCost, options.currency),
+    });
+  }
+  if (options.taxAmount !== undefined && options.taxAmount > 0) {
+    details.push({ label: 'Tax', value: formatMoney(options.taxAmount, options.currency) });
+  }
+  details.push({ label: 'Order total', value: amount });
 
   return {
     subject: `[Order] ${options.orderNumber} — ${options.customerEmail}`,
@@ -239,12 +359,8 @@ export function orderAdminEmail(options: {
       eyebrow: 'New order',
       title: 'New order placed',
       intro: 'A customer completed checkout on the MCPFAC BIOTECH storefront.',
-      details: [
-        { label: 'Order number', value: options.orderNumber },
-        { label: 'Customer', value: options.customerName || '—' },
-        { label: 'Email', value: options.customerEmail },
-        { label: 'Order total', value: amount },
-      ],
+      details,
+      bodyHtml: orderItemsHtml(options.items ?? [], options.currency),
       cta: { label: 'Open admin orders', href: `${base}/admin/orders` },
       note: 'Follow up with payment settlement instructions and prepare fulfilment once payment is confirmed.',
       footerNote: 'Internal notification — reply to the customer at the email above.',

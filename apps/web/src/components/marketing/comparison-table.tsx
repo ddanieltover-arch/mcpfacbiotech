@@ -1,6 +1,8 @@
 'use client';
 
+import { motion, useReducedMotion } from 'framer-motion';
 import { COMPARISON_ROWS } from '@/lib/marketing-content';
+import { fadeIn, staggerChildren, staggerFor, variantsFor } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
 type Row = { metric: string; mcpfac: string; industry: string };
@@ -18,6 +20,10 @@ export function ComparisonTable({
   industryLabel = 'Industry average',
   className,
 }: ComparisonTableProps) {
+  const reduceMotion = useReducedMotion();
+  const container = staggerFor(reduceMotion, staggerChildren);
+  const item = variantsFor(reduceMotion, fadeIn);
+
   return (
     <div
       className={cn(
@@ -33,15 +39,24 @@ export function ComparisonTable({
             <th className="px-4 py-3 font-heading font-semibold text-neutral-500">{industryLabel}</th>
           </tr>
         </thead>
-        <tbody>
+        <motion.tbody
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-40px' }}
+        >
           {rows.map((row) => (
-            <tr key={row.metric} className="border-b border-neutral-100 last:border-0">
+            <motion.tr
+              key={row.metric}
+              variants={item}
+              className="border-b border-neutral-100 last:border-0"
+            >
               <td className="px-4 py-3 font-medium text-neutral-800">{row.metric}</td>
               <td className="px-4 py-3 text-brand-deep">{row.mcpfac}</td>
               <td className="px-4 py-3 text-neutral-500">{row.industry}</td>
-            </tr>
+            </motion.tr>
           ))}
-        </tbody>
+        </motion.tbody>
       </table>
     </div>
   );

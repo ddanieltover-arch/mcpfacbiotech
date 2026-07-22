@@ -284,6 +284,20 @@ export interface OrderStatusHistoryEntry {
   createdAt: string;
 }
 
+/** Snapshot of checkout address fields stored on the order. */
+export interface OrderAddressSnapshot {
+  firstName: string;
+  lastName: string;
+  organizationName?: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  stateProvince?: string;
+  postalCode: string;
+  country: string;
+  phone?: string;
+}
+
 export interface OrderDetail extends OrderSummary {
   subtotal: number;
   shippingCost: number;
@@ -293,6 +307,12 @@ export interface OrderDetail extends OrderSummary {
   quoteId?: string;
   shippingAddressId?: string;
   billingAddressId?: string;
+  /** Populated on admin / detailed order payloads when available */
+  customerEmail?: string;
+  customerName?: string;
+  organizationName?: string;
+  shippingAddress?: OrderAddressSnapshot;
+  billingAddress?: OrderAddressSnapshot;
   updatedAt: string;
   items: OrderItem[];
   statusHistory: OrderStatusHistoryEntry[];
@@ -401,6 +421,50 @@ export type DocumentType =
 
 export type DocumentPermission = 'PUBLIC' | 'REGISTERED' | 'CUSTOMER' | 'DISTRIBUTOR' | 'ADMIN';
 
+export interface AdminDocumentSummary {
+  id: string;
+  title: string;
+  type: DocumentType;
+  permission: DocumentPermission;
+  fileUrl: string;
+  fileName: string;
+  fileSize?: number;
+  mimeType?: string;
+  version: string;
+  language: string;
+  description?: string;
+  isApproved: boolean;
+  downloadCount: number;
+  productCount: number;
+  products: Array<{ id: string; name: string; sku: string; slug: string }>;
+  updatedAt: string;
+}
+
+export interface AdminMediaSummary {
+  id: string;
+  fileName: string;
+  fileUrl: string;
+  fileSize?: number;
+  mimeType: string;
+  alt?: string;
+  folder: string;
+  uploadedBy?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Public COA / document search result (approved + PUBLIC only). */
+export interface DocumentSearchResult {
+  id: string;
+  title: string;
+  type: DocumentType;
+  fileUrl: string;
+  fileName: string;
+  version: string;
+  description?: string;
+  products: Array<{ name: string; sku: string; slug: string }>;
+}
+
 // ─── Support ─────────────────────────────────────────────────────────────────
 
 export type TicketStatus = 'OPEN' | 'IN_PROGRESS' | 'PENDING_RESPONSE' | 'RESOLVED' | 'CLOSED';
@@ -503,6 +567,18 @@ export type ShipmentStatus =
 
 export type BlogPostStatus = 'DRAFT' | 'PENDING_REVIEW' | 'PUBLISHED' | 'ARCHIVED';
 
+export interface BlogContentSection {
+  heading: string;
+  paragraphs: string[];
+  bullets?: string[];
+}
+
+/** JSON envelope stored in `BlogPost.content`. */
+export interface BlogPostContentPayload {
+  readingTime?: string;
+  sections: BlogContentSection[];
+}
+
 export interface BlogPostSummary {
   id: string;
   title: string;
@@ -513,6 +589,52 @@ export interface BlogPostSummary {
   publishedAt?: string;
   categoryName?: string;
   tags: string[];
+  readingTime?: string;
+  isFeatured?: boolean;
+}
+
+export interface BlogPostDetail extends BlogPostSummary {
+  status: BlogPostStatus;
+  content: BlogPostContentPayload;
+  updatedAt: string;
+}
+
+export interface AdminBlogPostSummary extends BlogPostDetail {
+  deletedAt?: string;
+}
+
+// ─── FAQ ─────────────────────────────────────────────────────────────────────
+
+export interface FaqItem {
+  id?: string;
+  question: string;
+  answer: string;
+}
+
+export interface FaqCategoryPublic {
+  id: string;
+  name: string;
+  sortOrder: number;
+  questions: FaqItem[];
+}
+
+export interface AdminFaqQuestion {
+  id: string;
+  categoryId: string;
+  categoryName: string;
+  question: string;
+  answer: string;
+  sortOrder: number;
+  isVisible: boolean;
+  updatedAt: string;
+}
+
+export interface AdminFaqCategory {
+  id: string;
+  name: string;
+  sortOrder: number;
+  isVisible: boolean;
+  questionCount: number;
 }
 
 // ─── Notification ────────────────────────────────────────────────────────────

@@ -5,6 +5,9 @@ import Link from 'next/link';
 import type { AdminProductSummary, ProductStatus } from '@mcpfac/shared-types';
 import { listAdminProducts, updateAdminProduct } from '@/lib/admin-api';
 import { formatCurrency } from '@/lib/utils';
+import { AdminTableSkeleton } from '@/components/admin/admin-table-skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Beaker } from 'lucide-react';
 
 const STATUSES: ProductStatus[] = ['DRAFT', 'PENDING_REVIEW', 'PUBLISHED', 'ARCHIVED'];
 
@@ -92,8 +95,17 @@ export default function AdminProductsPage() {
       </form>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      {loading ? <p className="text-neutral-500">Loading…</p> : null}
 
+      {loading ? (
+        <AdminTableSkeleton cols={5} />
+      ) : items.length === 0 ? (
+        <EmptyState
+          icon={Beaker}
+          title="No products match this filter"
+          description="Try another status or search term to find catalog items."
+          className="py-10 shadow-none"
+        />
+      ) : (
       <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
         <table className="min-w-full text-left text-sm">
           <thead className="border-b border-neutral-200 bg-neutral-50 text-xs uppercase text-neutral-500">
@@ -161,6 +173,7 @@ export default function AdminProductsPage() {
           </tbody>
         </table>
       </div>
+      )}
     </div>
   );
 }

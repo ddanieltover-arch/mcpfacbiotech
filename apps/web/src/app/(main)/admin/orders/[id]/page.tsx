@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import type { OrderDetail, OrderStatus } from '@mcpfac/shared-types';
+import { useParams, usePathname } from 'next/navigation';
+import type { OrderAddressSnapshot, OrderDetail, OrderStatus } from '@mcpfac/shared-types';
 import { PAYMENT_METHOD_OPTIONS, SHIPPING_METHOD_OPTIONS } from '@mcpfac/shared-types';
 import { getAdminOrder, updateAdminOrderStatus } from '@/lib/admin-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
@@ -17,34 +17,75 @@ const NEXT: Partial<Record<OrderStatus, OrderStatus[]>> = {
   DELIVERED: ['RETURNED'],
 };
 
-type AdminOrderDetail = OrderDetail & { customerEmail: string; internalNotes?: string };
+type AdminOrderDetail = OrderDetail & { internalNotes?: string };
+
+function AddressBlock({ title, address }: { title: string; address: OrderAddressSnapshot }) {
+  return (
+    <div>
+      <h3 className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{title}</h3>
+      <div className="mt-2 space-y-0.5 text-sm text-neutral-800">
+        <p className="font-medium">
+          {address.firstName} {address.lastName}
+        </p>
+        {address.organizationName ? <p>{address.organizationName}</p> : null}
+        <p>{address.addressLine1}</p>
+        {address.addressLine2 ? <p>{address.addressLine2}</p> : null}
+        <p>
+          {[address.city, address.stateProvince, address.postalCode].filter(Boolean).join(', ')}
+        </p>
+        <p>{address.country}</p>
+        {address.phone ? <p className="pt-1 text-neutral-600">Phone: {address.phone}</p> : null}
+      </div>
+    </div>
+  );
+}
+
+function resolveOrderId(param: string | string[] | undefined, pathname: string): string {
+  if (typeof param === 'string' && param.length > 0) return param;
+  if (Array.isArray(param) && param[0]) return param[0];
+  const segment = pathname.split('/').filter(Boolean).pop();
+  return segment && segment !== 'orders' ? segment : '';
+}
 
 export default function AdminOrderDetailPage() {
   const params = useParams<{ id: string }>();
+  const pathname = usePathname();
+  const orderId = resolveOrderId(params.id, pathname);
   const [order, setOrder] = useState<AdminOrderDetail | null>(null);
   const [note, setNote] = useState('');
   const [error, setError] = useState<string>();
   const [busy, setBusy] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   async function load() {
+    if (!orderId) {
+      setLoading(false);
+      setError('Missing order id');
+      return;
+    }
+    setLoading(true);
     try {
-      const data = await getAdminOrder(params.id);
+      const data = await getAdminOrder(orderId);
       setOrder(data);
       setError(undefined);
     } catch (err) {
+      setOrder(null);
       setError(err instanceof Error ? err.message : 'Failed to load order');
+    } finally {
+      setLoading(false);
     }
   }
 
   useEffect(() => {
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id]);
+  }, [orderId]);
 
   async function setStatus(status: OrderStatus) {
+    if (!orderId) return;
     setBusy(true);
     try {
-      await updateAdminOrderStatus(params.id, status, note || undefined);
+      await updateAdminOrderStatus(orderId, status, note || undefined);
       await load();
       setNote('');
     } catch (err) {
@@ -54,14 +95,25 @@ export default function AdminOrderDetailPage() {
     }
   }
 
-  if (error && !order) return <p className="text-red-600">{error}</p>;
-  if (!order) return <p className="text-neutral-500">Loading order…</p>;
+  if (loading && !order) {
+    return <p className="text-neutral-500">Loading order…</p>;
+  }
+
+  if (error && !order) {
+    return <p className="text-red-600">{error}</p>;
+  }
+
+  if (!order) {
+    return <p className="text-neutral-500">Order unavailable</p>;
+  }
 
   const nextStatuses = NEXT[order.status] ?? [];
   const paymentLabel =
     PAYMENT_METHOD_OPTIONS.find((o) => o.value === order.paymentMethod)?.label ??
     order.paymentMethod?.replaceAll('_', ' ');
   const shippingOption = SHIPPING_METHOD_OPTIONS.find((o) => o.value === order.shippingMethod);
+  const contactPhone =
+    order.shippingAddress?.phone ?? order.billingAddress?.phone ?? undefined;
 
   return (
     <div className="space-y-6">
@@ -71,7 +123,7 @@ export default function AdminOrderDetailPage() {
         </Link>
         <h1 className="mt-2 font-heading text-3xl font-bold text-brand-deep">{order.orderNumber}</h1>
         <p className="text-sm text-neutral-600">
-          {order.customerEmail} · {order.status} · {formatDate(order.createdAt)}
+          {order.status} · {formatDate(order.createdAt)}
         </p>
       </div>
 
@@ -79,6 +131,76 @@ export default function AdminOrderDetailPage() {
 
       <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
         <div className="space-y-6">
+          <div className="rounded-xl border border-neutral-200 bg-white p-5">
+            <h2 className="font-heading text-lg font-semibold text-brand-deep">Customer</h2>
+            <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
+              <div>
+                <dt className="text-xs uppercase tracking-wide text-neutral-500">Name</dt>
+                <dd className="mt-0.5 font-medium text-neutral-900">{order.customerName || '—'}</dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-wide text-neutral-500">Email</dt>
+                <dd className="mt-0.5">
+                  <a
+                    href={`mailto:${order.customerEmail}`}
+                    className="font-medium text-brand-deep hover:underline"
+                  >
+                    {order.customerEmail || '—'}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-wide text-neutral-500">Organization</dt>
+                <dd className="mt-0.5 font-medium text-neutral-900">
+                  {order.organizationName || '—'}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-wide text-neutral-500">Phone</dt>
+                <dd className="mt-0.5 font-medium text-neutral-900">{contactPhone || '—'}</dd>
+              </div>
+              {order.purchaseOrderNumber ? (
+                <div>
+                  <dt className="text-xs uppercase tracking-wide text-neutral-500">PO number</dt>
+                  <dd className="mt-0.5 font-medium text-neutral-900">{order.purchaseOrderNumber}</dd>
+                </div>
+              ) : null}
+              {order.quoteId ? (
+                <div>
+                  <dt className="text-xs uppercase tracking-wide text-neutral-500">Quote</dt>
+                  <dd className="mt-0.5">
+                    <Link
+                      href={`/admin/quotes/${order.quoteId}`}
+                      className="font-medium text-brand-deep hover:underline"
+                    >
+                      {order.quoteId}
+                    </Link>
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+
+            {(order.shippingAddress || order.billingAddress) && (
+              <div className="mt-5 grid gap-6 border-t border-neutral-100 pt-5 sm:grid-cols-2">
+                {order.shippingAddress ? (
+                  <AddressBlock title="Shipping address" address={order.shippingAddress} />
+                ) : null}
+                {order.billingAddress ? (
+                  <AddressBlock title="Billing address" address={order.billingAddress} />
+                ) : null}
+              </div>
+            )}
+
+            {order.notes ? (
+              <div className="mt-5 border-t border-neutral-100 pt-5">
+                <h3 className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                  Customer notes
+                </h3>
+                <p className="mt-2 whitespace-pre-wrap text-sm text-neutral-700">{order.notes}</p>
+              </div>
+            ) : null}
+          </div>
+
           <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
             <table className="min-w-full text-left text-sm">
               <thead className="border-b bg-neutral-50 text-xs uppercase text-neutral-500">
@@ -104,26 +226,6 @@ export default function AdminOrderDetailPage() {
               </tbody>
             </table>
           </div>
-
-          {(order.notes || order.purchaseOrderNumber || order.quoteId) && (
-            <div className="space-y-2 rounded-xl border border-neutral-200 bg-white p-5 text-sm">
-              <h2 className="font-heading text-lg font-semibold text-brand-deep">Order notes</h2>
-              {order.purchaseOrderNumber ? (
-                <p>
-                  <span className="text-neutral-500">PO #:</span> {order.purchaseOrderNumber}
-                </p>
-              ) : null}
-              {order.quoteId ? (
-                <p>
-                  <span className="text-neutral-500">Quote:</span>{' '}
-                  <Link href={`/admin/quotes/${order.quoteId}`} className="text-brand-deep hover:underline">
-                    {order.quoteId}
-                  </Link>
-                </p>
-              ) : null}
-              {order.notes ? <p className="whitespace-pre-wrap text-neutral-700">{order.notes}</p> : null}
-            </div>
-          )}
 
           {nextStatuses.length > 0 ? (
             <div className="max-w-xl space-y-3 rounded-xl border border-neutral-200 bg-white p-5">

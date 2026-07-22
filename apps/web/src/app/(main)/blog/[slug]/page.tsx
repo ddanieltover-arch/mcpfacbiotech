@@ -3,19 +3,22 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { ResearchUseBanner } from '@/components/marketing';
-import { BLOG_POSTS, getAllBlogSlugs, getBlogPost } from '@/lib/blog-posts';
+import { fetchPublishedBlogPost, fetchPublishedBlogPosts } from '@/lib/cms-content';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return getAllBlogSlugs().map((slug) => ({ slug }));
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const posts = await fetchPublishedBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await fetchPublishedBlogPost(slug);
   if (!post) return { title: 'Blog' };
   return {
     title: post.title,
@@ -40,10 +43,12 @@ const RESOURCE_LINKS = [
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await fetchPublishedBlogPost(slug);
   if (!post) notFound();
 
-  const related = BLOG_POSTS.filter((item) => item.slug !== slug).slice(0, 2);
+  const related = (await fetchPublishedBlogPosts())
+    .filter((item) => item.slug !== slug)
+    .slice(0, 2);
 
   return (
     <>
@@ -66,23 +71,33 @@ export default async function BlogPostPage({ params }: PageProps) {
           </Link>
 
           <p className="mt-6 text-sm font-medium uppercase tracking-wide text-brand-leaf">
-            {post.category}
-            <span className="mx-2 text-white/30" aria-hidden>
-              ·
-            </span>
-            {formatDate(post.publishedAt)}
-            <span className="mx-2 text-white/30" aria-hidden>
-              ·
-            </span>
-            {post.readingTime} read
+            {post.categoryName ?? 'Updates'}
+            {post.publishedAt ? (
+              <>
+                <span className="mx-2 text-white/30" aria-hidden>
+                  ·
+                </span>
+                {formatDate(post.publishedAt)}
+              </>
+            ) : null}
+            {post.readingTime || post.content.readingTime ? (
+              <>
+                <span className="mx-2 text-white/30" aria-hidden>
+                  ·
+                </span>
+                {post.readingTime ?? post.content.readingTime} read
+              </>
+            ) : null}
           </p>
 
           <h1 className="mt-3 max-w-3xl font-heading text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
             {post.title}
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
-            {post.excerpt}
-          </p>
+          {post.excerpt ? (
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
+              {post.excerpt}
+            </p>
+          ) : null}
         </div>
       </section>
 
@@ -90,8 +105,8 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="mx-auto max-w-3xl px-4">
           <article className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-neutral-200/80">
             <div className="divide-y divide-neutral-100 px-6 py-2 sm:px-8">
-              {post.sections.map((section, index) => (
-                <section key={section.heading} className="scroll-mt-28 py-7 sm:py-8">
+              {post.content.sections.map((section, index) => (
+                <section key={`${section.heading}-${index}`} className="scroll-mt-28 py-7 sm:py-8">
                   <div className="flex gap-4">
                     <span
                       className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-pale font-heading text-sm font-bold text-brand-deep"
@@ -147,7 +162,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                     >
                       <span>
                         <span className="block text-xs font-semibold uppercase tracking-wide text-brand-natural">
-                          {item.category}
+                          {item.categoryName ?? 'Updates'}
                         </span>
                         <span className="mt-1 block font-heading text-base font-semibold text-brand-deep group-hover:text-brand-natural">
                           {item.title}

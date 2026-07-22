@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Beaker, Minus, Plus, ShoppingCart, Trash2, X } from 'lucide-react';
 import { useCartStore } from '@/stores/cart.store';
 import { displayProductSku, formatCurrency } from '@/lib/utils';
+import { EmptyState } from '@/components/ui/empty-state';
 
 export function CartDrawer() {
   const isOpen = useCartStore((s) => s.isOpen);
@@ -91,24 +92,17 @@ export function CartDrawer() {
 
             <div className="flex-1 overflow-y-auto px-5 py-4">
               {items.length === 0 ? (
-                <div className="rounded-2xl bg-neutral-50 px-6 py-10 text-center ring-1 ring-neutral-200/80">
-                  <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-pale text-brand-deep">
-                    <ShoppingCart className="h-5 w-5" aria-hidden />
-                  </span>
-                  <p className="font-heading text-lg font-semibold text-brand-deep">
-                    Your cart is empty
-                  </p>
-                  <p className="mt-2 text-sm text-neutral-500">
-                    Browse the research catalog and add materials for quotation or checkout.
-                  </p>
-                  <Link
-                    href="/products"
-                    onClick={() => setCartOpen(false)}
-                    className="mt-5 inline-flex rounded-lg bg-brand-deep px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural"
-                  >
-                    Browse products
-                  </Link>
-                </div>
+                <EmptyState
+                  icon={ShoppingCart}
+                  title="Your cart is empty"
+                  description="Browse the research catalog and add materials for quotation or checkout."
+                  action={{
+                    href: '/products',
+                    label: 'Browse products',
+                    onClick: () => setCartOpen(false),
+                  }}
+                  className="bg-neutral-50 py-10 shadow-none"
+                />
               ) : (
                 <ul className="divide-y divide-neutral-100">
                   {items.map((item) => {

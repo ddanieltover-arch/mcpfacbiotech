@@ -1,5 +1,9 @@
+'use client';
+
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { motion, useReducedMotion } from 'framer-motion';
+import { slideUp, staggerChildren, staggerFor, variantsFor } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
 type MarketingSectionProps = {
@@ -21,6 +25,10 @@ export function MarketingSection({
   className,
   tone = 'default',
 }: MarketingSectionProps) {
+  const reduceMotion = useReducedMotion();
+  const header = staggerFor(reduceMotion, staggerChildren);
+  const item = variantsFor(reduceMotion, slideUp);
+
   return (
     <section
       className={cn(
@@ -32,8 +40,14 @@ export function MarketingSection({
       )}
     >
       <div className="mx-auto max-w-7xl px-4">
-        <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
+        <motion.div
+          className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between"
+          variants={header}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+        >
+          <motion.div variants={item} className="max-w-2xl">
             {eyebrow ? (
               <p className="text-sm font-medium uppercase tracking-wide text-brand-natural">
                 {eyebrow}
@@ -45,16 +59,18 @@ export function MarketingSection({
             {description ? (
               <p className="mt-3 text-neutral-600">{description}</p>
             ) : null}
-          </div>
+          </motion.div>
           {action ? (
-            <Link
-              href={action.href}
-              className="shrink-0 text-sm font-semibold text-brand-natural transition-colors hover:text-brand-deep"
-            >
-              {action.label}
-            </Link>
+            <motion.div variants={item}>
+              <Link
+                href={action.href}
+                className="shrink-0 text-sm font-semibold text-brand-natural transition-colors hover:text-brand-deep"
+              >
+                {action.label}
+              </Link>
+            </motion.div>
           ) : null}
-        </div>
+        </motion.div>
         {children}
       </div>
     </section>

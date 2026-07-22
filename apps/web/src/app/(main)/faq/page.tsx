@@ -3,13 +3,15 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { FaqAccordion } from '@/components/content/faq-accordion';
 import { MarketingSection, ResearchUseBanner } from '@/components/marketing';
-import { FAQ_ITEMS } from '@/lib/marketing-content';
+import { fetchFaqItems } from '@/lib/cms-content';
 
 export const metadata: Metadata = {
   title: 'FAQ',
   description:
     'Frequently asked questions about research-use products, purity, COA documentation, shipping, payments, and returns.',
 };
+
+export const revalidate = 60;
 
 const RELATED_RESOURCES = [
   {
@@ -34,7 +36,9 @@ const RELATED_RESOURCES = [
   },
 ] as const;
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const faqItems = await fetchFaqItems();
+
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-pale via-white to-white">
@@ -81,7 +85,7 @@ export default function FaqPage() {
         description="Tap a question to expand. Topics cover research-use framing, documentation, logistics, and payments."
       >
         <div className="mx-auto max-w-3xl">
-          <FaqAccordion items={[...FAQ_ITEMS]} />
+          <FaqAccordion items={faqItems} />
         </div>
       </MarketingSection>
 

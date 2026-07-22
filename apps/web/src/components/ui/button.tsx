@@ -4,12 +4,13 @@ import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-[color,background-color,box-shadow,transform,border-color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-leaf/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60 motion-safe:active:scale-[0.98]',
+  // Press-scale is marketing polish; disabled inside [data-motion=reduce] (admin/checkout/portal).
+  'inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-[color,background-color,box-shadow,border-color,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-leaf/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60 motion-safe:active:scale-[0.98] in-data-[motion=reduce]:transform-none in-data-[motion=reduce]:active:scale-100',
   {
     variants: {
       variant: {
         primary:
-          'bg-brand-deep text-white shadow-sm hover:bg-brand-natural hover:shadow-md',
+          'bg-brand-deep text-white shadow-sm hover:bg-brand-natural hover:shadow-md in-data-[motion=reduce]:hover:shadow-sm',
         secondary:
           'border border-brand-deep bg-transparent text-brand-deep hover:bg-brand-pale/60',
         ghost: 'bg-transparent text-brand-deep hover:bg-brand-pale/50',

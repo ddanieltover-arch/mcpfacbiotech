@@ -10,6 +10,7 @@ async function syncProfileWithBackend(accessToken: string): Promise<void> {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
+    signal: AbortSignal.timeout(10_000),
   });
 
   if (!response.ok) {

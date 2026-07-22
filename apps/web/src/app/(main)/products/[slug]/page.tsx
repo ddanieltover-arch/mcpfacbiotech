@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ArrowRight, Beaker, Download, FileText } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, FileText } from 'lucide-react';
 import { AvailabilityBadge } from '@/components/products/availability-badge';
 import { ProductActions } from '@/components/products/product-actions';
-import { ProductCard } from '@/components/products/product-card';
+import { ProductCardGrid } from '@/components/products/product-card-grid';
+import { ProductImageGallery } from '@/components/products/product-image-gallery';
 import { ResearchUseBanner } from '@/components/marketing';
 import { formatPrice, getProductBySlug } from '@/lib/catalog-api';
 
@@ -36,6 +36,10 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   }
 
   const primaryImage = product.images.find((image) => image.isPrimary) ?? product.images[0];
+  const galleryImages =
+    primaryImage && product.images[0]?.id !== primaryImage.id
+      ? [primaryImage, ...product.images.filter((image) => image.id !== primaryImage.id)]
+      : product.images;
 
   const metaFields = [
     { label: 'SKU', value: product.sku, mono: true },
@@ -86,42 +90,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       <section className="bg-white py-10 sm:py-12">
         <div className="mx-auto max-w-7xl px-4">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
-            <div className="mx-auto w-full max-w-sm lg:mx-0">
-              <div className="relative aspect-square overflow-hidden bg-brand-pale/25 ring-1 ring-neutral-200/80">
-                {primaryImage ? (
-                  <Image
-                    src={primaryImage.url}
-                    alt={primaryImage.alt || product.name}
-                    fill
-                    className="object-contain p-[12%]"
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 24rem"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center text-brand-natural">
-                    <Beaker className="h-14 w-14" strokeWidth={1.25} />
-                  </div>
-                )}
-              </div>
-              {product.images.length > 1 ? (
-                <div className="mt-3 grid grid-cols-4 gap-2">
-                  {product.images.map((image) => (
-                    <div
-                      key={image.id}
-                      className="relative aspect-square overflow-hidden bg-neutral-50 ring-1 ring-neutral-200/80"
-                    >
-                      <Image
-                        src={image.url}
-                        alt={image.alt || product.name}
-                        fill
-                        className="object-cover"
-                        sizes="120px"
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </div>
+            <ProductImageGallery images={galleryImages} productName={product.name} />
 
             <div className="space-y-8">
               <div>
@@ -300,11 +269,10 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 View all products
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-              {product.relatedProducts.slice(0, 4).map((related) => (
-                <ProductCard key={related.id} product={related} />
-              ))}
-            </div>
+            <ProductCardGrid
+              products={product.relatedProducts.slice(0, 4)}
+              className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
+            />
           </div>
         </section>
       ) : null}

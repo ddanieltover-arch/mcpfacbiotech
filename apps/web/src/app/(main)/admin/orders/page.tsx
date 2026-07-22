@@ -6,6 +6,9 @@ import type { AdminOrderSummary } from '@mcpfac/shared-types';
 import { PAYMENT_METHOD_OPTIONS, SHIPPING_METHOD_OPTIONS } from '@mcpfac/shared-types';
 import { listAdminOrders } from '@/lib/admin-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { AdminTableSkeleton } from '@/components/admin/admin-table-skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
+import { ClipboardList } from 'lucide-react';
 
 function paymentLabel(value?: string) {
   if (!value) return '—';
@@ -94,12 +97,16 @@ export default function AdminOrdersPage() {
       </form>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      {loading ? <p className="text-neutral-500">Loading…</p> : null}
 
-      {!loading && items.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-neutral-200 bg-white px-4 py-10 text-center text-sm text-neutral-500">
-          No orders match this filter.
-        </p>
+      {loading ? (
+        <AdminTableSkeleton cols={7} />
+      ) : items.length === 0 ? (
+        <EmptyState
+          icon={ClipboardList}
+          title="No orders match this filter"
+          description="Try another status or search term to find fulfillment records."
+          className="py-10 shadow-none"
+        />
       ) : (
         <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
           <table className="min-w-full text-left text-sm">

@@ -18,6 +18,9 @@ import { AccountModule } from './modules/account/account.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { NewsletterModule } from './modules/newsletter/newsletter.module';
+import { DocumentsModule } from './modules/documents/documents.module';
+import { BlogModule } from './modules/blog/blog.module';
+import { FaqModule } from './modules/faq/faq.module';
 import { DatabaseModule } from './database/database.module';
 import { AppLoggerModule } from './common/logging/logger.module';
 import { EmailModule } from './modules/email/email.module';
@@ -73,6 +76,9 @@ import { RolesGuard } from './common/guards/roles.guard';
     AdminModule,
     ContactModule,
     NewsletterModule,
+    DocumentsModule,
+    BlogModule,
+    FaqModule,
     HealthModule,
   ],
   providers: [

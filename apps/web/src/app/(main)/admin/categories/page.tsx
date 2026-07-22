@@ -8,6 +8,9 @@ import {
   listAdminCategories,
   updateAdminCategory,
 } from '@/lib/admin-api';
+import { AdminTableSkeleton } from '@/components/admin/admin-table-skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Tags } from 'lucide-react';
 
 export default function AdminCategoriesPage() {
   const [items, setItems] = useState<AdminCategorySummary[]>([]);
@@ -128,8 +131,17 @@ export default function AdminCategoriesPage() {
       </form>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      {loading ? <p className="text-neutral-500">Loading…</p> : null}
 
+      {loading ? (
+        <AdminTableSkeleton cols={5} />
+      ) : items.length === 0 ? (
+        <EmptyState
+          icon={Tags}
+          title="No categories found"
+          description="Create a category above or adjust your search."
+          className="py-10 shadow-none"
+        />
+      ) : (
       <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
         <table className="min-w-full text-left text-sm">
           <thead className="border-b bg-neutral-50 text-xs uppercase text-neutral-500">
@@ -192,6 +204,7 @@ export default function AdminCategoriesPage() {
           </tbody>
         </table>
       </div>
+      )}
     </div>
   );
 }

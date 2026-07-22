@@ -1,6 +1,7 @@
 export { PromoBar } from './promo-bar';
 export { StatGrid } from './stat-grid';
 export { HomeHero } from './home-hero';
+export { HomeTrustStrip } from './home-trust-strip';
 export { CategoryHubGrid } from './category-hub-grid';
 export { WhyUsGrid } from './why-us-grid';
 export { ProcessSteps } from './process-steps';

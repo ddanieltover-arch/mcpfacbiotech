@@ -8,3 +8,5 @@ export { Alert, type AlertProps } from './alert';
 export { Separator } from './separator';
 export { Skeleton } from './skeleton';
 export { Spinner } from './spinner';
+export { EmptyState } from './empty-state';
+export { CountBadge } from './count-badge';

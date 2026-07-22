@@ -1,7 +1,9 @@
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  BlogPostStatus,
   CustomerGroup,
+  DocumentType,
   OrderStatus,
   ProductAvailability,
   ProductStatus,
@@ -66,6 +68,44 @@ export class AdminCategoryQueryDto extends PaginationDto {
   parentId?: string;
 
   @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  visible?: string;
+}
+
+export class AdminDocumentQueryDto extends PaginationDto {
+  @ApiPropertyOptional({ enum: DocumentType })
+  @IsOptional()
+  @IsEnum(DocumentType)
+  type?: DocumentType;
+
+  @ApiPropertyOptional({ description: 'Filter by approval: true | false' })
+  @IsOptional()
+  @IsString()
+  approved?: string;
+}
+
+export class AdminMediaQueryDto extends PaginationDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  folder?: string;
+}
+
+export class AdminBlogQueryDto extends PaginationDto {
+  @ApiPropertyOptional({ enum: BlogPostStatus })
+  @IsOptional()
+  @IsEnum(BlogPostStatus)
+  status?: BlogPostStatus;
+}
+
+export class AdminFaqQueryDto extends PaginationDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsUUID()
+  categoryId?: string;
+
+  @ApiPropertyOptional({ description: 'Filter by visibility: true | false' })
   @IsOptional()
   @IsString()
   visible?: string;

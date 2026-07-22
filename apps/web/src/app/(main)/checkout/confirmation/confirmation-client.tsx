@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { CheckCircle2 } from 'lucide-react';
+import { OpsSurface } from '@/components/layout/ops-surface';
 
 export function CheckoutConfirmationClient() {
   const searchParams = useSearchParams();
@@ -10,7 +11,7 @@ export function CheckoutConfirmationClient() {
   const email = searchParams.get('email');
 
   return (
-    <div className="bg-neutral-50">
+    <OpsSurface className="bg-neutral-50">
       <section className="mx-auto max-w-2xl px-4 py-16 text-center">
         <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-brand-pale text-brand-deep">
           <CheckCircle2 className="h-8 w-8" aria-hidden />
@@ -54,6 +55,6 @@ export function CheckoutConfirmationClient() {
           </div>
         </div>
       </section>
-    </div>
+    </OpsSurface>
   );
 }

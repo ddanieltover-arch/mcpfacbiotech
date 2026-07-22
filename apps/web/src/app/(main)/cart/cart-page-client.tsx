@@ -10,6 +10,7 @@ import { useCartStore } from '@/stores/cart.store';
 import { useAuthStore } from '@/stores/auth.store';
 import { createQuoteFromCart } from '@/lib/commerce-api';
 import { displayProductSku, formatCurrency } from '@/lib/utils';
+import { EmptyState } from '@/components/ui/empty-state';
 
 export function CartPageClient() {
   const router = useRouter();
@@ -102,24 +103,12 @@ export function CartPageClient() {
       <section className="bg-neutral-50/80 bg-lab-pattern py-10 sm:py-12">
         <div className="mx-auto max-w-7xl px-4">
           {items.length === 0 ? (
-            <div className="rounded-2xl bg-white px-6 py-16 text-center shadow-sm ring-1 ring-neutral-200/80">
-              <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-brand-pale text-brand-deep">
-                <ShoppingCart className="h-6 w-6" aria-hidden />
-              </span>
-              <h2 className="font-heading text-xl font-semibold text-brand-deep">
-                Your cart is empty
-              </h2>
-              <p className="mx-auto mt-2 max-w-md text-sm text-neutral-500">
-                Add research products from the catalog to continue to checkout or quotation.
-              </p>
-              <Link
-                href="/products"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand-deep px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural"
-              >
-                Browse products
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            </div>
+            <EmptyState
+              icon={ShoppingCart}
+              title="Your cart is empty"
+              description="Add research products from the catalog to continue to checkout or quotation."
+              action={{ href: '/products', label: 'Browse products' }}
+            />
           ) : (
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-10">
               <div className="space-y-6">

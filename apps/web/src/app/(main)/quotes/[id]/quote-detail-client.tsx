@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import type { QuoteDetail } from '@mcpfac/shared-types';
 import { getQuote, submitQuote } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { OpsSurface } from '@/components/layout/ops-surface';
 
 export function QuoteDetailClient() {
   const params = useParams<{ id: string }>();
@@ -76,7 +77,7 @@ export function QuoteDetailClient() {
   }
 
   return (
-    <div className="bg-neutral-50">
+    <OpsSurface className="bg-neutral-50">
       <section className="border-b border-neutral-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10">
           <Link href="/quotes" className="text-sm text-brand-deep hover:underline">
@@ -194,6 +195,6 @@ export function QuoteDetailClient() {
           <p className="mt-2 text-xs text-neutral-500">Created {formatDate(quote.createdAt)}</p>
         </aside>
       </div>
-    </div>
+    </OpsSurface>
   );
 }

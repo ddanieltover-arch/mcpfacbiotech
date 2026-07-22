@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { QuoteSummary } from '@mcpfac/shared-types';
 import { listQuotes } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { OpsSurface } from '@/components/layout/ops-surface';
 
 const STATUS_STYLES: Record<string, string> = {
   DRAFT: 'bg-neutral-100 text-neutral-700',
@@ -50,7 +51,7 @@ export function QuotesPageClient() {
   }, []);
 
   return (
-    <div className="bg-neutral-50">
+    <OpsSurface className="bg-neutral-50">
       <section className="border-b border-neutral-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10">
           <h1 className="font-heading text-4xl font-bold text-brand-deep">My Quotes</h1>
@@ -126,6 +127,6 @@ export function QuotesPageClient() {
           </div>
         )}
       </div>
-    </div>
+    </OpsSurface>
   );
 }

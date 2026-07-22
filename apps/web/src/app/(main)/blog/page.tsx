@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { MarketingSection, ResearchUseBanner } from '@/components/marketing';
-import { BLOG_POSTS } from '@/lib/blog-posts';
+import { fetchPublishedBlogPosts } from '@/lib/cms-content';
 import { RESEARCH_ARTICLES } from '@/lib/research-articles';
 
 export const metadata: Metadata = {
@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description:
     'Lab procurement notes, shipping guidance, and compliance reminders from MCPFAC BIOTECH — plus links to the research library.',
 };
+
+export const revalidate = 60;
 
 function formatDate(iso: string) {
   return new Intl.DateTimeFormat('en-US', {
@@ -19,12 +21,14 @@ function formatDate(iso: string) {
   }).format(new Date(iso));
 }
 
-const POSTS = [...BLOG_POSTS].sort(
-  (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-);
-
-export default function BlogPage() {
-  const [featured, ...rest] = POSTS;
+export default async function BlogPage() {
+  const posts = [...(await fetchPublishedBlogPosts())].sort((a, b) => {
+    const aTime = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+    const bTime = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+    return bTime - aTime;
+  });
+  const featured = posts.find((post) => post.isFeatured) ?? posts[0];
+  const rest = posts.filter((post) => post.slug !== featured?.slug);
 
   return (
     <>
@@ -74,22 +78,32 @@ export default function BlogPage() {
             </p>
             <Link href={`/blog/${featured.slug}`} className="group mt-3 block max-w-4xl">
               <p className="text-sm text-neutral-500">
-                {featured.category}
-                <span className="mx-2 text-neutral-300" aria-hidden>
-                  ·
-                </span>
-                {formatDate(featured.publishedAt)}
-                <span className="mx-2 text-neutral-300" aria-hidden>
-                  ·
-                </span>
-                {featured.readingTime}
+                {featured.categoryName ?? 'Updates'}
+                {featured.publishedAt ? (
+                  <>
+                    <span className="mx-2 text-neutral-300" aria-hidden>
+                      ·
+                    </span>
+                    {formatDate(featured.publishedAt)}
+                  </>
+                ) : null}
+                {featured.readingTime ? (
+                  <>
+                    <span className="mx-2 text-neutral-300" aria-hidden>
+                      ·
+                    </span>
+                    {featured.readingTime}
+                  </>
+                ) : null}
               </p>
               <h2 className="mt-3 font-heading text-3xl font-bold tracking-tight text-brand-deep transition-colors group-hover:text-brand-natural sm:text-4xl">
                 {featured.title}
               </h2>
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">
-                {featured.excerpt}
-              </p>
+              {featured.excerpt ? (
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">
+                  {featured.excerpt}
+                </p>
+              ) : null}
               <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-natural">
                 Read post
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -115,18 +129,20 @@ export default function BlogPage() {
                 >
                   <div className="min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wide text-brand-natural">
-                      {post.category}
+                      {post.categoryName ?? 'Updates'}
                     </p>
                     <h3 className="mt-1 font-heading text-xl font-semibold text-brand-deep group-hover:text-brand-natural">
                       {post.title}
                     </h3>
-                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600">
-                      {post.excerpt}
-                    </p>
+                    {post.excerpt ? (
+                      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600">
+                        {post.excerpt}
+                      </p>
+                    ) : null}
                   </div>
                   <div className="shrink-0 text-sm text-neutral-500 sm:text-right">
-                    <p>{formatDate(post.publishedAt)}</p>
-                    <p className="mt-0.5">{post.readingTime}</p>
+                    {post.publishedAt ? <p>{formatDate(post.publishedAt)}</p> : null}
+                    {post.readingTime ? <p className="mt-0.5">{post.readingTime}</p> : null}
                     <span className="mt-2 inline-flex items-center gap-1 font-semibold text-brand-natural sm:mt-3">
                       Read
                       <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />

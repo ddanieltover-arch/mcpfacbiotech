@@ -82,17 +82,69 @@ export class EmailService {
   async sendOrderConfirmation(options: {
     to: string;
     customerName?: string;
+    organizationName?: string;
+    phone?: string;
     orderNumber: string;
     totalAmount: number;
+    subtotal?: number;
+    shippingCost?: number;
+    taxAmount?: number;
     currency: string;
+    paymentMethod?: string;
+    shippingMethod?: string;
+    purchaseOrderNumber?: string;
+    notes?: string;
+    shippingAddress?: {
+      firstName: string;
+      lastName: string;
+      organizationName?: string;
+      addressLine1: string;
+      addressLine2?: string;
+      city: string;
+      stateProvince?: string;
+      postalCode: string;
+      country: string;
+      phone?: string;
+    };
+    billingAddress?: {
+      firstName: string;
+      lastName: string;
+      organizationName?: string;
+      addressLine1: string;
+      addressLine2?: string;
+      city: string;
+      stateProvince?: string;
+      postalCode: string;
+      country: string;
+      phone?: string;
+    };
+    items?: Array<{
+      productName: string;
+      productSku: string;
+      quantity: number;
+      unitPrice: number;
+      totalPrice: number;
+    }>;
   }): Promise<boolean> {
     const customer = orderConfirmationEmail(options);
     const admin = orderAdminEmail({
       customerName: options.customerName,
       customerEmail: options.to,
+      organizationName: options.organizationName,
+      phone: options.phone,
       orderNumber: options.orderNumber,
       totalAmount: options.totalAmount,
+      subtotal: options.subtotal,
+      shippingCost: options.shippingCost,
+      taxAmount: options.taxAmount,
       currency: options.currency,
+      paymentMethod: options.paymentMethod,
+      shippingMethod: options.shippingMethod,
+      purchaseOrderNumber: options.purchaseOrderNumber,
+      notes: options.notes,
+      shippingAddress: options.shippingAddress,
+      billingAddress: options.billingAddress,
+      items: options.items,
     });
 
     const [customerSent, adminSent] = await Promise.all([

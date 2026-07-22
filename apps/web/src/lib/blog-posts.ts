@@ -1,6 +1,7 @@
 /**
- * Static blog seed posts (CONTENT-8) until CMS (Phase 17) is live.
- * Editorial / lab-operations voice — not medical advice.
+ * Static blog seed posts — fallback when the CMS API is empty/unavailable.
+ * Canonical content is seeded into Prisma (`prisma/seed/cms-content.ts`) and
+ * managed via `/admin/blog` (CMS-4).
  */
 
 export type BlogSection = {

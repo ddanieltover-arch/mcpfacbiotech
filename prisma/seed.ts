@@ -3,6 +3,7 @@ import { seedRoles } from './seed/roles';
 import { seedPermissions } from './seed/permissions';
 import { seedCategories } from './seed/categories';
 import { seedProducts } from './seed/products';
+import { seedCmsContent } from './seed/cms-content';
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,9 @@ async function main() {
 
   console.log('Seeding products...');
   await seedProducts(prisma, categoryIds);
+
+  console.log('Seeding blog + FAQ CMS content...');
+  await seedCmsContent(prisma);
 
   console.log('Seed completed successfully.');
 }

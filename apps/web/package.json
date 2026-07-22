@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint src/",
     "type-check": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "clean": "rimraf .next .turbo"
   },
   "dependencies": {
@@ -43,6 +45,7 @@
     "eslint-config-next": "16.2.10",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "prettier-plugin-tailwindcss": "^0.6.0"
+    "prettier-plugin-tailwindcss": "^0.6.0",
+    "@playwright/test": "^1.51.1"
   }
 }

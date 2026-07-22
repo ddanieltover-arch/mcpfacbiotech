@@ -1,9 +1,9 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import {
   CategoryHubGrid,
   ComparisonTable,
   HomeHero,
+  HomeTrustStrip,
   MarketingSection,
   ProcessSteps,
   PromoBar,
@@ -13,7 +13,7 @@ import {
 } from '@/components/marketing';
 import { HomeProductShelves } from '@/components/products/home-product-shelves';
 import { FaqAccordion } from '@/components/content/faq-accordion';
-import { HOME_FAQ_TEASER } from '@/lib/marketing-content';
+import { fetchFaqItems } from '@/lib/cms-content';
 
 export const metadata: Metadata = {
   title: {
@@ -29,12 +29,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const faqItems = (await fetchFaqItems()).slice(0, 4);
   return (
     <>
       <PromoBar />
 
       <HomeHero />
+      <HomeTrustStrip />
 
       <MarketingSection
         eyebrow="Shop by category"
@@ -89,7 +93,7 @@ export default function HomePage() {
         action={{ href: '/faq', label: 'View all FAQ topics' }}
       >
         <div className="mx-auto max-w-3xl">
-          <FaqAccordion items={[...HOME_FAQ_TEASER]} />
+          <FaqAccordion items={faqItems} />
         </div>
       </MarketingSection>
 

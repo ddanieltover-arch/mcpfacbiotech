@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState, useTransition } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
@@ -25,7 +25,9 @@ import { useAuthStore } from '@/stores/auth.store';
 import { useWishlistStore } from '@/stores/wishlist.store';
 import { useCompareStore } from '@/stores/compare.store';
 import { fadeInDown } from '@/lib/motion';
+import { CountBadge } from '@/components/ui/count-badge';
 import { logout } from '@/app/(auth)/actions';
+import { createClient } from '@/lib/supabase/client';
 import { Logo } from '@/components/brand/logo';
 import { ProductSearch } from '@/components/products/product-search';
 import { isAdminRole } from '@mcpfac/shared-types';
@@ -35,6 +37,7 @@ const navigation = MAIN_NAV;
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expandedMobile, setExpandedMobile] = useState<string | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -56,7 +59,11 @@ export function Header() {
 
   const handleLogout = () => {
     startTransition(async () => {
+      const supabase = createClient();
+      await supabase.auth.signOut();
       await logout();
+      router.push('/');
+      router.refresh();
     });
   };
 
@@ -216,11 +223,7 @@ export function Header() {
                 aria-label={`Wishlist with ${wishlistCount} items`}
               >
                 <Heart className="h-5 w-5" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-deep text-[10px] font-bold text-white">
-                    {wishlistCount > 9 ? '9+' : wishlistCount}
-                  </span>
-                )}
+                <CountBadge count={wishlistCount} />
               </Link>
 
               <Link
@@ -229,11 +232,7 @@ export function Header() {
                 aria-label={`Compare with ${compareCount} items`}
               >
                 <Scale className="h-5 w-5" />
-                {compareCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-deep text-[10px] font-bold text-white">
-                    {compareCount > 9 ? '9+' : compareCount}
-                  </span>
-                )}
+                <CountBadge count={compareCount} />
               </Link>
 
               {!authLoading && user ? (
@@ -338,11 +337,7 @@ export function Header() {
                 aria-label={`Shopping cart with ${cartItemCount} items`}
               >
                 <ShoppingCart className="h-5 w-5" />
-                {cartItemCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-deep text-[10px] font-bold text-white">
-                    {cartItemCount > 9 ? '9+' : cartItemCount}
-                  </span>
-                )}
+                <CountBadge count={cartItemCount} />
               </button>
 
               <button

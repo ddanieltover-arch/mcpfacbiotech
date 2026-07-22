@@ -5,6 +5,9 @@ import Link from 'next/link';
 import type { AdminQuoteSummary } from '@mcpfac/shared-types';
 import { listAdminQuotes } from '@/lib/admin-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { AdminTableSkeleton } from '@/components/admin/admin-table-skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
+import { FileText } from 'lucide-react';
 
 export default function AdminQuotesPage() {
   const [items, setItems] = useState<AdminQuoteSummary[]>([]);
@@ -76,12 +79,16 @@ export default function AdminQuotesPage() {
       </form>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      {loading ? <p className="text-neutral-500">Loading…</p> : null}
 
-      {!loading && items.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-neutral-200 bg-white px-4 py-10 text-center text-sm text-neutral-500">
-          No quotes match this filter.
-        </p>
+      {loading ? (
+        <AdminTableSkeleton cols={5} />
+      ) : items.length === 0 ? (
+        <EmptyState
+          icon={FileText}
+          title="No quotes match this filter"
+          description="Adjust status or search to find quotation requests."
+          className="py-10 shadow-none"
+        />
       ) : (
         <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
           <table className="min-w-full text-left text-sm">

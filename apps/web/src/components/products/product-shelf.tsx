@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import type { ProductSummary } from '@mcpfac/shared-types';
-import { ProductCard } from '@/components/products/product-card';
+import { ProductCardGrid } from '@/components/products/product-card-grid';
 import { cn } from '@/lib/utils';
 
 type ProductShelfProps = {
@@ -12,7 +12,6 @@ type ProductShelfProps = {
   actionLabel?: string;
   products: ProductSummary[];
   tone?: 'default' | 'muted';
-  emptyMessage?: string;
 };
 
 export function ProductShelf({
@@ -23,7 +22,6 @@ export function ProductShelf({
   actionLabel = 'View all',
   products,
   tone = 'default',
-  emptyMessage = 'Products will appear here once the catalog is available.',
 }: ProductShelfProps) {
   if (products.length === 0) {
     return null;
@@ -56,19 +54,11 @@ export function ProductShelf({
           </Link>
         </div>
 
-        {products.length > 0 ? (
-          <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
-            {products.map((product, index) => (
-              <div key={product.id} className={index >= 6 ? 'hidden lg:block' : undefined}>
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-xl border border-dashed border-neutral-300 bg-white/60 p-10 text-center text-neutral-500">
-            {emptyMessage}
-          </div>
-        )}
+        <ProductCardGrid
+          products={products}
+          className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4"
+          collapseBelowLgFromIndex={6}
+        />
       </div>
     </section>
   );

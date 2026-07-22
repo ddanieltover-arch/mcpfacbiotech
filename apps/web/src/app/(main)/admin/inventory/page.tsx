@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { AdminInventoryItem } from '@mcpfac/shared-types';
 import { listAdminInventory, updateAdminInventory } from '@/lib/admin-api';
+import { AdminTableSkeleton } from '@/components/admin/admin-table-skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Package } from 'lucide-react';
 
 export default function AdminInventoryPage() {
   const [items, setItems] = useState<AdminInventoryItem[]>([]);
@@ -103,12 +106,20 @@ export default function AdminInventoryPage() {
       </form>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      {loading ? <p className="text-neutral-500">Loading…</p> : null}
 
-      {!loading && items.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-neutral-200 bg-white px-4 py-10 text-center text-sm text-neutral-500">
-          {lowStockOnly ? 'No low-stock products right now.' : 'No inventory rows match this filter.'}
-        </p>
+      {loading ? (
+        <AdminTableSkeleton cols={5} />
+      ) : items.length === 0 ? (
+        <EmptyState
+          icon={Package}
+          title={lowStockOnly ? 'No low-stock products right now' : 'No inventory rows match this filter'}
+          description={
+            lowStockOnly
+              ? 'All tracked SKUs are above their low-stock threshold.'
+              : 'Try clearing search or toggling the low-stock filter.'
+          }
+          className="py-10 shadow-none"
+        />
       ) : (
         <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
           <table className="min-w-full text-left text-sm">

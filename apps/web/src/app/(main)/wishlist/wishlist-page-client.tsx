@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { Heart } from 'lucide-react';
 import type { ProductSummary } from '@mcpfac/shared-types';
-import { ProductCard } from '@/components/products/product-card';
+import { ProductCardGrid } from '@/components/products/product-card-grid';
+import { ProductCardSkeleton } from '@/components/products/product-card-skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
 import { getProductsByIds } from '@/lib/catalog-api';
 import { useWishlistStore } from '@/stores/wishlist.store';
 
@@ -46,22 +48,22 @@ export function WishlistPageClient() {
 
       <div className="mx-auto max-w-7xl px-4 py-10">
         {isLoading ? (
-          <div className="rounded-xl border border-neutral-200 bg-white p-12 text-center text-neutral-500">
-            Loading wishlist...
+          <div
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3"
+            role="status"
+            aria-label="Loading wishlist"
+          >
+            {Array.from({ length: Math.max(productIds.length, 3) }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
           </div>
         ) : products.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-neutral-300 bg-white p-12 text-center">
-            <h2 className="font-heading text-xl font-semibold text-brand-deep">Your wishlist is empty</h2>
-            <p className="mt-2 text-sm text-neutral-500">
-              Browse the catalog and save products for later review.
-            </p>
-            <Link
-              href="/products"
-              className="mt-6 inline-flex rounded-lg bg-brand-deep px-4 py-2 text-sm font-semibold text-white hover:bg-brand-natural"
-            >
-              Browse Products
-            </Link>
-          </div>
+          <EmptyState
+            icon={Heart}
+            title="Your wishlist is empty"
+            description="Browse the catalog and save products for later review."
+            action={{ href: '/products', label: 'Browse products' }}
+          />
         ) : (
           <>
             <div className="mb-6 flex items-center justify-between">
@@ -74,11 +76,10 @@ export function WishlistPageClient() {
                 Clear wishlist
               </button>
             </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <ProductCardGrid
+              products={products}
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3"
+            />
           </>
         )}
       </div>

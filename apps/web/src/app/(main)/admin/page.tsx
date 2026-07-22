@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { AdminDashboard } from '@mcpfac/shared-types';
 import { getAdminDashboard } from '@/lib/admin-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { AdminDashboardSkeleton } from '@/components/admin/admin-table-skeleton';
 
 function StatCard({
   label,
@@ -58,7 +59,7 @@ export default function AdminDashboardPage() {
   }, []);
 
   if (loading) {
-    return <p className="text-neutral-500">Loading dashboard…</p>;
+    return <AdminDashboardSkeleton />;
   }
 
   if (error || !data) {

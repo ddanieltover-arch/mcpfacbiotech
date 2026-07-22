@@ -1,11 +1,18 @@
 import type {
+  AdminBlogPostSummary,
   AdminCategorySummary,
   AdminCustomerSummary,
   AdminDashboard,
+  AdminDocumentSummary,
+  AdminFaqCategory,
+  AdminFaqQuestion,
   AdminInventoryItem,
+  AdminMediaSummary,
   AdminOrderSummary,
   AdminProductSummary,
   AdminQuoteSummary,
+  BlogPostStatus,
+  DocumentType,
   OrderDetail,
   ProductDetail,
   ProductStatus,
@@ -20,8 +27,12 @@ async function adminOptions() {
     data: { session },
   } = await supabase.auth.getSession();
 
+  if (!session?.access_token) {
+    throw new Error('Not signed in — admin API requires a session');
+  }
+
   return {
-    token: session?.access_token,
+    token: session.access_token,
   };
 }
 
@@ -137,9 +148,9 @@ export async function listAdminOrders(params?: {
 
 export async function getAdminOrder(
   id: string,
-): Promise<OrderDetail & { customerEmail: string; internalNotes?: string }> {
+): Promise<OrderDetail & { internalNotes?: string }> {
   const options = await adminOptions();
-  const response = await apiClient.get<OrderDetail & { customerEmail: string; internalNotes?: string }>(
+  const response = await apiClient.get<OrderDetail & { internalNotes?: string }>(
     `/admin/orders/${id}`,
     options,
   );
@@ -283,4 +294,263 @@ export async function updateAdminInventory(
     options,
   );
   return response.data;
+}
+
+export async function listAdminDocuments(params?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  type?: DocumentType | string;
+  approved?: string;
+}): Promise<{
+  items: AdminDocumentSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}> {
+  const options = await adminOptions();
+  const response = await apiClient.getList<AdminDocumentSummary>('/admin/documents', {
+    ...options,
+    params,
+  });
+  return response.data;
+}
+
+export async function createAdminDocument(body: {
+  title: string;
+  type: DocumentType | string;
+  fileUrl: string;
+  fileName: string;
+  permission?: string;
+  version?: string;
+  description?: string;
+  isApproved?: boolean;
+  productId?: string;
+}): Promise<AdminDocumentSummary> {
+  const options = await adminOptions();
+  const response = await apiClient.post<AdminDocumentSummary>('/admin/documents', body, options);
+  return response.data;
+}
+
+export async function updateAdminDocument(
+  id: string,
+  body: Record<string, unknown>,
+): Promise<AdminDocumentSummary> {
+  const options = await adminOptions();
+  const response = await apiClient.patch<AdminDocumentSummary>(
+    `/admin/documents/${id}`,
+    body,
+    options,
+  );
+  return response.data;
+}
+
+export async function deleteAdminDocument(id: string): Promise<void> {
+  const options = await adminOptions();
+  await apiClient.delete(`/admin/documents/${id}`, options);
+}
+
+export async function attachAdminDocumentProduct(
+  documentId: string,
+  productId: string,
+): Promise<AdminDocumentSummary> {
+  const options = await adminOptions();
+  const response = await apiClient.post<AdminDocumentSummary>(
+    `/admin/documents/${documentId}/products`,
+    { productId },
+    options,
+  );
+  return response.data;
+}
+
+export async function detachAdminDocumentProduct(
+  documentId: string,
+  productId: string,
+): Promise<void> {
+  const options = await adminOptions();
+  await apiClient.delete(`/admin/documents/${documentId}/products/${productId}`, options);
+}
+
+export async function listAdminMedia(params?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  folder?: string;
+}): Promise<{
+  items: AdminMediaSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}> {
+  const options = await adminOptions();
+  const response = await apiClient.getList<AdminMediaSummary>('/admin/media', {
+    ...options,
+    params,
+  });
+  return response.data;
+}
+
+export async function createAdminMedia(body: {
+  fileName: string;
+  fileUrl: string;
+  mimeType: string;
+  fileSize?: number;
+  alt?: string;
+  folder?: string;
+}): Promise<AdminMediaSummary> {
+  const options = await adminOptions();
+  const response = await apiClient.post<AdminMediaSummary>('/admin/media', body, options);
+  return response.data;
+}
+
+export async function updateAdminMedia(
+  id: string,
+  body: Record<string, unknown>,
+): Promise<AdminMediaSummary> {
+  const options = await adminOptions();
+  const response = await apiClient.patch<AdminMediaSummary>(`/admin/media/${id}`, body, options);
+  return response.data;
+}
+
+export async function deleteAdminMedia(id: string): Promise<void> {
+  const options = await adminOptions();
+  await apiClient.delete(`/admin/media/${id}`, options);
+}
+
+export async function listAdminBlogPosts(params?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: BlogPostStatus | string;
+}): Promise<{
+  items: AdminBlogPostSummary[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}> {
+  const options = await adminOptions();
+  const response = await apiClient.getList<AdminBlogPostSummary>('/admin/blog', {
+    ...options,
+    params,
+  });
+  return response.data;
+}
+
+export async function createAdminBlogPost(body: {
+  title: string;
+  slug?: string;
+  excerpt?: string;
+  content: string;
+  authorName?: string;
+  status?: BlogPostStatus;
+  categoryName?: string;
+  readingTime?: string;
+  isFeatured?: boolean;
+  publishedAt?: string;
+}): Promise<AdminBlogPostSummary> {
+  const options = await adminOptions();
+  const response = await apiClient.post<AdminBlogPostSummary>('/admin/blog', body, options);
+  return response.data;
+}
+
+export async function updateAdminBlogPost(
+  id: string,
+  body: Record<string, unknown>,
+): Promise<AdminBlogPostSummary> {
+  const options = await adminOptions();
+  const response = await apiClient.patch<AdminBlogPostSummary>(`/admin/blog/${id}`, body, options);
+  return response.data;
+}
+
+export async function deleteAdminBlogPost(id: string): Promise<void> {
+  const options = await adminOptions();
+  await apiClient.delete(`/admin/blog/${id}`, options);
+}
+
+export async function listAdminFaqCategories(): Promise<AdminFaqCategory[]> {
+  const options = await adminOptions();
+  const response = await apiClient.get<AdminFaqCategory[]>('/admin/faq/categories', options);
+  return response.data;
+}
+
+export async function createAdminFaqCategory(body: {
+  name: string;
+  sortOrder?: number;
+  isVisible?: boolean;
+}): Promise<AdminFaqCategory> {
+  const options = await adminOptions();
+  const response = await apiClient.post<AdminFaqCategory>('/admin/faq/categories', body, options);
+  return response.data;
+}
+
+export async function updateAdminFaqCategory(
+  id: string,
+  body: Record<string, unknown>,
+): Promise<AdminFaqCategory> {
+  const options = await adminOptions();
+  const response = await apiClient.patch<AdminFaqCategory>(
+    `/admin/faq/categories/${id}`,
+    body,
+    options,
+  );
+  return response.data;
+}
+
+export async function deleteAdminFaqCategory(id: string): Promise<void> {
+  const options = await adminOptions();
+  await apiClient.delete(`/admin/faq/categories/${id}`, options);
+}
+
+export async function listAdminFaqQuestions(params?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  categoryId?: string;
+  visible?: string;
+}): Promise<{
+  items: AdminFaqQuestion[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}> {
+  const options = await adminOptions();
+  const response = await apiClient.getList<AdminFaqQuestion>('/admin/faq/questions', {
+    ...options,
+    params,
+  });
+  return response.data;
+}
+
+export async function createAdminFaqQuestion(body: {
+  categoryId: string;
+  question: string;
+  answer: string;
+  sortOrder?: number;
+  isVisible?: boolean;
+}): Promise<AdminFaqQuestion> {
+  const options = await adminOptions();
+  const response = await apiClient.post<AdminFaqQuestion>('/admin/faq/questions', body, options);
+  return response.data;
+}
+
+export async function updateAdminFaqQuestion(
+  id: string,
+  body: Record<string, unknown>,
+): Promise<AdminFaqQuestion> {
+  const options = await adminOptions();
+  const response = await apiClient.patch<AdminFaqQuestion>(
+    `/admin/faq/questions/${id}`,
+    body,
+    options,
+  );
+  return response.data;
+}
+
+export async function deleteAdminFaqQuestion(id: string): Promise<void> {
+  const options = await adminOptions();
+  await apiClient.delete(`/admin/faq/questions/${id}`, options);
 }

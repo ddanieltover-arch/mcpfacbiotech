@@ -49,6 +49,7 @@ class ApiClient {
       method,
       headers: requestHeaders,
       body: body ? JSON.stringify(body) : undefined,
+      signal: AbortSignal.timeout(30_000),
     });
 
     if (!response.ok) {

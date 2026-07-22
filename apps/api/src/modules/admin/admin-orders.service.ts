@@ -23,6 +23,32 @@ const ALLOWED_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
   RETURNED: [],
 };
 
+function mapAddress(address: {
+  firstName: string;
+  lastName: string;
+  organizationName: string | null;
+  addressLine1: string;
+  addressLine2: string | null;
+  city: string;
+  stateProvince: string | null;
+  postalCode: string;
+  country: string;
+  phone: string | null;
+}) {
+  return {
+    firstName: address.firstName,
+    lastName: address.lastName,
+    organizationName: address.organizationName ?? undefined,
+    addressLine1: address.addressLine1,
+    addressLine2: address.addressLine2 ?? undefined,
+    city: address.city,
+    stateProvince: address.stateProvince ?? undefined,
+    postalCode: address.postalCode,
+    country: address.country,
+    phone: address.phone ?? undefined,
+  };
+}
+
 @Injectable()
 export class AdminOrdersService {
   private readonly logger = new Logger(AdminOrdersService.name);
@@ -103,13 +129,15 @@ export class AdminOrdersService {
     };
   }
 
-  async getById(id: string): Promise<OrderDetail & { customerEmail: string; internalNotes?: string }> {
+  async getById(id: string): Promise<OrderDetail & { internalNotes?: string }> {
     const order = await this.prisma.order.findFirst({
       where: { id, deletedAt: null },
       include: {
         items: { orderBy: { productName: 'asc' } },
         statusHistory: { orderBy: { createdAt: 'asc' } },
         invoices: { select: { id: true } },
+        shippingAddress: true,
+        billingAddress: true,
         customer: {
           include: {
             profile: { select: { email: true, firstName: true, lastName: true } },
@@ -121,6 +149,8 @@ export class AdminOrdersService {
     if (!order) {
       throw new NotFoundException('Order not found');
     }
+
+    const customerName = `${order.customer.profile.firstName} ${order.customer.profile.lastName}`.trim();
 
     return {
       id: order.id,
@@ -142,6 +172,10 @@ export class AdminOrdersService {
       createdAt: order.createdAt.toISOString(),
       updatedAt: order.updatedAt.toISOString(),
       customerEmail: order.customer.profile.email,
+      customerName: customerName || undefined,
+      organizationName: order.customer.organizationName ?? undefined,
+      shippingAddress: order.shippingAddress ? mapAddress(order.shippingAddress) : undefined,
+      billingAddress: order.billingAddress ? mapAddress(order.billingAddress) : undefined,
       internalNotes: order.internalNotes ?? undefined,
       items: order.items.map((item) => ({
         id: item.id,
@@ -206,7 +240,7 @@ export class AdminOrdersService {
               fromStatus: existing.status,
               toStatus: dto.status,
               note: statusNote,
-              changedBy: actorProfileId,
+              ...(actorProfileId ? { changedBy: actorProfileId } : {}),
             },
           },
         },
@@ -246,17 +280,24 @@ export class AdminOrdersService {
           },
         });
       }
-    });
+    }, { maxWait: 10_000, timeout: 30_000 });
 
-    await this.notifyCustomerStatusChange({
-      email: existing.customer.profile.email,
-      firstName: existing.customer.profile.firstName,
-      lastName: existing.customer.profile.lastName,
-      orderNumber: existing.orderNumber,
-      fromStatus: existing.status,
-      toStatus: dto.status,
-      note: statusNote,
-    });
+    try {
+      await this.notifyCustomerStatusChange({
+        email: existing.customer.profile.email,
+        firstName: existing.customer.profile.firstName,
+        lastName: existing.customer.profile.lastName,
+        orderNumber: existing.orderNumber,
+        fromStatus: existing.status,
+        toStatus: dto.status,
+        note: statusNote,
+      });
+    } catch (error) {
+      this.logger.error(
+        `Status email failed for ${existing.orderNumber}`,
+        error instanceof Error ? error.stack : String(error),
+      );
+    }
 
     return this.getById(id);
   }

@@ -13,6 +13,7 @@ export async function syncProfileWithBackend(accessToken: string): Promise<AuthU
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
+    signal: AbortSignal.timeout(20_000),
   });
 
   if (!response.ok) {
@@ -32,6 +33,7 @@ export async function fetchAuthMe(accessToken: string): Promise<AuthUser | null>
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
+    signal: AbortSignal.timeout(15_000),
   });
 
   if (!response.ok) {

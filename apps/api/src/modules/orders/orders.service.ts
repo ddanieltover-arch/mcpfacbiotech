@@ -18,7 +18,11 @@ import type {
   OrderStatusHistoryEntry,
   OrderSummary,
 } from '@mcpfac/shared-types';
-import { getShippingMethodPrice } from '@mcpfac/shared-types';
+import {
+  getShippingMethodPrice,
+  PAYMENT_METHOD_OPTIONS,
+  SHIPPING_METHOD_OPTIONS,
+} from '@mcpfac/shared-types';
 import { PrismaService } from '@/database/prisma.service';
 import { CustomerContextService } from '@/modules/customers/customer-context.service';
 import { CommercePricingService } from '@/modules/commerce/commerce-pricing';
@@ -114,6 +118,8 @@ export class OrdersService {
       throw new BadRequestException('Provide fromCart=true or quoteId');
     }
 
+    const isGuestCheckout = !input.profileId && Boolean(dto.guestEmail);
+
     if (!profileId) {
       if (!dto.guestEmail) {
         throw new BadRequestException('Email is required for guest checkout');
@@ -129,6 +135,10 @@ export class OrdersService {
     }
 
     const customer = await this.customerContext.assertActiveCustomer(profileId);
+
+    if (isGuestCheckout && dto.fromCart && sessionId) {
+      await this.cartService.mergeGuestCart(profileId, sessionId);
+    }
 
     const lines = dto.fromCart
       ? await this.linesFromCart(profileId, sessionId)
@@ -158,7 +168,8 @@ export class OrdersService {
     const orderNumber = await this.generateOrderNumber();
     const notes = dto.notes?.trim() || null;
 
-    const order = await this.prisma.$transaction(async (tx) => {
+    const order = await this.prisma.$transaction(
+      async (tx) => {
       const created = await tx.order.create({
         data: {
           orderNumber,
@@ -207,7 +218,9 @@ export class OrdersService {
       });
 
       return created;
-    });
+    },
+      { maxWait: 10_000, timeout: 30_000 },
+    );
 
     if (dto.quoteId) {
       await this.markQuoteConverted(dto.quoteId, customer.id, orderNumber);
@@ -229,7 +242,7 @@ export class OrdersService {
       }
     }
 
-    void this.notifyOrderConfirmation(profileId, order.orderNumber, totalAmount, 'USD');
+    void this.notifyOrderConfirmation(order.id);
 
     return this.getById(profileId, order.id);
   }
@@ -413,29 +426,72 @@ export class OrdersService {
     return this.getById(profileId, orderId);
   }
 
-  private async notifyOrderConfirmation(
-    profileId: string,
-    orderNumber: string,
-    totalAmount: number,
-    currency: string,
-  ): Promise<void> {
-    const profile = await this.prisma.profile.findUnique({
-      where: { id: profileId },
-      select: { email: true, firstName: true, lastName: true },
+  private async notifyOrderConfirmation(orderId: string): Promise<void> {
+    const order = await this.prisma.order.findFirst({
+      where: { id: orderId, deletedAt: null },
+      include: {
+        items: { orderBy: { productName: 'asc' } },
+        shippingAddress: true,
+        billingAddress: true,
+        customer: {
+          include: {
+            profile: { select: { email: true, firstName: true, lastName: true } },
+          },
+        },
+      },
     });
 
-    if (!profile?.email) {
+    const profile = order?.customer?.profile;
+    if (!order || !profile?.email) {
       return;
     }
 
     const customerName = [profile.firstName, profile.lastName].filter(Boolean).join(' ').trim();
+    const mapAddr = (address: NonNullable<typeof order.shippingAddress>) => ({
+      firstName: address.firstName,
+      lastName: address.lastName,
+      organizationName: address.organizationName ?? undefined,
+      addressLine1: address.addressLine1,
+      addressLine2: address.addressLine2 ?? undefined,
+      city: address.city,
+      stateProvince: address.stateProvince ?? undefined,
+      postalCode: address.postalCode,
+      country: address.country,
+      phone: address.phone ?? undefined,
+    });
+
+    const paymentLabel =
+      PAYMENT_METHOD_OPTIONS.find((o) => o.value === order.paymentMethod)?.label ??
+      order.paymentMethod?.replaceAll('_', ' ');
+    const shippingLabel =
+      SHIPPING_METHOD_OPTIONS.find((o) => o.value === order.shippingMethod)?.label ??
+      order.shippingMethod?.replaceAll('_', ' ');
+    const phone = order.shippingAddress?.phone ?? order.billingAddress?.phone ?? undefined;
 
     await this.emailService.sendOrderConfirmation({
       to: profile.email,
       customerName: customerName || undefined,
-      orderNumber,
-      totalAmount,
-      currency,
+      organizationName: order.customer.organizationName ?? undefined,
+      phone: phone ?? undefined,
+      orderNumber: order.orderNumber,
+      totalAmount: decimalToNumber(order.totalAmount) ?? 0,
+      subtotal: decimalToNumber(order.subtotal) ?? 0,
+      shippingCost: decimalToNumber(order.shippingCost) ?? 0,
+      taxAmount: decimalToNumber(order.taxAmount) ?? 0,
+      currency: order.currency,
+      paymentMethod: paymentLabel,
+      shippingMethod: shippingLabel,
+      purchaseOrderNumber: order.purchaseOrderNum ?? undefined,
+      notes: order.notes ?? undefined,
+      shippingAddress: order.shippingAddress ? mapAddr(order.shippingAddress) : undefined,
+      billingAddress: order.billingAddress ? mapAddr(order.billingAddress) : undefined,
+      items: order.items.map((item) => ({
+        productName: item.productName,
+        productSku: item.productSku,
+        quantity: item.quantity,
+        unitPrice: decimalToNumber(item.unitPrice) ?? 0,
+        totalPrice: decimalToNumber(item.totalPrice) ?? 0,
+      })),
     });
   }
 

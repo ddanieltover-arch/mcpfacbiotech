@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { InvoiceSummary } from '@mcpfac/shared-types';
 import { listInvoices } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { OpsSurface } from '@/components/layout/ops-surface';
 
 export function InvoicesPageClient() {
   const [invoices, setInvoices] = useState<InvoiceSummary[]>([]);
@@ -39,7 +40,7 @@ export function InvoicesPageClient() {
   }, []);
 
   return (
-    <div className="bg-neutral-50">
+    <OpsSurface className="bg-neutral-50">
       <section className="border-b border-neutral-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10">
           <h1 className="font-heading text-4xl font-bold text-brand-deep">My Invoices</h1>
@@ -103,6 +104,6 @@ export function InvoicesPageClient() {
           </div>
         )}
       </div>
-    </div>
+    </OpsSurface>
   );
 }

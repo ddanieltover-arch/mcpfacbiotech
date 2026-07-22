@@ -1,26 +1,29 @@
 # MCPFAC BIOTECH — Project Backlog
 
-> Maintained by Enterprise Project Manager. Last updated: 2026-07-21
+> Maintained by Enterprise Project Manager. Last updated: 2026-07-22
 
 ## Current Phase
 
 **Milestone 1 — Foundation** is complete.  
-**Milestone 1.5 — Authentication** is complete (AUTH-9 E2E test remains).  
+**Milestone 1.5 — Authentication** is complete.  
 **Milestone 2 — Product Catalog** is complete.  
 **Milestone 2.5 — Legacy Catalog Import** is complete.  
 **Milestone 3 — Cart & Quotation Engine** is complete.  
 **Milestone 4 — Orders, Invoices & Checkout** is complete.  
 **Milestone 5 — Customer Portal** is complete.  
 **Milestone 6 — Admin Platform** is in progress (ops + categories/inventory).  
-**Milestone 7 — Platform Hardening** is largely complete (CI, envelope, pino, coverage, staging scaffolding).  
+**Milestone 7 — Platform Hardening** is complete (CI, envelope, pino, coverage, production deploy).  
 **Phase 3 — Design System** is complete (tokens + `components/ui` primitives + showcase).  
 **Phase 14 — Payments (manual methods)** is complete.  
 **Phase 15 — Shipping methods** is complete (Standard $25 / Priority Express $50).  
 **Phase 16 — Administration** is complete at Partial (ops console + inventory/categories).  
-**Phase 17 — CMS** is ❌ Deferred (ADM-9c media / blog / documents).  
+**Phase 17 — CMS** is ✅ Complete (documents + media + blog/FAQ; research admin deferred).  
 **Phase 18 — Reporting** is ❌ Deferred (analytics / sales / inventory reports).  
 **Phase 21 — Content & Marketing (M8)** is ✅ Complete (CONTENT-0–11).  
-**Next focus:** Phase 19 Testing, Phase 20 staging go-live, or un-defer CMS.
+**UX Motion & Polish (UX-MOTION-1–5)** is ✅ Complete (marketing Level 1–2; ops hover/focus only; QA verified; hero simplified).  
+**Phase 19 — Testing** is ✅ Complete (shared package unit tests + commerce E2E + admin E2E).  
+**Phase 20 — Staging / production go-live** is ✅ Complete (live at `mcpfacbiotech.site`).  
+**Next focus:** Phase 18 reporting, research CMS, or CI E2E gate.
 
 ---
 
@@ -36,7 +39,7 @@
 | M4 | Orders, invoices, checkout | ✅ Complete |
 | M5 | Customer portal (account, orders, quotes, downloads) | ✅ Complete |
 | M6 | Admin platform (CMS, inventory, reports) | 🔄 In progress (ops + categories/inventory) |
-| M7 | Integration, testing, CI/CD, deployment | 🔄 In Progress |
+| M7 | Integration, testing, CI/CD, deployment | ✅ Complete |
 | M8 | Content & marketing pages (reference-driven) | ✅ Complete |
 
 ---
@@ -66,6 +69,59 @@
 
 ---
 
+### UX Motion & Polish (motion-ux-enhancement-expert)
+
+> **Policy:** Marketing/catalog = Level 1–2 motion (reveals, page fades, badge pop). Admin, checkout, and portal = hover/focus only (`data-motion="reduce"`). No business-logic changes.
+
+| ID | Task | Layer | Deps | Status |
+|----|------|-------|------|--------|
+| UX-MOTION-1 | Motion primitives + reduced-motion policy (`lib/motion.ts`, `lib/motion-policy.ts`, `OpsSurface`) | Frontend | Phase 3 | ✅ Done |
+| UX-MOTION-2 | Marketing polish P0–P3 — hero entrance, FAQ accordion, `Button` press, product grid stagger/skeletons, `CountBadge`, `EmptyState`, section reveals, comparison table, PDP gallery, stat count-up, marketing page transitions | Frontend | M8, UX-MOTION-1 | ✅ Done |
+| UX-MOTION-3 | Ops restraint — `OpsSurface` on admin shell, checkout, confirmation, account layout, orders/quotes/invoices portal; disable press-scale in reduce zones | Frontend | UX-MOTION-1 | ✅ Done |
+| UX-MOTION-4 | Manual QA pass — marketing nav fades, cart/wishlist badge pop, `prefers-reduced-motion` OS setting, admin/checkout buttons (no press-scale) | QA | UX-MOTION-2 | ✅ Done |
+| UX-MOTION-5 | Hero layout simplification — trust stats moved below fold into thin strip; hero headline + CTAs only | Frontend | M8 | ✅ Done |
+
+**UX-MOTION exit criteria (v1):** Shared motion vocabulary in design system; marketing routes feel intentional; ops surfaces scan without entrance/stagger motion; reduced-motion respected.
+
+**UX-MOTION status:** ✅ Complete
+
+---
+
+### Phase 19 — Testing (unit + critical path E2E)
+
+| ID | Task | Layer | Deps | Status |
+|----|------|-------|------|--------|
+| TEST-1 | Unit tests — `@mcpfac/shared-utils` (formatting, pagination, validation helpers) | Packages | — | ✅ Done |
+| TEST-2 | Unit tests — `@mcpfac/shared-validators` (cart, checkout, quote, auth schemas) | Packages | — | ✅ Done |
+| TEST-3 | API unit — guest checkout path in `OrdersService` | Backend | M4 | ✅ Done |
+| TEST-4 | E2E smoke — auth flow (register → verify → login → logout) | QA | AUTH-1–8 | ✅ Done (AUTH-9) |
+| TEST-5 | E2E critical path — catalog → cart → checkout (guest) | QA | M2–M4 | ✅ Done |
+| TEST-6 | Manual QA — motion polish (`prefers-reduced-motion`, ops restraint) | QA | UX-MOTION-2 | ✅ Done (UX-MOTION-4) |
+| TEST-7 | E2E smoke — admin login → view order → PENDING→CONFIRMED | QA | ADM-6, M4 | ✅ Done |
+
+**Phase 19 exit criteria:** Shared commerce validators covered by unit tests; API guest checkout tested; Playwright covers auth + catalog→checkout + admin order status; `pnpm test` + `pnpm test:e2e` runnable locally.
+
+**Phase 19 status:** ✅ Complete
+
+---
+
+### Phase 20 — Staging / production go-live
+
+| ID | Task | Layer | Deps | Status |
+|----|------|-------|------|--------|
+| DEPLOY-1 | Production env matrix (Vercel web + API, Supabase, Resend) | Ops | M7 | ✅ Done |
+| DEPLOY-2 | Deploy storefront + API to production URLs | Ops | DEPLOY-1 | ✅ Done |
+| DEPLOY-3 | Supabase Auth redirect URLs + site URL for live domain | Ops | DEPLOY-2 | ✅ Done |
+| DEPLOY-4 | Production smoke (health, catalog, auth, checkout path) | QA | TEST-4–5, DEPLOY-2 | ✅ Done |
+
+**Live URLs:** `https://mcpfacbiotech.site` (storefront) · `https://api.mcpfacbiotech.site` (API) · Runbook: `docs/DEPLOYMENT.md`
+
+**Phase 20 exit criteria:** Production env configured; web + API deployed; auth redirects aligned; smoke verified on live URL.
+
+**Phase 20 status:** ✅ Complete
+
+---
+
 ## Active Backlog
 
 
@@ -88,11 +144,11 @@
 | AUTH-6 | NestJS auth guard (Supabase JWT validation) + `@CurrentUser()` decorator wiring | Backend | AUTH-5 | ✅ Done |
 | AUTH-7 | Role seed data (`roles`, `permissions`, `role_permissions`) | DB | P0-4 | ✅ Done |
 | AUTH-8 | Password reset completion page + update-password action | Frontend | P0-3 | ✅ Done |
-| AUTH-9 | Auth flow E2E smoke test (register → verify → login → logout) | QA | AUTH-1–8 | ⬜ Open |
+| AUTH-9 | Auth flow E2E smoke test (register → verify → login → logout) | QA | AUTH-1–8 | ✅ Done |
 
-**M1.5 exit criteria:** All AUTH tasks done except AUTH-9 (E2E smoke test), builds pass, no broken auth links, profile sync endpoint live.
+**M1.5 exit criteria:** All AUTH tasks done, builds pass, no broken auth links, profile sync endpoint live, auth E2E smoke test in CI/local harness.
 
-**M1.5 status:** ✅ Complete (pending AUTH-9 E2E test)
+**M1.5 status:** ✅ Complete
 
 ---
 
@@ -185,15 +241,29 @@ Depends on **M2.5 live imported catalog** (not `MBT-*` sample seed products).
 | ADM-8 | `pnpm db:promote-admin` helper | DB/Tooling | ✅ Done |
 | ADM-9a | Admin categories CRUD (list/create/update/soft-delete) | Full stack | ✅ Done |
 | ADM-9b | Inventory list + per-product `lowStockThreshold` + auto LOW_STOCK | Full stack | ✅ Done |
-| ADM-9c | Document CMS / media library / blog / FAQ / COA workflows | Full stack | ❌ Deferred → Phase 17 |
+| ADM-9c | Document CMS / media library / blog / FAQ / COA workflows | Full stack | ✅ Done (research admin deferred) |
 
 **M6 exit criteria (v1):** Staff roles can open `/admin`, manage catalog publish/stock, approve quotes, advance orders, suspend customers.
 
-**M6 status:** ✅ Partial complete (ops console + categories/inventory; media/CMS/reports → Phase 17–18)
+**M6 status:** ✅ Partial complete (ops + categories/inventory + documents/media/blog/FAQ CMS; research/reports deferred)
 
 ---
 
-### M7 — Platform Hardening (ongoing, escalate before production)
+### Phase 17 — CMS (documents + media)
+
+| ID | Task | Layer | Status |
+|----|------|-------|--------|
+| CMS-1 | Admin documents CRUD + soft-delete + approve + product attach | Full stack | ✅ Done |
+| CMS-2 | Admin media URL registry (folder, alt, mime) | Full stack | ✅ Done |
+| CMS-3 | Public `GET /documents/search` + COA batch lookup wired to DB | Full stack | ✅ Done |
+| CMS-4 | Blog / FAQ admin + replace static storefront sources | Full stack | ✅ Done |
+| CMS-5 | Research article admin + replace `research-articles.ts` | Full stack | ⬜ Deferred |
+
+**Phase 17 status:** ✅ Complete (v1 docs/media + v1.1 blog/FAQ; research later)
+
+---
+
+### M7 — Platform Hardening
 
 | ID | Task | Status |
 |----|------|--------|
@@ -201,7 +271,9 @@ Depends on **M2.5 live imported catalog** (not `MBT-*` sample seed products).
 | PLAT-2 | Global exception filter + response interceptor wired in `main.ts` | ✅ Done |
 | PLAT-3 | Structured logging (pino) configured | ✅ Done |
 | PLAT-4 | Test coverage for critical paths (≥80% controllers, ≥90% services) | ✅ Done (critical-path gate) |
-| PLAT-5 | Staging deployment (Vercel frontend + backend host TBD) | ✅ Done (Vercel + Render scaffolding) |
+| PLAT-5 | Production deployment (Vercel web + API, Supabase) | ✅ Done |
+
+**M7 status:** ✅ Complete
 
 ---
 
@@ -232,17 +304,16 @@ AUTH-5 (profile sync) ──► AUTH-6 (JWT guard)
 - [ ] Engineering standards reviewed (relevant volumes + appendices)
 - [ ] Completed work recorded in `walkthrough.md`
 
-**Current gate status:** Web + API type-check ✅ | Account unit tests ✅ (2) | Live catalog ✅
+**Current gate status:** Web + API type-check ✅ | Unit + E2E tests ✅ | **Production live** ✅ (`mcpfacbiotech.site`)
 
 ---
 
 ## Next Action
 
-**Recommended:** Phase 19 Testing or Phase 20 staging go-live (`docs/STAGING.md`).
+**Recommended:** Phase 18 reporting, research CMS (CMS-5), or add Playwright E2E to CI.
 
 Alternatives:
-- Un-defer Phase 17 CMS v1 (documents + media)
 - Carrier tracking on admin fulfill
 
-**Recently closed:** Homepage multi-shelf products · M8 Content & Marketing (CONTENT-0–11) · Phase 16 Administration · Phase 15 shipping.  
-**Deferred:** Phase 17 CMS · Phase 18 Reporting.
+**Recently closed:** CMS-4 blog/FAQ · Phase 17 CMS v1 (documents + media + COA search) · UX-MOTION-5 · UX-MOTION-4 · Phase 20 · Phase 19 · Admin E2E (TEST-7).  
+**Deferred:** CMS-5 research admin · Phase 18 Reporting.

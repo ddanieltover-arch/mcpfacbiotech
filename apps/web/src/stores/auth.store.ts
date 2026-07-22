@@ -19,11 +19,14 @@ interface AuthState {
   isLoading: boolean;
   /** Initialize the store: read the current session and subscribe to changes. */
   initialize: () => () => void;
+  /** Re-read session from cookies — needed after server-action login/logout redirects. */
+  refreshSession: () => Promise<void>;
 }
 
 async function syncSessionProfile(
   accessToken: string | undefined,
   set: (partial: Partial<AuthState>) => void,
+  get: () => AuthState,
 ): Promise<void> {
   if (!accessToken) {
     set({ profile: null });
@@ -36,14 +39,23 @@ async function syncSessionProfile(
   } catch (error) {
     console.error('Profile sync failed:', error);
     try {
-      set({ profile: await fetchAuthMe(accessToken) });
+      const me = await fetchAuthMe(accessToken);
+      if (me) {
+        set({ profile: me });
+        return;
+      }
     } catch {
+      // keep existing profile below
+    }
+    // Never clear a known profile on transient sync failures — AdminShell
+    // unmounts children when profile flickers null and aborts in-flight admin fetches.
+    if (!get().profile) {
       set({ profile: null });
     }
   }
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   profile: null,
   isLoading: true,
@@ -53,7 +65,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       set({ user: session?.user ?? null, isLoading: false });
-      void syncSessionProfile(session?.access_token, set);
+      void syncSessionProfile(session?.access_token, set, get);
     });
 
     const {
@@ -67,7 +79,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       }
 
       if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'USER_UPDATED') {
-        void syncSessionProfile(session?.access_token, set);
+        void syncSessionProfile(session?.access_token, set, get);
       }
 
       if (event === 'SIGNED_IN') {
@@ -80,5 +92,32 @@ export const useAuthStore = create<AuthState>((set) => ({
     return () => {
       subscription.unsubscribe();
     };
+  },
+
+  refreshSession: async () => {
+    const supabase = createClient();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    set({ user: session?.user ?? null, isLoading: false });
+
+    if (!session?.access_token) {
+      set({ profile: null });
+      return;
+    }
+
+    // Pathname-driven refresh: if we already have a profile, prefer a cheap /me
+    // read so navigations do not stampede /auth/sync and abort admin API calls.
+    if (get().profile) {
+      try {
+        const me = await fetchAuthMe(session.access_token);
+        if (me) set({ profile: me });
+      } catch {
+        // keep current profile
+      }
+      return;
+    }
+
+    await syncSessionProfile(session.access_token, set, get);
   },
 }));

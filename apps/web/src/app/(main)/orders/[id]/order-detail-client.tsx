@@ -8,6 +8,7 @@ import type { OrderDetail } from '@mcpfac/shared-types';
 import { PAYMENT_METHOD_OPTIONS, SHIPPING_METHOD_OPTIONS } from '@mcpfac/shared-types';
 import { cancelOrder, confirmOrder, getOrder } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { OpsSurface } from '@/components/layout/ops-surface';
 
 export function OrderDetailClient() {
   const params = useParams<{ id: string }>();
@@ -75,7 +76,7 @@ export function OrderDetailClient() {
   }
 
   return (
-    <div className="bg-neutral-50">
+    <OpsSurface className="bg-neutral-50">
       <section className="border-b border-neutral-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10">
           <Link href="/orders" className="text-sm text-brand-deep hover:underline">
@@ -238,6 +239,6 @@ export function OrderDetailClient() {
           <p className="text-xs text-neutral-500">Created {formatDate(order.createdAt)}</p>
         </aside>
       </div>
-    </div>
+    </OpsSurface>
   );
 }

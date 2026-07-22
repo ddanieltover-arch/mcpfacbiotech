@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
-import { StatGrid } from '@/components/marketing/stat-grid';
 import { HOME_HERO } from '@/lib/marketing-content';
 import {
   slideUp,
@@ -34,71 +33,58 @@ export function HomeHero() {
       ) : null}
 
       <motion.div
-        className="relative mx-auto grid max-w-7xl gap-10 px-4 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-24"
+        className="relative mx-auto max-w-4xl px-4 py-14 text-center sm:py-16 lg:py-20"
         variants={container}
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={container} className="min-w-0">
-          <motion.p
-            variants={item}
-            className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-brand-deep shadow-sm ring-1 ring-brand-pale"
-          >
-            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-brand-leaf motion-reduce:animate-none" />
-            {HOME_HERO.eyebrow}
-          </motion.p>
+        <motion.p
+          variants={item}
+          className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-brand-deep shadow-sm ring-1 ring-brand-pale"
+        >
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-brand-leaf motion-reduce:animate-none" />
+          {HOME_HERO.eyebrow}
+        </motion.p>
 
-          <motion.h1
-            variants={item}
-            className="max-w-3xl font-heading text-4xl font-bold tracking-tight text-brand-deep sm:text-5xl lg:text-6xl"
-          >
-            {HOME_HERO.title}
-            <br />
-            <span className="text-gradient">{HOME_HERO.titleAccent}</span>
-          </motion.h1>
+        <motion.h1
+          variants={item}
+          className="mx-auto max-w-3xl font-heading text-4xl font-bold tracking-tight text-brand-deep sm:text-5xl lg:text-6xl"
+        >
+          {HOME_HERO.title}
+          <br />
+          <span className="text-gradient">{HOME_HERO.titleAccent}</span>
+        </motion.h1>
 
-          <motion.p
-            variants={item}
-            className="mt-3 font-heading text-base font-medium tracking-wide text-brand-natural sm:text-lg"
-          >
-            Learn • Understand • Grow
-          </motion.p>
+        <motion.p
+          variants={item}
+          className="mt-3 font-heading text-base font-medium tracking-wide text-brand-natural sm:text-lg"
+        >
+          Learn • Understand • Grow
+        </motion.p>
 
-          <motion.p
-            variants={item}
-            className="mt-5 max-w-xl text-base text-neutral-600 sm:text-lg"
-          >
-            {HOME_HERO.description}
-          </motion.p>
-
-          <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-3">
-            <Link
-              href={HOME_HERO.primaryCta.href}
-              className="inline-flex items-center rounded-lg bg-brand-deep px-6 py-3 text-sm font-semibold text-white shadow-md transition-[color,background-color,box-shadow,transform] duration-200 hover:bg-brand-natural hover:shadow-lg motion-safe:active:scale-[0.98]"
-            >
-              {HOME_HERO.primaryCta.label}
-            </Link>
-            <Link
-              href={HOME_HERO.secondaryCta.href}
-              className="inline-flex items-center rounded-lg border-2 border-brand-deep px-6 py-3 text-sm font-semibold text-brand-deep transition-[color,background-color,border-color,transform] duration-200 hover:bg-brand-deep hover:text-white motion-safe:active:scale-[0.98]"
-            >
-              {HOME_HERO.secondaryCta.label}
-            </Link>
-          </motion.div>
-        </motion.div>
+        <motion.p
+          variants={item}
+          className="mx-auto mt-5 max-w-2xl text-base text-neutral-600 sm:text-lg"
+        >
+          {HOME_HERO.description}
+        </motion.p>
 
         <motion.div
           variants={item}
-          className="rounded-2xl border border-brand-deep/10 bg-white/80 p-6 shadow-sm backdrop-blur sm:p-8"
+          className="mt-8 flex flex-wrap items-center justify-center gap-3"
         >
-          <p className="text-xs font-semibold uppercase tracking-wide text-brand-natural">
-            Laboratory trust signals
-          </p>
-          <StatGrid className="mt-5" />
-          <p className="mt-5 text-xs leading-relaxed text-neutral-500">
-            Specs and batch documents vary by SKU. Always confirm purity and COA availability on the
-            product page before experimental use.
-          </p>
+          <Link
+            href={HOME_HERO.primaryCta.href}
+            className="inline-flex items-center rounded-lg bg-brand-deep px-6 py-3 text-sm font-semibold text-white shadow-md transition-[color,background-color,box-shadow,transform] duration-200 hover:bg-brand-natural hover:shadow-lg motion-safe:active:scale-[0.98]"
+          >
+            {HOME_HERO.primaryCta.label}
+          </Link>
+          <Link
+            href={HOME_HERO.secondaryCta.href}
+            className="inline-flex items-center rounded-lg border-2 border-brand-deep px-6 py-3 text-sm font-semibold text-brand-deep transition-[color,background-color,border-color,transform] duration-200 hover:bg-brand-deep hover:text-white motion-safe:active:scale-[0.98]"
+          >
+            {HOME_HERO.secondaryCta.label}
+          </Link>
         </motion.div>
       </motion.div>
     </section>

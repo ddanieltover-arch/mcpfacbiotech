@@ -18,6 +18,7 @@ describe('OrdersService', () => {
         firstName: 'Ada',
         lastName: 'Lab',
       }),
+      create: jest.fn(),
     },
     quote: {
       findFirst: jest.fn(),
@@ -26,6 +27,12 @@ describe('OrdersService', () => {
     },
     address: {
       findFirst: jest.fn(),
+      create: jest.fn(),
+    },
+    role: {
+      findUnique: jest.fn(),
+    },
+    customer: {
       create: jest.fn(),
     },
     invoice: {
@@ -57,6 +64,7 @@ describe('OrdersService', () => {
   const cartService = {
     getActiveCartRecord: jest.fn(),
     clearCartById: jest.fn(),
+    mergeGuestCart: jest.fn().mockResolvedValue({ id: 'cart-merged' }),
   };
 
   const emailService = {
@@ -124,6 +132,9 @@ describe('OrdersService', () => {
       ],
       statusHistory: [],
       invoices: [],
+      customer: {
+        profile: { email: 'lab@example.com', firstName: 'Ada', lastName: 'Lab' },
+      },
     });
 
     const result = await service.checkout({
@@ -134,6 +145,90 @@ describe('OrdersService', () => {
     expect(result.status).toBe('PENDING');
     expect(result.items[0]?.productSku).toBe('5-AMINO-1MQ');
     expect(cartService.clearCartById).toHaveBeenCalledWith('cart-1');
+  });
+
+  it('creates a pending order for guest checkout from cart', async () => {
+    cartService.getActiveCartRecord.mockResolvedValue({
+      id: 'cart-guest',
+      items: [{ productId: 'prod-amino', quantity: 1 }],
+    });
+    prisma.profile.findUnique.mockResolvedValue(null);
+    prisma.role.findUnique.mockResolvedValue({ id: 'role-guest', name: 'GUEST' });
+    prisma.profile.create.mockResolvedValue({ id: 'guest-profile-1' });
+    prisma.address.create.mockResolvedValue({ id: 'addr-guest-1' });
+    prisma.order.findUnique.mockResolvedValue(null);
+    prisma.$transaction.mockImplementation(async (fn: (tx: typeof prisma) => Promise<unknown>) => {
+      prisma.order.create.mockResolvedValue({
+        id: 'order-guest-1',
+        orderNumber: 'ORD-GUEST-001',
+      });
+      return fn(prisma);
+    });
+    prisma.order.findFirst.mockResolvedValue({
+      id: 'order-guest-1',
+      orderNumber: 'ORD-GUEST-001',
+      status: OrderStatus.PENDING,
+      subtotal: { toString: () => '169' },
+      shippingCost: { toString: () => '25' },
+      taxAmount: { toString: () => '0' },
+      totalAmount: { toString: () => '194' },
+      currency: 'USD',
+      notes: null,
+      purchaseOrderNum: null,
+      quoteId: null,
+      shippingAddressId: 'addr-guest-1',
+      billingAddressId: 'addr-guest-1',
+      createdAt: new Date('2026-07-22T00:00:00.000Z'),
+      updatedAt: new Date('2026-07-22T00:00:00.000Z'),
+      items: [
+        {
+          id: 'oi-guest-1',
+          productId: 'prod-amino',
+          productName: '5-Amino-1MQ',
+          productSku: '5-AMINO-1MQ',
+          quantity: 1,
+          unitPrice: { toString: () => '169' },
+          totalPrice: { toString: () => '169' },
+        },
+      ],
+      statusHistory: [],
+      invoices: [],
+      customer: {
+        profile: { email: 'guest@example.com', firstName: 'Guest', lastName: 'Buyer' },
+      },
+      shippingAddress: {
+        firstName: 'Guest',
+        lastName: 'Buyer',
+        addressLine1: '1 Lab Street',
+        city: 'Boston',
+        postalCode: '02101',
+        country: 'United States',
+      },
+    });
+
+    const result = await service.checkout({
+      sessionId: '11111111-1111-4111-8111-111111111111',
+      dto: {
+        fromCart: true,
+        guestEmail: 'guest@example.com',
+        shippingAddress: {
+          firstName: 'Guest',
+          lastName: 'Buyer',
+          addressLine1: '1 Lab Street',
+          city: 'Boston',
+          postalCode: '02101',
+          country: 'United States',
+        },
+      },
+    });
+
+    expect(result.status).toBe('PENDING');
+    expect(prisma.profile.create).toHaveBeenCalled();
+    expect(cartService.mergeGuestCart).toHaveBeenCalledWith(
+      'guest-profile-1',
+      '11111111-1111-4111-8111-111111111111',
+    );
+    expect(cartService.clearCartById).toHaveBeenCalledWith('cart-guest');
   });
 
   it('rejects quote conversion when quote is still draft', async () => {

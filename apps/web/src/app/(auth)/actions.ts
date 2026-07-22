@@ -44,6 +44,7 @@ export async function login(formData: FormData): Promise<{ error: string } | voi
           Authorization: `Bearer ${session.access_token}`,
           'Content-Type': 'application/json',
         },
+        signal: AbortSignal.timeout(10_000),
       });
     } catch (syncError) {
       console.error('Login profile sync failed:', syncError);
@@ -172,7 +173,6 @@ export async function logout(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();
   revalidatePath('/', 'layout');
-  redirect('/');
 }
 
 // ──────────────────────────────────────────────────────────────────────────────

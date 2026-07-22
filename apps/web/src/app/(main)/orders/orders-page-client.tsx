@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { OrderSummary } from '@mcpfac/shared-types';
 import { listOrders } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { OpsSurface } from '@/components/layout/ops-surface';
 
 const STATUS_STYLES: Record<string, string> = {
   PENDING: 'bg-amber-50 text-amber-800',
@@ -50,7 +51,7 @@ export function OrdersPageClient() {
   }, []);
 
   return (
-    <div className="bg-neutral-50">
+    <OpsSurface className="bg-neutral-50">
       <section className="border-b border-neutral-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10">
           <h1 className="font-heading text-4xl font-bold text-brand-deep">My Orders</h1>
@@ -119,6 +120,6 @@ export function OrdersPageClient() {
           </div>
         )}
       </div>
-    </div>
+    </OpsSurface>
   );
 }

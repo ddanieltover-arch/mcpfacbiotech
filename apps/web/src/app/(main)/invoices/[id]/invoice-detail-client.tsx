@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import type { InvoiceDetail } from '@mcpfac/shared-types';
 import { getInvoice } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { OpsSurface } from '@/components/layout/ops-surface';
 
 export function InvoiceDetailClient() {
   const params = useParams<{ id: string }>();
@@ -60,7 +61,7 @@ export function InvoiceDetailClient() {
   }
 
   return (
-    <div className="bg-neutral-50">
+    <OpsSurface className="bg-neutral-50">
       <section className="border-b border-neutral-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10">
           <Link href="/invoices" className="text-sm text-brand-deep hover:underline">
@@ -137,6 +138,6 @@ export function InvoiceDetailClient() {
           </Link>
         </aside>
       </div>
-    </div>
+    </OpsSurface>
   );
 }

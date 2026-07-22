@@ -1,7 +1,73 @@
 # MCPFAC BIOTECH — Delivery Walkthrough
 
 > Record of completed work. Maintained by Enterprise Project Manager.  
-> Last updated: 2026-07-21
+> Last updated: 2026-07-22
+
+---
+
+## UX Motion & Polish (UX-MOTION-1–5) ✅
+
+**Date:** 2026-07-22  
+**Skill:** `motion-ux-enhancement-expert`  
+**Milestones:** Phase 3 (Design System) · M8 (Marketing) · M6/M16 (Admin ops restraint)
+
+### Policy
+
+- **Marketing / catalog:** Level 1–2 motion — scroll reveals, hero entrance, page fades, badge pop, accordion animation
+- **Ops surfaces** (admin, checkout, account, orders/quotes/invoices): hover/focus only via `data-motion="reduce"` — no entrance, stagger, or press-scale
+- Presentation layer only — no business logic, API, or routing changes
+
+### Delivered by priority
+
+| Priority | Scope |
+|----------|--------|
+| **P0** | `HomeHero` staggered entrance; FAQ `AnimatePresence` height/opacity; `Button` press + hover; `variantsFor` / `staggerFor` / `transitionFor` in `lib/motion.ts` |
+| **P1** | `ProductCardGrid` stagger + load-more skeletons; `CountBadge` spring pop (header + mobile nav); `EmptyState` primitive; `AdminTableSkeleton` / `AdminDashboardSkeleton` |
+| **P2** | `MarketingSection` header reveals; `ComparisonTable` row stagger; `ProductImageGallery` (hover zoom + thumbnails); `StatGrid` count-up for numeric stats |
+| **P3** | Marketing-only page transitions via `(main)/template.tsx` + `PageTransition` (first load instant; no fade on ops routes) |
+| **Ops** | `lib/motion-policy.ts` + `OpsSurface` on admin shell, checkout, confirmation, account, portal list/detail pages |
+
+### Key files
+
+| Area | Path |
+|------|------|
+| Motion primitives | `apps/web/src/lib/motion.ts` |
+| Ops policy | `apps/web/src/lib/motion-policy.ts` |
+| Page transition | `apps/web/src/components/layout/page-transition.tsx`, `app/(main)/template.tsx` |
+| Ops wrapper | `apps/web/src/components/layout/ops-surface.tsx` |
+| UI primitives | `components/ui/empty-state.tsx`, `count-badge.tsx` |
+| Marketing | `components/marketing/home-hero.tsx`, updated section/grid/table/stat components |
+| Catalog | `components/products/product-card-grid.tsx`, `product-card-skeleton.tsx`, `product-image-gallery.tsx` |
+| Admin loading | `components/admin/admin-table-skeleton.tsx` |
+
+### Verification
+
+- `pnpm --filter @mcpfac/web type-check` ✅
+- Reduced-motion: CSS global rule + Framer `useReducedMotion` on animated components
+- Ops routes excluded from `PageTransition` allowlist
+- **UX-MOTION-4 QA (2026-07-22):** Playwright `e2e/motion.spec.ts` — 7/7 pass
+
+| Check | Result |
+|-------|--------|
+| Checkout `data-motion="reduce"` | ✅ Pass |
+| Checkout `Place Order` — no press-scale (class override + runtime transform) | ✅ Pass |
+| Marketing `/contact` button — `motion-safe:active:scale-[0.98]` present | ✅ Pass |
+| `prefers-reduced-motion` — marketing button does not scale on press | ✅ Pass |
+| `prefers-reduced-motion` — marketing routes readable on entry (no stuck `opacity: 0`) | ✅ Pass |
+| Cart badge pop — header shows count after cart seed | ✅ Pass |
+| Cart badge under reduced motion | ✅ Pass |
+
+**Manual spot-check (recommended once in real browser):** Home → About client nav fade with default motion; hero entrance; FAQ accordion. Automated tests cover ops restraint and reduced-motion regressions.
+
+### UX-MOTION-5 — Hero layout (2026-07-22)
+
+- **Hero** (`home-hero.tsx`): single-column, centered — eyebrow, headline, tagline, description, CTAs only (no side stat card)
+- **Trust strip** (`home-trust-strip.tsx`): thin bordered bar below hero with `StatGrid variant="strip"`; disclaimer footnote retained
+- **StatGrid** (`stat-grid.tsx`): new `variant="strip"` — compact typography, divider separators on `sm+`, scroll count-up preserved
+
+### Open / deferred
+
+_None — UX motion v1 complete._
 
 ---
 
@@ -112,9 +178,68 @@ Schema files under `prisma/`:
 - `POST /api/v1/auth/sync` — Upserts Profile + Customer from Supabase JWT (no profile required)
 - `GET /api/v1/auth/me` — Returns authenticated user from Prisma profile
 
-### Remaining
+### AUTH-9 — Auth E2E smoke test (Playwright)
 
-- AUTH-9: Auth flow E2E smoke test
+| Item | Path |
+|------|------|
+| Config | `apps/web/playwright.config.ts` |
+| Spec | `apps/web/e2e/auth.spec.ts` |
+| Supabase admin helpers | `apps/web/e2e/helpers/supabase-admin.ts` |
+| Auth flow helpers | `apps/web/e2e/helpers/auth-flow.ts` |
+
+**Flow:** UI register (`@example.com`) → admin email confirm → login → `/account` welcome → logout → protected-route redirect.
+
+**Notes:** Skips when Supabase env is missing. On anon `signUp` rate limit, provisions user via service role. `E2E_AUTH_CALLBACK_VERIFY=1` optionally exercises `/auth/callback` via magic link.
+
+**Run:** `pnpm test:e2e` (from repo root). First time: `pnpm exec playwright install chromium` from `apps/web`. Use `PLAYWRIGHT_SKIP_WEBSERVER=1` when `pnpm dev` is already running.
+
+### Phase 19 — Commerce E2E (catalog → cart → checkout)
+
+| Item | Path |
+|------|------|
+| Spec | `apps/web/e2e/commerce.spec.ts` |
+| Env helper | `apps/web/e2e/helpers/commerce-env.ts` |
+
+**Flow:** Browse `/products` → add priced item → `/cart` → guest `/checkout` → confirmation page with order reference.
+
+**Notes:** Skips when `DATABASE_URL` is missing or catalog has no priced products. Requires `pnpm dev` (web + API + DB). Guest checkout merges session cart before order creation (see `OrdersService.checkout`).
+
+### Phase 19 — Admin E2E (login → order → status)
+
+| Item | Path |
+|------|------|
+| Spec | `apps/web/e2e/admin.spec.ts` |
+| Setup helper | `apps/web/e2e/helpers/admin-setup.ts` |
+
+**Flow:** Provision ADMINISTRATOR → seed PENDING guest order (Prisma) → UI login → `/admin/orders` → open order → **Set CONFIRMED**.
+
+**Notes:** Skips without Supabase + `DATABASE_URL` + backend. Order seed bypasses slow checkout API. Admin status PATCH uses a 30s Prisma interactive transaction (invoice on confirm). Auth pathname refresh uses `/auth/me` when a profile already exists so navigations do not stampede `/auth/sync`.
+
+**Run:** `PLAYWRIGHT_SKIP_WEBSERVER=1 pnpm --filter @mcpfac/web exec playwright test e2e/admin.spec.ts` (with web on `:3000` and API on `:3001`).
+
+**Verified:** 2026-07-22 — 1/1 pass (~2.8m).
+
+### Phase 19 — Shared package unit tests
+
+| Package | Spec |
+|---------|------|
+| `@mcpfac/shared-utils` | `packages/shared-utils/src/index.spec.ts` |
+| `@mcpfac/shared-validators` | `packages/shared-validators/src/index.spec.ts` |
+
+**Run:** `pnpm test` (API + shared packages via Turbo). API coverage gate: `pnpm --filter @mcpfac/api test:cov`.
+
+### Phase 20 — Production go-live ✅
+
+**Date:** 2026-07-22 (operator-confirmed live)
+
+| Item | Value |
+|------|--------|
+| Storefront | `https://mcpfacbiotech.site` |
+| API | `https://api.mcpfacbiotech.site` |
+| Runbook | `docs/DEPLOYMENT.md` |
+| Stack | Vercel (web + Nest API) · Supabase (DB/auth) · Resend (email) |
+
+**Exit criteria met:** Production env vars set; Vercel projects deployed; Supabase auth redirects aligned; smoke verified on live URL.
 
 ---
 
@@ -377,7 +502,7 @@ pnpm db:migrate-legacy
 
 ### Still open (M7)
 - Harden lint to fail CI (currently `continue-on-error`)
-- Live staging go-live: connect Vercel + Render (see `docs/STAGING.md`)
+- Follow-on: cart/orders/quotes *service* files to ≥90% lines (controllers already gated)
 
 ---
 
@@ -397,7 +522,6 @@ pnpm db:migrate-legacy
 ### Still open (M7)
 - Harden lint to fail CI (currently `continue-on-error`)
 - Follow-on: cart/orders/quotes *service* files to ≥90% lines (controllers already gated)
-- Live staging go-live: connect Vercel + Render (see `docs/STAGING.md`)
 
 ---
 
@@ -416,25 +540,24 @@ pnpm db:migrate-legacy
 ### Still open (M7)
 - Harden lint to fail CI (currently `continue-on-error`)
 - Follow-on: cart/orders/quotes *service* files to ≥90% lines (controllers already gated)
-- Live staging go-live: connect Vercel + Render + GitHub secrets (see `docs/STAGING.md`)
 
 ---
 
-## Milestone 7d — Staging Deploy Scaffolding ✅
+## Milestone 7d — Staging Deploy Scaffolding ✅ (superseded by production go-live)
 
 **Date:** 2026-07-21
 
 ### Scope delivered
-- Backend host decision: **Render** (Docker) — `render.yaml` + `apps/api/Dockerfile`
+- Backend host decision: **Render** (Docker) — `render.yaml` + `apps/api/Dockerfile` (legacy; production uses Vercel API)
 - Frontend: **Vercel** — `apps/web/vercel.json` (monorepo install/build)
-- Runbook: `docs/STAGING.md` (env matrix, Auth redirects, smoke checklist, rollback)
-- Workflow: `.github/workflows/deploy-staging.yml` (GHCR image push; optional Vercel + Render hook)
+- Runbook: `docs/DEPLOYMENT.md` (env matrix, Auth redirects, smoke checklist)
+- Workflow: `.github/workflows/deploy-staging.yml` (GHCR image push; optional Vercel hook)
 - Fixed `pnpm-workspace.yaml` `esbuild` allowBuilds entry
 - README deployment row updated
 
-### Blocked on operator action (not code)
-- Create Vercel project + Render Blueprint and paste staging env vars
-- Add GitHub secrets: `VERCEL_*`, `RENDER_DEPLOY_HOOK_URL` (optional automation)
+### Production go-live (Phase 20) — 2026-07-22
+- Live at `https://mcpfacbiotech.site` + `https://api.mcpfacbiotech.site`
+- Operator confirmed env, deploy, and production smoke complete
 
 ---
 
@@ -655,21 +778,46 @@ Volume 7 reports/analytics (sales, orders, quotes, downloads, inventory, revenue
 
 ---
 
-## Phase 17 — CMS ❌ Deferred
+## Phase 17 — CMS (documents + media + blog/FAQ) ✅
 
-**Date:** 2026-07-21 (deferred)
+**Date:** 2026-07-22
 
-### Why deferred
-Full Volume 7 CMS (media library, document/COA versioning, blog, research articles, FAQ) is out of scope for the current ops-console milestone. Prisma models already exist (`Document`, `Media`, `BlogPost`, FAQ) but there is no admin API/UI.
+### Delivered (v1)
+1. **Documents CMS** — `AdminDocumentsController/Service` at `/admin/documents`
+   - List/filter by type + search (title, file, product SKU)
+   - Create/update/soft-delete; approve toggle; attach/detach products by SKU
+   - Admin UI: `/admin/documents` + nav entry
+2. **Media library** — `AdminMediaController/Service` at `/admin/media`
+   - URL registry (fileName, fileUrl, mime, alt, folder); hard delete
+   - Admin UI: `/admin/media`
+3. **Public COA search** — `GET /api/v1/documents/search` (approved + PUBLIC)
+   - `/coa` `CoaBatchLookup` searches COA/HPLC; mailto remains as fallback
 
-### Re-entry scope (when un-deferred)
-1. **Documents v1** — list/create/update/soft-delete COA/MSDS/HPLC; attach to products; approve flag
-2. **Media library v1** — URL-based asset registry (folder, alt, mime); no binary upload pipeline yet unless Supabase Storage is wired
-3. **Blog / FAQ** — draft → publish; public read routes later
+### Delivered (v1.1 — CMS-4 blog/FAQ)
+1. **Blog CMS** — `AdminBlogController/Service` + public `BlogModule`
+   - Admin CRUD/soft-delete + status at `/admin/blog`
+   - Public `GET /api/v1/blog`, `GET /api/v1/blog/:slug`
+   - Storefront `/blog` + `/blog/[slug]` read from API (static `blog-posts.ts` fallback)
+2. **FAQ CMS** — `AdminFaqController/Service` + public `FaqModule`
+   - Categories + questions at `/admin/faq`
+   - Public `GET /api/v1/faq` (+ `/faq/categories`)
+   - `/faq` + homepage FAQ teaser from API (static `FAQ_ITEMS` fallback)
+3. **Seed** — `prisma/seed/cms-content.ts` upserts 3 published posts + 11 FAQ items
 
-### Depends on
-- Phase 16 ops console (done)
-- Optional: Supabase Storage for real uploads
+### Key files
+| Area | Path |
+|------|------|
+| Shared types | `packages/shared-types` — blog/FAQ + admin document/media types |
+| Admin API | `apps/api/src/modules/admin/admin-documents.*`, `admin-media.*`, `admin-blog.*`, `admin-faq.*` |
+| Public API | `apps/api/src/modules/documents/`, `blog/`, `faq/` |
+| Admin UI | `apps/web/src/app/(main)/admin/{documents,media,blog,faq}` |
+| Public fetch | `apps/web/src/lib/cms-content.ts` |
+| Seed | `prisma/seed/cms-content.ts` |
+
+### Deferred
+- Research article admin (CMS-5) + swap `research-articles.ts`
+- Binary upload via Supabase Storage
+- Document versioning / download-log UI
 
 ---
 
@@ -683,9 +831,10 @@ Full Volume 7 CMS (media library, document/COA versioning, blog, research articl
 - Customer verify + suspend/reactivate
 - Empty states on key list/recent panels; dashboard invoice card → `/admin/orders`
 - Categories CRUD + inventory thresholds (ADM-9a/9b)
+- Documents + media CMS → **Phase 17** (delivered 2026-07-22)
 
 ### Explicitly deferred (full admin suite)
-- ADM-9c Document CMS / media library → **Phase 17**
+- Research article CMS (CMS-5)
 - Reports / analytics → **Phase 18**
 - Users/roles UI, support tickets, command palette, carrier tracking
 
@@ -717,8 +866,9 @@ Full Volume 7 CMS (media library, document/COA versioning, blog, research articl
 
 ### Scope delivered
 - Volume 2 tokens already in `globals.css` (@theme brand/spacing/type/radius/shadow)
-- UI primitives in `apps/web/src/components/ui/`: Button, Input, Textarea, Label, Badge, Card, Alert, Separator, Skeleton, Spinner
-- Shared motion helpers in `lib/motion.ts` (`fadeIn`, `slideUp`, `scaleIn`, `fadeInDown`, `staggerChildren`)
+- UI primitives in `apps/web/src/components/ui/`: Button, Input, Textarea, Label, Badge, Card, Alert, Separator, Skeleton, Spinner, EmptyState, CountBadge
+- Shared motion helpers in `lib/motion.ts` (`fadeIn`, `slideUp`, `scaleIn`, `fadeInDown`, `staggerChildren`, reduced-motion helpers)
+- Ops motion policy in `lib/motion-policy.ts` + `OpsSurface` wrapper
 - Live showcase: `/design-system`
 - Migrated login + checkout + availability badge onto primitives
 
@@ -746,8 +896,10 @@ Full Volume 7 CMS (media library, document/COA versioning, blog, research articl
 
 ---
 
-## Next Milestone Preview — Live staging / polish
+## Next Milestone Preview — reporting / research CMS / polish
 
-Connect hosts per `docs/STAGING.md`, or deepen shipping / CMS.
+Phase 18 reporting, CMS-5 research admin, or CI E2E gate.
 
 **M6 smoke closed:** valid `SUPABASE_SERVICE_ROLE_KEY` installed; `mcpfacbiotech@gmail.com` → ADMINISTRATOR; `pnpm db:smoke-admin` 12/12.
+
+**Production live:** `https://mcpfacbiotech.site` · `https://api.mcpfacbiotech.site` (Phase 20 complete).

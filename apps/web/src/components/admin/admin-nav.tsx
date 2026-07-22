@@ -3,9 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
+  CircleHelp,
+  FileStack,
   FileText,
   FolderTree,
+  ImageIcon,
   LayoutDashboard,
+  Newspaper,
   Package,
   ShoppingBag,
   Users,
@@ -18,6 +22,10 @@ const NAV = [
   { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/categories', label: 'Categories', icon: FolderTree },
   { href: '/admin/inventory', label: 'Inventory', icon: Warehouse },
+  { href: '/admin/documents', label: 'Documents', icon: FileStack },
+  { href: '/admin/media', label: 'Media', icon: ImageIcon },
+  { href: '/admin/blog', label: 'Blog', icon: Newspaper },
+  { href: '/admin/faq', label: 'FAQ', icon: CircleHelp },
   { href: '/admin/quotes', label: 'Quotes', icon: FileText },
   { href: '/admin/orders', label: 'Orders', icon: ShoppingBag },
   { href: '/admin/customers', label: 'Customers', icon: Users },

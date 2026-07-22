@@ -31,7 +31,7 @@ const ACCESS_STEPS = [
   {
     icon: FlaskConical,
     title: 'Batch lookup',
-    body: 'Request a packet by SKU and lot if the file is not published online yet.',
+    body: 'Search published COA/HPLC by SKU, or request by email if nothing is listed.',
   },
 ] as const;
 

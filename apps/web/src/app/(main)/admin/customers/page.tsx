@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import type { AdminCustomerSummary } from '@mcpfac/shared-types';
 import { listAdminCustomers, updateAdminCustomer } from '@/lib/admin-api';
 import { formatDate } from '@/lib/utils';
+import { AdminTableSkeleton } from '@/components/admin/admin-table-skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Users } from 'lucide-react';
 
 export default function AdminCustomersPage() {
   const [items, setItems] = useState<AdminCustomerSummary[]>([]);
@@ -84,12 +87,16 @@ export default function AdminCustomersPage() {
       </form>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      {loading ? <p className="text-neutral-500">Loading…</p> : null}
 
-      {!loading && items.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-neutral-200 bg-white px-4 py-10 text-center text-sm text-neutral-500">
-          No customers found.
-        </p>
+      {loading ? (
+        <AdminTableSkeleton cols={5} />
+      ) : items.length === 0 ? (
+        <EmptyState
+          icon={Users}
+          title="No customers found"
+          description="Try a different search term or check back when new accounts register."
+          className="py-10 shadow-none"
+        />
       ) : (
         <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
           <table className="min-w-full text-left text-sm">

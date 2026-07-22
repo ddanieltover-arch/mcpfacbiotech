@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { Loader2 } from 'lucide-react';
+import { PackageSearch } from 'lucide-react';
 import type { ProductSummary } from '@mcpfac/shared-types';
 import { getProducts, PRODUCTS_PAGE_SIZE, type ProductListParams } from '@/lib/catalog-api';
-import { ProductCard } from './product-card';
+import { EmptyState } from '@/components/ui/empty-state';
+import { ProductCardGrid } from './product-card-grid';
 
 type ProductGridProps = {
   products: ProductSummary[];
@@ -29,6 +29,9 @@ export function ProductGrid({
   const [error, setError] = useState<string | null>(null);
 
   const hasMore = page < totalPages;
+  const skeletonCount = isLoading
+    ? Math.min(PRODUCTS_PAGE_SIZE, Math.max(total - products.length, 2))
+    : 0;
 
   const handleViewMore = async () => {
     if (isLoading || !hasMore) return;
@@ -68,28 +71,22 @@ export function ProductGrid({
 
   if (products.length === 0) {
     return (
-      <div className="rounded-2xl bg-white px-6 py-14 text-center shadow-sm ring-1 ring-neutral-200/80">
-        <h3 className="font-heading text-xl font-semibold text-brand-deep">No products found</h3>
-        <p className="mx-auto mt-2 max-w-md text-sm text-neutral-500">
-          Try adjusting your filters or search terms to discover more research products.
-        </p>
-        <Link
-          href="/products"
-          className="mt-6 inline-flex rounded-lg bg-brand-deep px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural"
-        >
-          Clear filters
-        </Link>
-      </div>
+      <EmptyState
+        icon={PackageSearch}
+        title="No products found"
+        description="Try adjusting your filters or search terms to discover more research products."
+        action={{ href: '/products', label: 'Clear filters' }}
+      />
     );
   }
 
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      <ProductCardGrid
+        products={products}
+        skeletonCount={skeletonCount}
+        className="grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3"
+      />
 
       <div className="flex flex-col items-center gap-3">
         <p className="text-sm text-neutral-500">
@@ -101,16 +98,9 @@ export function ProductGrid({
             type="button"
             onClick={() => void handleViewMore()}
             disabled={isLoading}
-            className="inline-flex min-w-44 items-center justify-center gap-2 rounded-lg bg-brand-deep px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-natural disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex min-w-44 items-center justify-center gap-2 rounded-lg bg-brand-deep px-6 py-2.5 text-sm font-semibold text-white transition-[color,background-color,transform] duration-200 hover:bg-brand-natural disabled:cursor-not-allowed disabled:opacity-60 motion-safe:active:scale-[0.98]"
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Loading…
-              </>
-            ) : (
-              'View more'
-            )}
+            {isLoading ? 'Loading…' : 'View more'}
           </button>
         )}
 

@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/stores/auth.store';
 import { useCartStore } from '@/stores/cart.store';
 import { useWishlistStore } from '@/stores/wishlist.store';
+import { CountBadge } from '@/components/ui/count-badge';
 
 const HIDDEN_PREFIXES = ['/admin', '/checkout', '/login', '/register', '/forgot-password'];
 
@@ -74,11 +75,7 @@ export function MobileBottomNav() {
             >
               <span className="relative">
                 <Heart className="h-5 w-5" aria-hidden />
-                {wishlistCount > 0 && (
-                  <span className="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand-deep px-0.5 text-[9px] font-bold text-white">
-                    {wishlistCount > 9 ? '9+' : wishlistCount}
-                  </span>
-                )}
+                <CountBadge count={wishlistCount} className="-right-2 -top-1.5 text-[9px]" />
               </span>
               Wishlist
             </Link>
@@ -97,11 +94,7 @@ export function MobileBottomNav() {
             >
               <span className="relative">
                 <ShoppingCart className="h-5 w-5" aria-hidden />
-                {cartItemCount > 0 && (
-                  <span className="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand-deep px-0.5 text-[9px] font-bold text-white">
-                    {cartItemCount > 9 ? '9+' : cartItemCount}
-                  </span>
-                )}
+                <CountBadge count={cartItemCount} className="-right-2 -top-1.5 text-[9px]" />
               </span>
               Cart
             </button>
