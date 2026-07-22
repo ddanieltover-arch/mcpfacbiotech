@@ -123,7 +123,7 @@ export function CartPageClient() {
                       const sku = displayProductSku(item.productSku);
                       return (
                         <li
-                          key={item.productId}
+                          key={`${item.productId}:${item.variantId ?? 'base'}`}
                           className="flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between"
                         >
                           <div className="flex min-w-0 items-start gap-4">
@@ -175,6 +175,7 @@ export function CartPageClient() {
                                   void updateQuantity(
                                     item.productId,
                                     Math.max(1, item.quantity - 1),
+                                    item.variantId,
                                   ).catch((error: unknown) => {
                                     toast.error(
                                       error instanceof Error
@@ -193,7 +194,7 @@ export function CartPageClient() {
                                 onChange={(event) => {
                                   const next = Number(event.target.value);
                                   if (Number.isFinite(next)) {
-                                    void updateQuantity(item.productId, next).catch(
+                                    void updateQuantity(item.productId, next, item.variantId).catch(
                                       (error: unknown) => {
                                         toast.error(
                                           error instanceof Error
@@ -212,15 +213,17 @@ export function CartPageClient() {
                                 className="px-2.5 py-2 text-neutral-600 transition-colors hover:bg-neutral-50"
                                 aria-label={`Increase quantity of ${item.productName}`}
                                 onClick={() => {
-                                  void updateQuantity(item.productId, item.quantity + 1).catch(
-                                    (error: unknown) => {
-                                      toast.error(
-                                        error instanceof Error
-                                          ? error.message
-                                          : 'Quantity update failed',
-                                      );
-                                    },
-                                  );
+                                  void updateQuantity(
+                                    item.productId,
+                                    item.quantity + 1,
+                                    item.variantId,
+                                  ).catch((error: unknown) => {
+                                    toast.error(
+                                      error instanceof Error
+                                        ? error.message
+                                        : 'Quantity update failed',
+                                    );
+                                  });
                                 }}
                               >
                                 <Plus className="h-3.5 w-3.5" />
@@ -232,11 +235,13 @@ export function CartPageClient() {
                             <button
                               type="button"
                               onClick={() => {
-                                void removeItem(item.productId).catch((error: unknown) => {
-                                  toast.error(
-                                    error instanceof Error ? error.message : 'Remove failed',
-                                  );
-                                });
+                                void removeItem(item.productId, item.variantId).catch(
+                                  (error: unknown) => {
+                                    toast.error(
+                                      error instanceof Error ? error.message : 'Remove failed',
+                                    );
+                                  },
+                                );
                               }}
                               className="rounded-lg p-2 text-neutral-400 transition-colors hover:bg-red-50 hover:text-red-600"
                               aria-label={`Remove ${item.productName}`}

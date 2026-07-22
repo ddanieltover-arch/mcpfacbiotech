@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { ProductFilters } from '@/components/products/product-filters';
 import { ProductGrid } from '@/components/products/product-grid';
-import { CATEGORY_OPTIONS, getProducts, PRODUCTS_PAGE_SIZE } from '@/lib/catalog-api';
+import { getCategoryOptions, getProducts, PRODUCTS_PAGE_SIZE } from '@/lib/catalog-api';
 
 export const metadata: Metadata = {
   title: 'Products',
@@ -31,15 +31,18 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     direction: (sort === 'name' ? 'asc' : 'desc') as 'asc' | 'desc',
   };
 
-  const catalog = await getProducts({
-    page: 1,
-    limit: PRODUCTS_PAGE_SIZE,
-    ...filters,
-  });
+  const [catalog, categories] = await Promise.all([
+    getProducts({
+      page: 1,
+      limit: PRODUCTS_PAGE_SIZE,
+      ...filters,
+    }),
+    getCategoryOptions(),
+  ]);
 
   const activeCategory = getParam(params, 'category');
   const categoryLabel =
-    CATEGORY_OPTIONS.find((category) => category.slug === activeCategory)?.label ?? 'All products';
+    categories.find((category) => category.slug === activeCategory)?.label ?? 'All products';
   const filterKey = [filters.search, filters.category, filters.availability, filters.sort].join('|');
 
   return (
@@ -71,8 +74,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             {categoryLabel}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg">
-            Research peptides, chemicals, laboratory supplies, and analytical standards with
-            transparent specifications and documentation where published.
+            Research peptides, chemicals, laboratory supplies, and related materials with transparent
+            specifications and documentation where published.
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -89,41 +92,12 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
           </div>
-
-          <div className="mt-8 flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
-            <Link
-              href="/products"
-              className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                !activeCategory
-                  ? 'bg-brand-deep text-white'
-                  : 'bg-white text-neutral-600 ring-1 ring-neutral-200 hover:bg-brand-pale hover:text-brand-deep'
-              }`}
-            >
-              All
-            </Link>
-            {CATEGORY_OPTIONS.map((category) => {
-              const active = activeCategory === category.slug;
-              return (
-                <Link
-                  key={category.slug}
-                  href={`/products?category=${category.slug}`}
-                  className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                    active
-                      ? 'bg-brand-deep text-white'
-                      : 'bg-white text-neutral-600 ring-1 ring-neutral-200 hover:bg-brand-pale hover:text-brand-deep'
-                  }`}
-                >
-                  {category.label}
-                </Link>
-              );
-            })}
-          </div>
         </div>
       </section>
 
       <section className="bg-neutral-50/80 bg-lab-pattern">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[260px_1fr] lg:gap-10 lg:py-12">
-          <ProductFilters searchParams={params} />
+          <ProductFilters searchParams={params} categories={categories} />
           <ProductGrid
             key={filterKey}
             products={catalog.items}

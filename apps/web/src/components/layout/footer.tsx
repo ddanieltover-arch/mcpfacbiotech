@@ -5,14 +5,21 @@ import { Mail, MapPin } from 'lucide-react';
 import { Logo } from '@/components/brand/logo';
 import { NewsletterForm } from '@/components/layout/newsletter-form';
 import { CONTACT_CHANNELS } from '@/lib/marketing-content';
+import type { CategoryOption } from '@/lib/catalog-api';
 import {
   FOOTER_COMPANY_LINKS,
   FOOTER_LEGAL_LINKS,
-  FOOTER_PRODUCT_LINKS,
   FOOTER_SUPPORT_LINKS,
+  buildFooterProductLinks,
 } from '@/lib/site-navigation';
 
-export function Footer() {
+type FooterProps = {
+  productCategories?: CategoryOption[];
+};
+
+export function Footer({ productCategories = [] }: FooterProps) {
+  const productLinks = buildFooterProductLinks(productCategories);
+
   return (
     <footer className="border-t border-neutral-200 bg-neutral-50">
       <div className="mx-auto max-w-7xl px-4 py-16">
@@ -42,7 +49,7 @@ export function Footer() {
             </div>
           </div>
 
-          <FooterLinkColumn title="Shop" links={[...FOOTER_PRODUCT_LINKS]} />
+          <FooterLinkColumn title="Shop" links={productLinks} />
           <FooterLinkColumn title="Company" links={[...FOOTER_COMPANY_LINKS]} />
           <FooterLinkColumn title="Support" links={[...FOOTER_SUPPORT_LINKS]} />
         </div>

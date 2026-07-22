@@ -1,16 +1,30 @@
-import { CATEGORY_OPTIONS } from '@/lib/catalog-api';
+import type { CategoryOption } from '@/lib/catalog-api';
 
 /** Shared public navigation (CONTENT-9). */
 
-export const PRODUCT_NAV_CHILDREN = [
-  { name: 'All Products', href: '/products' },
-  ...CATEGORY_OPTIONS.map((category) => ({
-    name: category.label,
-    href: `/products?category=${category.slug}`,
-  })),
-] as const;
+export type NavChild = {
+  name: string;
+  href: string;
+  description?: string;
+};
 
-export const SOLUTION_NAV_CHILDREN = [
+export type NavItem = {
+  name: string;
+  href: string;
+  children?: NavChild[];
+};
+
+export function buildProductNavChildren(categories: CategoryOption[]): NavChild[] {
+  return [
+    { name: 'All Products', href: '/products' },
+    ...categories.map((category) => ({
+      name: category.label,
+      href: `/products?category=${category.slug}`,
+    })),
+  ];
+}
+
+export const SOLUTION_NAV_CHILDREN: NavChild[] = [
   {
     name: 'For Universities',
     href: '/solutions/universities',
@@ -31,9 +45,9 @@ export const SOLUTION_NAV_CHILDREN = [
     href: '/solutions/distributors',
     description: 'Wholesale quoting and partner support',
   },
-] as const;
+];
 
-export const RESOURCE_NAV_CHILDREN = [
+export const RESOURCE_NAV_CHILDREN: NavChild[] = [
   { name: 'Research Library', href: '/research' },
   { name: 'Blog', href: '/blog' },
   { name: 'FAQ', href: '/faq' },
@@ -41,35 +55,44 @@ export const RESOURCE_NAV_CHILDREN = [
   { name: 'Peptide Calculator', href: '/calculator' },
   { name: 'Quality Assurance', href: '/quality' },
   { name: 'Downloads', href: '/downloads' },
-] as const;
+];
 
-export const MAIN_NAV = [
-  {
-    name: 'Products',
-    href: '/products',
-    children: PRODUCT_NAV_CHILDREN,
-  },
-  {
-    name: 'Solutions',
-    href: '/solutions',
-    children: SOLUTION_NAV_CHILDREN,
-  },
-  {
-    name: 'Resources',
-    href: '/research',
-    children: RESOURCE_NAV_CHILDREN,
-  },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
-] as const;
+export function buildMainNav(categories: CategoryOption[]): NavItem[] {
+  return [
+    {
+      name: 'Products',
+      href: '/products',
+      children: buildProductNavChildren(categories),
+    },
+    {
+      name: 'Solutions',
+      href: '/solutions',
+      children: SOLUTION_NAV_CHILDREN,
+    },
+    {
+      name: 'Resources',
+      href: '/research',
+      children: RESOURCE_NAV_CHILDREN,
+    },
+    { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' },
+  ];
+}
 
-export const FOOTER_PRODUCT_LINKS = [
-  ...CATEGORY_OPTIONS.map((category) => ({
-    name: category.label,
-    href: `/products?category=${category.slug}`,
-  })),
-  { name: 'All Products', href: '/products' },
-] as const;
+export function buildFooterProductLinks(categories: CategoryOption[]) {
+  const shopCategories = categories
+    .slice()
+    .sort((a, b) => b.productCount - a.productCount)
+    .slice(0, 8);
+
+  return [
+    ...shopCategories.map((category) => ({
+      name: category.label,
+      href: `/products?category=${category.slug}`,
+    })),
+    { name: 'All Products', href: '/products' },
+  ];
+}
 
 export const FOOTER_COMPANY_LINKS = [
   { name: 'About Us', href: '/about' },

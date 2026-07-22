@@ -1,15 +1,7 @@
-import {
-  CATEGORY_OPTIONS,
-  getFeaturedProducts,
-  getProducts,
-} from '@/lib/catalog-api';
+import { getCategoryOptions, getFeaturedProducts, getProducts } from '@/lib/catalog-api';
 import { ProductShelf } from '@/components/products/product-shelf';
 
-const CATEGORY_SHELVES = CATEGORY_OPTIONS.map((category, index) => ({
-  ...category,
-  tone: (index % 2 === 0 ? 'muted' : 'default') as 'muted' | 'default',
-  description: `Browse ${category.label.toLowerCase()} with transparent specs and documentation where published.`,
-}));
+const HOME_SHELF_LIMIT = 4;
 
 async function loadShelfProducts(category?: string, sort = 'newest', limit = 8) {
   const result = await getProducts({
@@ -23,10 +15,23 @@ async function loadShelfProducts(category?: string, sort = 'newest', limit = 8) 
 }
 
 export async function HomeProductShelves() {
+  const categories = (await getCategoryOptions())
+    .slice()
+    .sort((a, b) => b.productCount - a.productCount)
+    .slice(0, HOME_SHELF_LIMIT);
+
+  const categoryShelves = categories.map((category, index) => ({
+    ...category,
+    tone: (index % 2 === 0 ? 'muted' : 'default') as 'muted' | 'default',
+    description:
+      category.description?.trim() ||
+      `Browse ${category.label.toLowerCase()} with transparent specs and documentation where published.`,
+  }));
+
   const [featured, newest, ...categoryResults] = await Promise.all([
     getFeaturedProducts(8).catch(() => []),
     loadShelfProducts(undefined, 'newest', 8),
-    ...CATEGORY_SHELVES.map((category) => loadShelfProducts(category.slug, 'featured', 8)),
+    ...categoryShelves.map((category) => loadShelfProducts(category.slug, 'featured', 8)),
   ]);
 
   // Avoid repeating the same SKUs immediately under featured when possible
@@ -56,7 +61,7 @@ export async function HomeProductShelves() {
         tone="muted"
       />
 
-      {CATEGORY_SHELVES.map((category, index) => (
+      {categoryShelves.map((category, index) => (
         <ProductShelf
           key={category.slug}
           eyebrow="Shop by category"

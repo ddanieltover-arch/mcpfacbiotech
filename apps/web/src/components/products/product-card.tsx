@@ -1,52 +1,82 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Beaker, ShoppingCart } from 'lucide-react';
 import { toast } from 'sonner';
 import type { ProductSummary } from '@mcpfac/shared-types';
-import { formatPrice } from '@/lib/catalog-api';
+import { formatPrice, formatProductPrice } from '@/lib/catalog-api';
 import { useCartStore } from '@/stores/cart.store';
 import { Button } from '@/components/ui/button';
+
+function defaultVariantId(product: ProductSummary): string | undefined {
+  const variants = product.variants ?? [];
+  if (variants.length === 0) return undefined;
+  return variants.find((variant) => variant.isDefault)?.id ?? variants[0]?.id;
+}
+
+function sortVariantsByPriceAsc<T extends { price?: number }>(variants: T[]): T[] {
+  return [...variants].sort((a, b) => (a.price ?? Number.POSITIVE_INFINITY) - (b.price ?? Number.POSITIVE_INFINITY));
+}
 
 export function ProductCard({ product }: { product: ProductSummary }) {
   const hasMeta = Boolean(product.casNumber || product.purity);
   const addToCart = useCartStore((s) => s.addItem);
-  const [adding, setAdding] = useState(false);
+  const variants = useMemo(
+    () => sortVariantsByPriceAsc(product.variants ?? []),
+    [product.variants],
+  );
+  const hasVariants = variants.length > 0;
+  const [selectedVariantId, setSelectedVariantId] = useState(() => defaultVariantId(product));
+
+  const selectedVariant = useMemo(
+    () => variants.find((variant) => variant.id === selectedVariantId),
+    [variants, selectedVariantId],
+  );
+
+  const displayPrice = selectedVariant?.price ?? product.price;
+  const variantGroupLabel = variants[0]?.name ?? 'Option';
 
   async function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (product.price == null) {
+    if (displayPrice == null) {
       toast.error('Pricing unavailable — open the product to request a quote');
       return;
     }
 
-    setAdding(true);
-    try {
-      await addToCart(
-        {
-          productId: product.id,
-          productName: product.name,
-          productSku: product.sku,
-          productImage: product.imageUrl,
-          unitPrice: product.price,
-        },
-        1,
-      );
-      toast.success('Added to cart');
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to add to cart');
-    } finally {
-      setAdding(false);
+    if (hasVariants && !selectedVariant) {
+      toast.error('Please select an option');
+      return;
     }
+
+    await addToCart(
+      {
+        productId: product.id,
+        productName: selectedVariant
+          ? `${product.name} (${selectedVariant.name}: ${selectedVariant.value})`
+          : product.name,
+        productSku: product.sku,
+        productImage: product.imageUrl,
+        unitPrice: displayPrice,
+        variantId: selectedVariant?.id,
+        variantLabel: selectedVariant
+          ? `${selectedVariant.name}: ${selectedVariant.value}`
+          : undefined,
+      },
+      1,
+    );
+    toast.success('Added to cart');
   }
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-neutral-200/80 transition-all hover:-translate-y-0.5 hover:shadow-md">
-      <Link href={`/products/${product.slug}`} className="relative block aspect-square overflow-hidden bg-brand-pale/30">
+      <Link
+        href={`/products/${product.slug}`}
+        className="relative block aspect-square overflow-hidden bg-brand-pale/30"
+      >
         {product.imageUrl ? (
           <Image
             src={product.imageUrl}
@@ -94,10 +124,45 @@ export function ProductCard({ product }: { product: ProductSummary }) {
         )}
 
         <div className="mt-auto space-y-3 border-t border-neutral-100 pt-3 sm:pt-4">
+          {hasVariants ? (
+            <div>
+              <label
+                htmlFor={`variant-${product.id}`}
+                className="mb-1.5 block text-[10px] font-medium uppercase tracking-wide text-neutral-500 sm:text-xs"
+              >
+                {variantGroupLabel}
+              </label>
+              <select
+                id={`variant-${product.id}`}
+                value={selectedVariantId ?? ''}
+                onChange={(event) => setSelectedVariantId(event.target.value)}
+                onClick={(event) => event.stopPropagation()}
+                className="w-full rounded-lg border border-neutral-300 bg-white px-2.5 py-2 text-xs text-neutral-800 outline-none focus:border-brand-leaf focus:ring-2 focus:ring-brand-leaf/20 sm:text-sm"
+              >
+                {variants.map((variant) => (
+                  <option key={variant.id} value={variant.id}>
+                    {variant.value}
+                    {variant.price != null ? ` — ${formatPrice(variant.price)}` : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+
           <div className="flex items-end justify-between gap-3">
-            <p className="font-heading text-base font-bold text-brand-deep sm:text-xl">
-              {formatPrice(product.price)}
-            </p>
+            <div>
+              <p className="font-heading text-base font-bold text-brand-deep sm:text-xl">
+                {formatPrice(displayPrice)}
+              </p>
+              {hasVariants &&
+              product.priceMin != null &&
+              product.priceMax != null &&
+              product.priceMin !== product.priceMax ? (
+                <p className="mt-0.5 text-[10px] text-neutral-500 sm:text-xs">
+                  {formatProductPrice(product)}
+                </p>
+              ) : null}
+            </div>
             <Link
               href={`/products/${product.slug}`}
               className="inline-flex items-center gap-1 text-xs font-semibold text-brand-natural transition-colors hover:text-brand-deep sm:text-sm"
@@ -106,16 +171,15 @@ export function ProductCard({ product }: { product: ProductSummary }) {
             </Link>
           </div>
 
-          {product.price != null ? (
+          {displayPrice != null ? (
             <Button
               type="button"
               size="sm"
               fullWidth
-              isLoading={adding}
               onClick={(e) => void handleAddToCart(e)}
               className="gap-1.5"
             >
-              {!adding ? <ShoppingCart className="h-3.5 w-3.5" /> : null}
+              <ShoppingCart className="h-3.5 w-3.5" />
               Add to Cart
             </Button>
           ) : (

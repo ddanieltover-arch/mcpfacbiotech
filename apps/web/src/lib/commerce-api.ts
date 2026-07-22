@@ -15,6 +15,8 @@ import { createClient } from '@/lib/supabase/client';
 
 const CART_SESSION_KEY = 'mcpfac-cart-session';
 
+let cachedAccessToken: { token?: string; at: number } | null = null;
+
 function createSessionId(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
@@ -44,19 +46,28 @@ export function getCartSessionId(): string {
 }
 
 async function getAccessToken(): Promise<string | undefined> {
+  // Avoid a Supabase round-trip on every cart click; tokens last far longer than 60s.
+  const now = Date.now();
+  if (cachedAccessToken && now - cachedAccessToken.at < 60_000) {
+    return cachedAccessToken.token;
+  }
+
   const supabase = createClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  return session?.access_token;
+  const token = session?.access_token;
+  cachedAccessToken = { token, at: now };
+  return token;
 }
 
 async function commerceOptions(extraHeaders?: Record<string, string>) {
   const token = await getAccessToken();
+  const sessionId = getCartSessionId();
   return {
     token,
     headers: {
-      'X-Cart-Session': getCartSessionId(),
+      'X-Cart-Session': sessionId,
       ...extraHeaders,
     },
   };
@@ -68,32 +79,47 @@ export async function fetchCart(): Promise<CartSummary> {
   return response.data;
 }
 
-export async function addCartItem(productId: string, quantity = 1): Promise<CartSummary> {
+export async function addCartItem(
+  productId: string,
+  quantity = 1,
+  variantId?: string,
+): Promise<CartSummary> {
   const options = await commerceOptions();
-  const response = await apiClient.post<CartSummary>(
-    '/cart/items',
-    { productId, quantity },
-    options,
-  );
-  return response.data;
+  try {
+    const response = await apiClient.post<CartSummary>(
+      '/cart/items',
+      { productId, quantity, variantId },
+      options,
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function updateCartItemQuantity(
   productId: string,
   quantity: number,
+  variantId?: string,
 ): Promise<CartSummary> {
   const options = await commerceOptions();
+  const path = variantId
+    ? `/cart/items/${productId}?variantId=${encodeURIComponent(variantId)}`
+    : `/cart/items/${productId}`;
   const response = await apiClient.patch<CartSummary>(
-    `/cart/items/${productId}`,
-    { quantity },
+    path,
+    { quantity, variantId },
     options,
   );
   return response.data;
 }
 
-export async function removeCartItem(productId: string): Promise<CartSummary> {
+export async function removeCartItem(productId: string, variantId?: string): Promise<CartSummary> {
   const options = await commerceOptions();
-  await apiClient.delete(`/cart/items/${productId}`, options);
+  const path = variantId
+    ? `/cart/items/${productId}?variantId=${encodeURIComponent(variantId)}`
+    : `/cart/items/${productId}`;
+  await apiClient.delete(path, options);
   return fetchCart();
 }
 

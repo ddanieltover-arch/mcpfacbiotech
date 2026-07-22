@@ -31,11 +31,14 @@ import { createClient } from '@/lib/supabase/client';
 import { Logo } from '@/components/brand/logo';
 import { ProductSearch } from '@/components/products/product-search';
 import { isAdminRole } from '@mcpfac/shared-types';
-import { HEADER_TOP_LINKS, MAIN_NAV } from '@/lib/site-navigation';
+import type { CategoryOption } from '@/lib/catalog-api';
+import { HEADER_TOP_LINKS, buildMainNav } from '@/lib/site-navigation';
 
-const navigation = MAIN_NAV;
+type HeaderProps = {
+  productCategories?: CategoryOption[];
+};
 
-export function Header() {
+export function Header({ productCategories = [] }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -48,6 +51,7 @@ export function Header() {
   const { user, profile, isLoading: authLoading } = useAuthStore();
   const showAdmin = isAdminRole(profile?.role);
   const [isPending, startTransition] = useTransition();
+  const navigation = buildMainNav(productCategories);
 
   const userDisplayName = user?.user_metadata?.first_name
     ? `${user.user_metadata.first_name} ${user.user_metadata.last_name ?? ''}`.trim()
@@ -184,10 +188,9 @@ export function Header() {
                             <ArrowRight className="h-3 w-3" aria-hidden />
                           </Link>
                         </div>
-                        <div className="p-1.5">
+                        <div className="max-h-80 overflow-y-auto p-1.5">
                           {item.children.map((child) => {
-                            const description =
-                              'description' in child ? child.description : undefined;
+                            const description = child.description;
                             return (
                               <Link
                                 key={child.href}
@@ -451,8 +454,7 @@ export function Header() {
                             >
                               <div className="mb-1 ml-2 space-y-1 border-l-2 border-brand-leaf/40 pl-2">
                                 {item.children.map((child) => {
-                                  const description =
-                                    'description' in child ? child.description : undefined;
+                                  const description = child.description;
                                   return (
                                     <Link
                                       key={child.href}

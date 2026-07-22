@@ -14,6 +14,7 @@ import {
 import { HomeProductShelves } from '@/components/products/home-product-shelves';
 import { FaqAccordion } from '@/components/content/faq-accordion';
 import { fetchFaqItems } from '@/lib/cms-content';
+import { getCategoryOptions } from '@/lib/catalog-api';
 
 export const metadata: Metadata = {
   title: {
@@ -32,7 +33,24 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const faqItems = (await fetchFaqItems()).slice(0, 4);
+  const [faqItems, categoryOptions] = await Promise.all([
+    fetchFaqItems().then((items) => items.slice(0, 4)),
+    getCategoryOptions(),
+  ]);
+
+  const hubCategories = categoryOptions
+    .slice()
+    .sort((a, b) => b.productCount - a.productCount)
+    .slice(0, 4)
+    .map((category) => ({
+      title: category.label,
+      description:
+        category.description?.trim() ||
+        `Browse ${category.label} materials with transparent specifications where published.`,
+      href: `/products?category=${category.slug}`,
+      examples: `${category.productCount} products`,
+    }));
+
   return (
     <>
       <PromoBar />
@@ -47,7 +65,7 @@ export default async function HomePage() {
         action={{ href: '/products', label: 'View all products' }}
         tone="muted"
       >
-        <CategoryHubGrid />
+        <CategoryHubGrid categories={hubCategories} />
       </MarketingSection>
 
       <HomeProductShelves />

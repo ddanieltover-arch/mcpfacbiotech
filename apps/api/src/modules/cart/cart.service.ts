@@ -15,10 +15,30 @@ const cartInclude = {
   items: {
     include: {
       product: {
-        include: {
+        select: {
+          id: true,
+          name: true,
+          sku: true,
+          slug: true,
+          retailPrice: true,
           images: {
-            orderBy: { sortOrder: 'asc' as const },
+            take: 1,
+            orderBy: [{ isPrimary: 'desc' as const }, { sortOrder: 'asc' as const }],
+            select: {
+              url: true,
+              isPrimary: true,
+              sortOrder: true,
+            },
           },
+        },
+      },
+      variant: {
+        select: {
+          id: true,
+          name: true,
+          value: true,
+          sku: true,
+          priceModifier: true,
         },
       },
     },
@@ -53,47 +73,70 @@ export class CartService {
     quantity: number,
     profileId?: string,
     sessionId?: string,
+    variantId?: string,
   ): Promise<CartSummary> {
-    const product = await this.pricing.loadSellableProduct(productId, {
-      requirePrice: true,
-    });
-    this.pricing.assertQuantity(product, quantity);
+    const [product, cart] = await Promise.all([
+      this.pricing.loadSellableProduct(productId, {
+        requirePrice: true,
+        variantId,
+      }),
+      this.resolveCart({
+        profileId,
+        sessionId,
+        createIfMissing: true,
+      }),
+    ]);
 
-    const cart = await this.resolveCart({
-      profileId,
-      sessionId,
-      createIfMissing: true,
-    });
+    this.pricing.assertQuantity(product, quantity);
 
     if (!cart) {
       throw new BadRequestException('Unable to resolve shopping cart');
     }
 
-    const existing = await this.prisma.cartItem.findUnique({
-      where: {
-        cartId_productId: {
-          cartId: cart.id,
-          productId,
-        },
-      },
-    });
+    const resolvedVariantId = product.variantId ?? null;
 
-    const nextQuantity = (existing?.quantity ?? 0) + quantity;
-    this.pricing.assertQuantity(product, nextQuantity);
+
+    const existing = await this.findCartItem(
+      cart.id,
+      productId,
+      resolvedVariantId ?? undefined,
+    );
 
     if (existing) {
+      const nextQuantity = existing.quantity + quantity;
+      this.pricing.assertQuantity(product, nextQuantity);
+      // Atomic increment avoids lost updates when two adds race.
       await this.prisma.cartItem.update({
         where: { id: existing.id },
-        data: { quantity: nextQuantity },
+        data: { quantity: { increment: quantity } },
       });
     } else {
-      await this.prisma.cartItem.create({
-        data: {
-          cartId: cart.id,
+      try {
+        await this.prisma.cartItem.create({
+          data: {
+            cartId: cart.id,
+            productId,
+            variantId: resolvedVariantId,
+            quantity,
+          },
+        });
+      } catch (error) {
+        // Concurrent create of the same line — fall back to increment.
+        const retry = await this.findCartItem(
+          cart.id,
           productId,
-          quantity,
-        },
-      });
+          resolvedVariantId ?? undefined,
+        );
+        if (!retry) {
+          throw error;
+        }
+        const nextQuantity = retry.quantity + quantity;
+        this.pricing.assertQuantity(product, nextQuantity);
+        await this.prisma.cartItem.update({
+          where: { id: retry.id },
+          data: { quantity: { increment: quantity } },
+        });
+      }
     }
 
     return this.mapCart(cart.id);
@@ -104,6 +147,7 @@ export class CartService {
     quantity: number,
     profileId?: string,
     sessionId?: string,
+    variantId?: string,
   ): Promise<CartSummary> {
     const cart = await this.resolveCart({
       profileId,
@@ -115,14 +159,7 @@ export class CartService {
       throw new NotFoundException('Cart not found');
     }
 
-    const existing = await this.prisma.cartItem.findUnique({
-      where: {
-        cartId_productId: {
-          cartId: cart.id,
-          productId,
-        },
-      },
-    });
+    const existing = await this.findCartItem(cart.id, productId, variantId);
 
     if (!existing) {
       throw new NotFoundException('Cart item not found');
@@ -135,6 +172,7 @@ export class CartService {
 
     const product = await this.pricing.loadSellableProduct(productId, {
       requirePrice: true,
+      variantId: existing.variantId,
     });
     this.pricing.assertQuantity(product, quantity);
 
@@ -150,6 +188,7 @@ export class CartService {
     productId: string,
     profileId?: string,
     sessionId?: string,
+    variantId?: string,
   ): Promise<CartSummary> {
     const cart = await this.resolveCart({
       profileId,
@@ -161,14 +200,7 @@ export class CartService {
       throw new NotFoundException('Cart not found');
     }
 
-    const existing = await this.prisma.cartItem.findUnique({
-      where: {
-        cartId_productId: {
-          cartId: cart.id,
-          productId,
-        },
-      },
-    });
+    const existing = await this.findCartItem(cart.id, productId, variantId);
 
     if (!existing) {
       throw new NotFoundException('Cart item not found');
@@ -242,14 +274,14 @@ export class CartService {
     for (const item of guestCart.items) {
       const product = await this.pricing.loadSellableProduct(item.productId, {
         requirePrice: true,
+        variantId: item.variantId,
       });
 
-      const existing = await this.prisma.cartItem.findUnique({
+      const existing = await this.prisma.cartItem.findFirst({
         where: {
-          cartId_productId: {
-            cartId: customerCart.id,
-            productId: item.productId,
-          },
+          cartId: customerCart.id,
+          productId: item.productId,
+          variantId: item.variantId,
         },
       });
 
@@ -266,6 +298,7 @@ export class CartService {
           data: {
             cartId: customerCart.id,
             productId: item.productId,
+            variantId: item.variantId,
             quantity: item.quantity,
           },
         });
@@ -319,6 +352,29 @@ export class CartService {
 
   async clearCartById(cartId: string): Promise<void> {
     await this.prisma.cartItem.deleteMany({ where: { cartId } });
+  }
+
+  private async findCartItem(cartId: string, productId: string, variantId?: string) {
+    if (variantId) {
+      return this.prisma.cartItem.findFirst({
+        where: { cartId, productId, variantId },
+      });
+    }
+
+    // Prefer an exact null-variant match; fall back to the sole line for this product.
+    const nullVariant = await this.prisma.cartItem.findFirst({
+      where: { cartId, productId, variantId: null },
+    });
+    if (nullVariant) {
+      return nullVariant;
+    }
+
+    const matches = await this.prisma.cartItem.findMany({
+      where: { cartId, productId },
+      take: 2,
+    });
+
+    return matches.length === 1 ? matches[0] : null;
   }
 
   private async mapCart(cartId: string): Promise<CartSummary> {

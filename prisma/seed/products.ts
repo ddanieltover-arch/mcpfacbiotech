@@ -266,7 +266,23 @@ const PRODUCTS: SeedProduct[] = [
   },
 ];
 
-function imageUrl(label: string): string {
+const SUPABASE_PRODUCT_IMAGES: Record<string, string> = {
+  'bpc-157-5mg': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png',
+  'tb-500-5mg': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png',
+  'semaglutide-5mg': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/semaglutide-5mg.png',
+  'melanotan-ii-10mg': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/melanotan-ii-10mg.png',
+  'metformin-hcl-500mg': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/metformin-hcl-500mg.png',
+  'dmso-100ml': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/dmso-100ml.png',
+  'universal-pipette-tips-1000': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/universal-pipette-tips-1000.png',
+  'centrifuge-tubes-50ml-500': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/centrifuge-tubes-50ml-500.png',
+  'caffeine-reference-standard-1g': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/caffeine-reference-standard-1g.png',
+  'aspirin-reference-standard-1g': 'https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/aspirin-reference-standard-1g.png',
+};
+
+function imageUrl(slug: string, label: string): string {
+  if (SUPABASE_PRODUCT_IMAGES[slug]) {
+    return SUPABASE_PRODUCT_IMAGES[slug];
+  }
   const encoded = encodeURIComponent(label);
   return `https://placehold.co/600x600/1B4332/FFFFFF?text=${encoded}`;
 }
@@ -353,7 +369,7 @@ export async function seedProducts(
       await prisma.productImage.create({
         data: {
           productId: record.id,
-          url: imageUrl(product.imageLabel),
+          url: imageUrl(product.slug, product.imageLabel),
           alt: product.name,
           isPrimary: true,
           sortOrder: 0,
@@ -363,7 +379,7 @@ export async function seedProducts(
       await prisma.productImage.update({
         where: { id: existingImage.id },
         data: {
-          url: imageUrl(product.imageLabel),
+          url: imageUrl(product.slug, product.imageLabel),
           alt: product.name,
         },
       });

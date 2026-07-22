@@ -38,51 +38,48 @@ export function WishlistPageClient() {
   }, [productIds]);
 
   return (
-    <div className="bg-neutral-50">
-      <section className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-10">
-          <h1 className="font-heading text-4xl font-bold text-brand-deep">Wishlist</h1>
-          <p className="mt-3 text-neutral-600">Saved products for your research procurement workflow.</p>
-        </div>
-      </section>
-
-      <div className="mx-auto max-w-7xl px-4 py-10">
-        {isLoading ? (
-          <div
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3"
-            role="status"
-            aria-label="Loading wishlist"
-          >
-            {Array.from({ length: Math.max(productIds.length, 3) }).map((_, index) => (
-              <ProductCardSkeleton key={index} />
-            ))}
-          </div>
-        ) : products.length === 0 ? (
-          <EmptyState
-            icon={Heart}
-            title="Your wishlist is empty"
-            description="Browse the catalog and save products for later review."
-            action={{ href: '/products', label: 'Browse products' }}
-          />
-        ) : (
-          <>
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-sm text-neutral-600">{products.length} saved products</p>
-              <button
-                type="button"
-                onClick={clearAll}
-                className="text-sm font-medium text-red-600 hover:text-red-700"
-              >
-                Clear wishlist
-              </button>
-            </div>
-            <ProductCardGrid
-              products={products}
-              className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3"
-            />
-          </>
-        )}
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-heading text-3xl font-bold text-brand-deep">Wishlist</h1>
+        <p className="mt-2 text-neutral-600">Saved products for your research procurement workflow.</p>
       </div>
+
+      {isLoading ? (
+        <div
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3"
+          role="status"
+          aria-label="Loading wishlist"
+        >
+          {Array.from({ length: Math.max(productIds.length, 3) }).map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))}
+        </div>
+      ) : products.length === 0 ? (
+        <EmptyState
+          icon={Heart}
+          title="Your wishlist is empty"
+          description="Browse the catalog and save products for later review."
+          action={{ href: '/products', label: 'Browse products' }}
+          className="py-10 shadow-none"
+        />
+      ) : (
+        <>
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-neutral-600">{products.length} saved products</p>
+            <button
+              type="button"
+              onClick={clearAll}
+              className="text-sm font-medium text-red-600 hover:text-red-700"
+            >
+              Clear wishlist
+            </button>
+          </div>
+          <ProductCardGrid
+            products={products}
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3"
+          />
+        </>
+      )}
     </div>
   );
 }

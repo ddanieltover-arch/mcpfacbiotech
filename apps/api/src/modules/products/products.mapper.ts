@@ -31,13 +31,68 @@ export function decimalToNumber(value: Prisma.Decimal | null | undefined): numbe
   return Number(value);
 }
 
-export function getPrimaryImageUrl(images: ProductImage[]): string | undefined {
+export function getPrimaryImageUrl(
+  images: Array<{ url: string; isPrimary?: boolean }>,
+): string | undefined {
   const primary = images.find((image) => image.isPrimary) ?? images[0];
   return primary?.url;
 }
 
+function effectivePrices(
+  retailPrice: Prisma.Decimal | null | undefined,
+  variants: ProductVariant[] | undefined,
+): number[] {
+  const basePrice = decimalToNumber(retailPrice);
+  if (basePrice == null || !Number.isFinite(basePrice)) {
+    return [];
+  }
+
+  if (!variants?.length) {
+    return [basePrice];
+  }
+
+  return variants.map((variant) => basePrice + (decimalToNumber(variant.priceModifier) ?? 0));
+}
+
+function variantUnitPrice(
+  retailPrice: Prisma.Decimal | null | undefined,
+  variant: ProductVariant,
+): number {
+  const basePrice = decimalToNumber(retailPrice) ?? 0;
+  return basePrice + (decimalToNumber(variant.priceModifier) ?? 0);
+}
+
+/** Lowest price first so storefront selectors always read cheap → expensive. */
+function sortVariantsByPriceAsc(
+  retailPrice: Prisma.Decimal | null | undefined,
+  variants: ProductVariant[],
+): ProductVariant[] {
+  return [...variants].sort((a, b) => {
+    const priceDiff = variantUnitPrice(retailPrice, a) - variantUnitPrice(retailPrice, b);
+    if (priceDiff !== 0) {
+      return priceDiff;
+    }
+    return a.sortOrder - b.sortOrder;
+  });
+}
+
 export function toProductSummary(product: ProductWithRelations): ProductSummary {
   const category = product.productCategories[0]?.category;
+  const basePrice = decimalToNumber(product.retailPrice);
+  const sortedVariants = sortVariantsByPriceAsc(product.retailPrice, product.variants ?? []);
+  const variants = sortedVariants.map((variant) => {
+    const priceModifier = decimalToNumber(variant.priceModifier) ?? 0;
+    return {
+      id: variant.id,
+      name: variant.name,
+      value: variant.value,
+      price: basePrice != null ? basePrice + priceModifier : undefined,
+      isDefault: variant.isDefault,
+    };
+  });
+  const prices = effectivePrices(product.retailPrice, product.variants);
+  const priceMin = prices.length ? Math.min(...prices) : undefined;
+  const priceMax = prices.length ? Math.max(...prices) : undefined;
 
   return {
     id: product.id,
@@ -46,7 +101,11 @@ export function toProductSummary(product: ProductWithRelations): ProductSummary 
     sku: product.sku,
     casNumber: product.casNumber ?? undefined,
     purity: product.purity ?? undefined,
-    price: decimalToNumber(product.retailPrice),
+    price: priceMin,
+    priceMin,
+    priceMax,
+    hasVariants: variants.length > 0,
+    variants: variants.length > 0 ? variants : undefined,
     availability: product.availability as ProductAvailability,
     imageUrl: getPrimaryImageUrl(product.images),
     categoryName: category?.name,
@@ -91,9 +150,8 @@ export function toProductDetail(
         value: spec.value,
         sortOrder: spec.sortOrder,
       })),
-    variants: (product.variants ?? [])
-      .sort((a, b) => a.sortOrder - b.sortOrder)
-      .map((variant) => {
+    variants: sortVariantsByPriceAsc(product.retailPrice, product.variants ?? []).map(
+      (variant) => {
         const priceModifier = decimalToNumber(variant.priceModifier) ?? 0;
         const basePrice = decimalToNumber(product.retailPrice);
 
@@ -108,7 +166,8 @@ export function toProductDetail(
           isDefault: variant.isDefault,
           sortOrder: variant.sortOrder,
         };
-      }),
+      },
+    ),
     downloads:
       product.productDocuments?.map((item) => ({
         id: item.document.id,
@@ -134,6 +193,9 @@ export const productListInclude = {
   specifications: {
     orderBy: { sortOrder: 'asc' as const },
   },
+  variants: {
+    orderBy: { sortOrder: 'asc' as const },
+  },
   productCategories: {
     include: {
       category: {
@@ -145,9 +207,6 @@ export const productListInclude = {
 
 export const productDetailInclude = {
   ...productListInclude,
-  variants: {
-    orderBy: { sortOrder: 'asc' as const },
-  },
   productDocuments: {
     include: {
       document: true,

@@ -97,8 +97,56 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
 }
 
 export async function getCategories(): Promise<Category[]> {
-  const response = await fetchJson<ApiResponse<Category[]>>(buildUrl('/categories'));
-  return response.data;
+  try {
+    const response = await fetchJson<ApiResponse<Category[]>>(buildUrl('/categories'));
+    return response.data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Visible catalog categories with at least one published product (excludes empty seed stubs). */
+export type CategoryOption = {
+  slug: string;
+  label: string;
+  description?: string;
+  productCount: number;
+};
+
+export function toCategoryOptions(categories: Category[]): CategoryOption[] {
+  const flattened = flattenCategories(categories);
+
+  return flattened
+    .filter((category) => category.isVisible && (category.productCount ?? 0) > 0)
+    .sort(
+      (a, b) =>
+        a.sortOrder - b.sortOrder ||
+        (b.productCount ?? 0) - (a.productCount ?? 0) ||
+        a.name.localeCompare(b.name),
+    )
+    .map((category) => ({
+      slug: category.slug,
+      label: category.name,
+      description: category.description,
+      productCount: category.productCount ?? 0,
+    }));
+}
+
+function flattenCategories(categories: Category[]): Category[] {
+  const result: Category[] = [];
+
+  for (const category of categories) {
+    result.push(category);
+    if (category.children?.length) {
+      result.push(...flattenCategories(category.children));
+    }
+  }
+
+  return result;
+}
+
+export async function getCategoryOptions(): Promise<CategoryOption[]> {
+  return toCategoryOptions(await getCategories());
 }
 
 export async function suggestProducts(query: string, limit = 8): Promise<ProductSummary[]> {
@@ -121,12 +169,8 @@ export async function getProductsByIds(ids: string[]): Promise<ProductSummary[]>
   return response.data;
 }
 
-export const CATEGORY_OPTIONS = [
-  { slug: 'research-peptides', label: 'Research Peptides' },
-  { slug: 'research-chemicals', label: 'Research Chemicals' },
-  { slug: 'laboratory-supplies', label: 'Laboratory Supplies' },
-  { slug: 'analytical-standards', label: 'Analytical Standards' },
-] as const;
+/** @deprecated Use getCategoryOptions() — hardcoded seeds had 0 products in live DB. */
+export const CATEGORY_OPTIONS: CategoryOption[] = [];
 
 export const AVAILABILITY_OPTIONS = [
   { value: 'IN_STOCK', label: 'In Stock' },
@@ -143,6 +187,22 @@ export function formatPrice(price?: number, currency = 'USD'): string {
     currency,
     minimumFractionDigits: 2,
   }).format(price);
+}
+
+export function formatProductPrice(product: {
+  price?: number;
+  priceMin?: number;
+  priceMax?: number;
+  hasVariants?: boolean;
+}): string {
+  const min = product.priceMin ?? product.price;
+  const max = product.priceMax ?? product.price;
+
+  if (min == null) return formatPrice(undefined);
+  if (max != null && max !== min) {
+    return `From ${formatPrice(min)}`;
+  }
+  return formatPrice(min);
 }
 
 export function formatAvailability(value: string): string {

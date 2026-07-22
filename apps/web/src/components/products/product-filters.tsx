@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import { AVAILABILITY_OPTIONS, CATEGORY_OPTIONS } from '@/lib/catalog-api';
+import { AVAILABILITY_OPTIONS, type CategoryOption } from '@/lib/catalog-api';
 
 type ProductFiltersProps = {
   searchParams: Record<string, string | string[] | undefined>;
+  categories: CategoryOption[];
 };
 
 function getParam(params: Record<string, string | string[] | undefined>, key: string): string {
@@ -11,7 +12,7 @@ function getParam(params: Record<string, string | string[] | undefined>, key: st
   return Array.isArray(value) ? (value[0] ?? '') : (value ?? '');
 }
 
-export function ProductFilters({ searchParams }: ProductFiltersProps) {
+export function ProductFilters({ searchParams, categories }: ProductFiltersProps) {
   const currentCategory = getParam(searchParams, 'category');
   const currentSearch = getParam(searchParams, 'search');
   const currentAvailability = getParam(searchParams, 'availability');
@@ -52,7 +53,7 @@ export function ProductFilters({ searchParams }: ProductFiltersProps) {
             className="w-full rounded-lg border border-neutral-300 px-3 py-2.5 text-sm outline-none focus:border-brand-leaf focus:ring-2 focus:ring-brand-leaf/20"
           >
             <option value="">All categories</option>
-            {CATEGORY_OPTIONS.map((category) => (
+            {categories.map((category) => (
               <option key={category.slug} value={category.slug}>
                 {category.label}
               </option>

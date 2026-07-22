@@ -8,7 +8,6 @@ import type { OrderDetail } from '@mcpfac/shared-types';
 import { PAYMENT_METHOD_OPTIONS, SHIPPING_METHOD_OPTIONS } from '@mcpfac/shared-types';
 import { cancelOrder, confirmOrder, getOrder } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
-import { OpsSurface } from '@/components/layout/ops-surface';
 
 export function OrderDetailClient() {
   const params = useParams<{ id: string }>();
@@ -60,13 +59,15 @@ export function OrderDetailClient() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 text-center text-neutral-500">Loading order…</div>
+      <div className="rounded-xl border border-neutral-200 bg-white p-12 text-center text-neutral-500">
+        Loading order…
+      </div>
     );
   }
 
   if (error || !order) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 text-center">
+      <div className="rounded-xl border border-red-200 bg-white p-12 text-center">
         <p className="text-red-600">{error ?? 'Order not found'}</p>
         <Link href="/orders" className="mt-4 inline-block text-sm text-brand-deep hover:underline">
           Back to orders
@@ -76,66 +77,64 @@ export function OrderDetailClient() {
   }
 
   return (
-    <OpsSurface className="bg-neutral-50">
-      <section className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-10">
-          <Link href="/orders" className="text-sm text-brand-deep hover:underline">
-            ← All orders
-          </Link>
-          <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h1 className="font-heading text-4xl font-bold text-brand-deep">{order.orderNumber}</h1>
-              <p className="mt-2 text-neutral-600">
-                Status: <span className="font-medium">{order.status}</span>
-                {order.paymentMethod && (
-                  <>
-                    {' '}
-                    · Payment:{' '}
-                    <span className="font-medium">
-                      {PAYMENT_METHOD_OPTIONS.find((o) => o.value === order.paymentMethod)?.label ??
-                        order.paymentMethod}
-                    </span>
-                  </>
-                )}
-                {order.shippingMethod && (
-                  <>
-                    {' '}
-                    · Shipping:{' '}
-                    <span className="font-medium">
-                      {SHIPPING_METHOD_OPTIONS.find((o) => o.value === order.shippingMethod)?.label ??
-                        order.shippingMethod}
-                    </span>
-                  </>
-                )}
-              </p>
-            </div>
-            {order.status === 'PENDING' && (
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  disabled={isPending}
-                  onClick={() => runAction('confirm')}
-                  className="rounded-lg bg-brand-deep px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural disabled:opacity-60"
-                >
-                  Confirm Order
-                </button>
-                <button
-                  type="button"
-                  disabled={isPending}
-                  onClick={() => runAction('cancel')}
-                  className="rounded-lg border border-red-300 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-60"
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
+    <div className="space-y-6">
+      <div>
+        <Link href="/orders" className="text-sm text-brand-deep hover:underline">
+          ← All orders
+        </Link>
+        <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="font-heading text-3xl font-bold text-brand-deep">{order.orderNumber}</h1>
+            <p className="mt-2 text-neutral-600">
+              Status: <span className="font-medium">{order.status}</span>
+              {order.paymentMethod && (
+                <>
+                  {' '}
+                  · Payment:{' '}
+                  <span className="font-medium">
+                    {PAYMENT_METHOD_OPTIONS.find((o) => o.value === order.paymentMethod)?.label ??
+                      order.paymentMethod}
+                  </span>
+                </>
+              )}
+              {order.shippingMethod && (
+                <>
+                  {' '}
+                  · Shipping:{' '}
+                  <span className="font-medium">
+                    {SHIPPING_METHOD_OPTIONS.find((o) => o.value === order.shippingMethod)?.label ??
+                      order.shippingMethod}
+                  </span>
+                </>
+              )}
+            </p>
           </div>
+          {order.status === 'PENDING' && (
+            <div className="flex gap-2">
+              <button
+                type="button"
+                disabled={isPending}
+                onClick={() => runAction('confirm')}
+                className="rounded-lg bg-brand-deep px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural disabled:opacity-60"
+              >
+                Confirm Order
+              </button>
+              <button
+                type="button"
+                disabled={isPending}
+                onClick={() => runAction('cancel')}
+                className="rounded-lg border border-red-300 px-5 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-60"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
-      </section>
+      </div>
 
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1fr_300px]">
+      <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
         <div className="space-y-6">
-          <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
+          <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
             <table className="min-w-full text-left text-sm">
               <thead className="border-b border-neutral-200 bg-neutral-50 text-neutral-600">
                 <tr>
@@ -228,7 +227,10 @@ export function OrderDetailClient() {
               <ul className="mt-2 space-y-1">
                 {order.invoiceIds.map((invoiceId) => (
                   <li key={invoiceId}>
-                    <Link href={`/invoices/${invoiceId}`} className="text-sm text-brand-deep hover:underline">
+                    <Link
+                      href={`/invoices/${invoiceId}`}
+                      className="text-sm text-brand-deep hover:underline"
+                    >
                       View invoice
                     </Link>
                   </li>
@@ -239,6 +241,6 @@ export function OrderDetailClient() {
           <p className="text-xs text-neutral-500">Created {formatDate(order.createdAt)}</p>
         </aside>
       </div>
-    </OpsSurface>
+    </div>
   );
 }

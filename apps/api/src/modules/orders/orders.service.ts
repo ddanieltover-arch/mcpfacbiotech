@@ -536,6 +536,7 @@ export class OrdersService {
     for (const item of cart.items) {
       const product = await this.pricing.loadSellableProduct(item.productId, {
         requirePrice: true,
+        variantId: item.variantId,
       });
       this.pricing.assertQuantity(product, item.quantity);
       lines.push({

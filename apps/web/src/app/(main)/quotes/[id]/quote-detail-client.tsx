@@ -7,7 +7,6 @@ import { toast } from 'sonner';
 import type { QuoteDetail } from '@mcpfac/shared-types';
 import { getQuote, submitQuote } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
-import { OpsSurface } from '@/components/layout/ops-surface';
 
 export function QuoteDetailClient() {
   const params = useParams<{ id: string }>();
@@ -59,7 +58,7 @@ export function QuoteDetailClient() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 text-center text-neutral-500">
+      <div className="rounded-xl border border-neutral-200 bg-white p-12 text-center text-neutral-500">
         Loading quote…
       </div>
     );
@@ -67,7 +66,7 @@ export function QuoteDetailClient() {
 
   if (error || !quote) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 text-center">
+      <div className="rounded-xl border border-red-200 bg-white p-12 text-center">
         <p className="text-red-600">{error ?? 'Quote not found'}</p>
         <Link href="/quotes" className="mt-4 inline-block text-sm text-brand-deep hover:underline">
           Back to quotes
@@ -77,46 +76,42 @@ export function QuoteDetailClient() {
   }
 
   return (
-    <OpsSurface className="bg-neutral-50">
-      <section className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-10">
-          <Link href="/quotes" className="text-sm text-brand-deep hover:underline">
-            ← All quotes
-          </Link>
-          <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h1 className="font-heading text-4xl font-bold text-brand-deep">
-                {quote.quoteNumber}
-              </h1>
-              <p className="mt-2 text-neutral-600">
-                Status: <span className="font-medium">{quote.status.replaceAll('_', ' ')}</span>
-              </p>
-            </div>
-            {quote.status === 'DRAFT' && (
-              <button
-                type="button"
-                disabled={isPending}
-                onClick={handleSubmit}
-                className="rounded-lg bg-brand-deep px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural disabled:opacity-60"
-              >
-                {isPending ? 'Submitting…' : 'Submit Quote'}
-              </button>
-            )}
-            {(quote.status === 'SUBMITTED' || quote.status === 'APPROVED') && (
-              <Link
-                href={`/checkout?quoteId=${quote.id}`}
-                className="rounded-lg bg-brand-deep px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural"
-              >
-                Convert to Order
-              </Link>
-            )}
+    <div className="space-y-6">
+      <div>
+        <Link href="/quotes" className="text-sm text-brand-deep hover:underline">
+          ← All quotes
+        </Link>
+        <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="font-heading text-3xl font-bold text-brand-deep">{quote.quoteNumber}</h1>
+            <p className="mt-2 text-neutral-600">
+              Status: <span className="font-medium">{quote.status.replaceAll('_', ' ')}</span>
+            </p>
           </div>
+          {quote.status === 'DRAFT' && (
+            <button
+              type="button"
+              disabled={isPending}
+              onClick={handleSubmit}
+              className="rounded-lg bg-brand-deep px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural disabled:opacity-60"
+            >
+              {isPending ? 'Submitting…' : 'Submit Quote'}
+            </button>
+          )}
+          {(quote.status === 'SUBMITTED' || quote.status === 'APPROVED') && (
+            <Link
+              href={`/checkout?quoteId=${quote.id}`}
+              className="rounded-lg bg-brand-deep px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-natural"
+            >
+              Convert to Order
+            </Link>
+          )}
         </div>
-      </section>
+      </div>
 
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1fr_300px]">
+      <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
         <div className="space-y-6">
-          <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
+          <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
             <table className="min-w-full text-left text-sm">
               <thead className="border-b border-neutral-200 bg-neutral-50 text-neutral-600">
                 <tr>
@@ -195,6 +190,6 @@ export function QuoteDetailClient() {
           <p className="mt-2 text-xs text-neutral-500">Created {formatDate(quote.createdAt)}</p>
         </aside>
       </div>
-    </OpsSurface>
+    </div>
   );
 }

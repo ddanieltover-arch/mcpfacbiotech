@@ -14,6 +14,11 @@ export class AddCartItemDto {
   @IsUUID()
   productId!: string;
 
+  @ApiPropertyOptional({ format: 'uuid', description: 'Selected product variant' })
+  @IsOptional()
+  @IsUUID()
+  variantId?: string;
+
   @ApiProperty({ minimum: 1, default: 1 })
   @Type(() => Number)
   @IsInt()
@@ -30,6 +35,11 @@ export class UpdateCartItemDto {
   @IsInt()
   @Min(0)
   quantity!: number;
+
+  @ApiPropertyOptional({ format: 'uuid', description: 'Selected product variant' })
+  @IsOptional()
+  @IsUUID()
+  variantId?: string;
 }
 
 export class UpdateCartDto {

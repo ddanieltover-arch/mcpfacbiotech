@@ -1,19 +1,47 @@
 import type { CartItem, CartSummary } from '@mcpfac/shared-types';
-import type { Product, ProductImage, ShoppingCart, CartItem as PrismaCartItem } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 import { CommercePricingService } from '@/modules/commerce/commerce-pricing';
 
-type CartWithItems = ShoppingCart & {
-  items: (PrismaCartItem & {
-    product: Product & { images: ProductImage[] };
-  })[];
-};
+type CartWithItems = Prisma.ShoppingCartGetPayload<{
+  include: {
+    items: {
+      include: {
+        product: {
+          select: {
+            id: true;
+            name: true;
+            sku: true;
+            slug: true;
+            retailPrice: true;
+            images: {
+              select: {
+                url: true;
+                isPrimary: true;
+                sortOrder: true;
+              };
+            };
+          };
+        };
+        variant: {
+          select: {
+            id: true;
+            name: true;
+            value: true;
+            sku: true;
+            priceModifier: true;
+          };
+        };
+      };
+    };
+  };
+}>;
 
 export function toCartSummary(
   cart: CartWithItems,
   pricing: CommercePricingService,
 ): CartSummary {
   const items: CartItem[] = cart.items.map((item) =>
-    pricing.toCartLine(item.id, item.product, item.quantity),
+    pricing.toCartLine(item.id, item.product, item.quantity, item.variant),
   );
 
   const subtotal = Number(

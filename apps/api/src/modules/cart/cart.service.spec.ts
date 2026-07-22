@@ -12,11 +12,14 @@ describe('CartService', () => {
     },
     cartItem: {
       findUnique: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
       deleteMany: jest.fn(),
     },
+    $executeRaw: jest.fn(),
   };
 
   const customerContext = {
@@ -72,8 +75,9 @@ describe('CartService', () => {
       isActive: true,
       notes: null,
     });
-    prisma.cartItem.findUnique.mockResolvedValue(null);
+    prisma.cartItem.findFirst.mockResolvedValue(null);
     prisma.cartItem.create.mockResolvedValue({ id: 'item-1' });
+    prisma.$executeRaw.mockResolvedValue(1);
     prisma.shoppingCart.findUniqueOrThrow.mockResolvedValue({
       id: 'cart-1',
       notes: null,
@@ -125,7 +129,7 @@ describe('CartService', () => {
         items: [{ productId: 'prod-amino', quantity: 1 }],
       });
 
-    prisma.cartItem.findUnique.mockResolvedValue({
+    prisma.cartItem.findFirst.mockResolvedValue({
       id: 'existing-item',
       quantity: 1,
     });

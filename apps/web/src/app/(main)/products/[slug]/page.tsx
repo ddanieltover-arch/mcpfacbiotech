@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Download, FileText } from 'lucide-react';
 import { AvailabilityBadge } from '@/components/products/availability-badge';
-import { ProductActions } from '@/components/products/product-actions';
 import { ProductCardGrid } from '@/components/products/product-card-grid';
 import { ProductImageGallery } from '@/components/products/product-image-gallery';
+import { ProductPurchasePanel } from '@/components/products/product-purchase-panel';
 import { ResearchUseBanner } from '@/components/marketing';
-import { formatPrice, getProductBySlug } from '@/lib/catalog-api';
+import { getProductBySlug } from '@/lib/catalog-api';
 
 type ProductDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -112,24 +112,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 ) : null}
               </div>
 
-              <div className="border-y border-neutral-200 py-6">
-                <p className="font-heading text-3xl font-bold text-brand-deep">
-                  {formatPrice(product.price)}
-                </p>
-                <p className="mt-1 text-sm text-neutral-500">
-                  Minimum order quantity: {product.minimumOrderQuantity}
-                </p>
-                <div className="mt-5">
-                  <ProductActions
-                    productId={product.id}
-                    productName={product.name}
-                    productSku={product.sku}
-                    unitPrice={product.price}
-                    productImage={primaryImage?.url}
-                    minimumOrderQuantity={product.minimumOrderQuantity}
-                  />
-                </div>
-              </div>
+              <ProductPurchasePanel product={product} />
 
               {metaFields.length > 0 ? (
                 <dl className="grid gap-4 sm:grid-cols-2">

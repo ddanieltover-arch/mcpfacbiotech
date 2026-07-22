@@ -363,6 +363,7 @@ export class QuotesService {
       for (const item of cart.items) {
         const product = await this.pricing.loadSellableProduct(item.productId, {
           requirePrice: true,
+          variantId: item.variantId,
         });
         this.pricing.assertQuantity(product, item.quantity);
         lines.push({
@@ -371,7 +372,7 @@ export class QuotesService {
           productSku: product.sku,
           quantity: item.quantity,
           unitPrice: product.unitPrice,
-          notes: undefined as string | undefined,
+          notes: product.variantLabel,
         });
       }
       return lines;

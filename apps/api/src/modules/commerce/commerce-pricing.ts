@@ -8,6 +8,7 @@ import {
   ProductStatus,
   type Product,
   type ProductImage,
+  type ProductVariant,
 } from '@prisma/client';
 import { PrismaService } from '@/database/prisma.service';
 import { decimalToNumber, getPrimaryImageUrl } from '@/modules/products/products.mapper';
@@ -20,9 +21,16 @@ export type PricedProduct = {
   minimumOrderQty: number;
   imageUrl?: string;
   availability: ProductAvailability;
+  variantId?: string;
+  variantLabel?: string;
 };
 
-type ProductForPricing = Product & { images: ProductImage[] };
+type ProductForPricing = Pick<Product, 'id' | 'name' | 'sku' | 'slug' | 'retailPrice'> & {
+  images: Array<Pick<ProductImage, 'url' | 'isPrimary'>>;
+  variants?: Array<
+    Pick<ProductVariant, 'id' | 'name' | 'value' | 'sku' | 'priceModifier' | 'isDefault' | 'sortOrder'>
+  >;
+};
 
 @Injectable()
 export class CommercePricingService {
@@ -30,9 +38,10 @@ export class CommercePricingService {
 
   async loadSellableProduct(
     productId: string,
-    options?: { requirePrice?: boolean },
+    options?: { requirePrice?: boolean; variantId?: string | null },
   ): Promise<PricedProduct> {
     const requirePrice = options?.requirePrice ?? true;
+    const variantId = options?.variantId ?? undefined;
 
     const product = await this.prisma.product.findFirst({
       where: {
@@ -41,9 +50,31 @@ export class CommercePricingService {
         status: ProductStatus.PUBLISHED,
         isVisible: true,
       },
-      include: {
+      select: {
+        id: true,
+        name: true,
+        sku: true,
+        retailPrice: true,
+        minimumOrderQty: true,
+        availability: true,
         images: {
-          orderBy: { sortOrder: 'asc' },
+          take: 1,
+          orderBy: [{ isPrimary: 'desc' }, { sortOrder: 'asc' }],
+          select: { url: true, isPrimary: true },
+        },
+        variants: {
+          ...(variantId ? { where: { id: variantId } } : {}),
+          orderBy: [{ isDefault: 'desc' }, { sortOrder: 'asc' }],
+          take: 1,
+          select: {
+            id: true,
+            name: true,
+            value: true,
+            sku: true,
+            priceModifier: true,
+            isDefault: true,
+            sortOrder: true,
+          },
         },
       },
     });
@@ -59,7 +90,23 @@ export class CommercePricingService {
       throw new BadRequestException('Product is not available for purchase');
     }
 
-    const unitPrice = decimalToNumber(product.retailPrice);
+    const basePrice = decimalToNumber(product.retailPrice);
+    let unitPrice = basePrice;
+    const resolvedVariant = product.variants[0];
+    let sku = product.sku;
+
+    if (variantId && !resolvedVariant) {
+      throw new BadRequestException('Selected variant is not valid for this product');
+    }
+
+    if (resolvedVariant) {
+      if (basePrice == null || !Number.isFinite(basePrice)) {
+        unitPrice = undefined;
+      } else {
+        unitPrice = basePrice + (decimalToNumber(resolvedVariant.priceModifier) ?? 0);
+      }
+      sku = resolvedVariant.sku || product.sku;
+    }
 
     if (requirePrice && (unitPrice == null || !Number.isFinite(unitPrice))) {
       throw new BadRequestException(
@@ -70,11 +117,15 @@ export class CommercePricingService {
     return {
       id: product.id,
       name: product.name,
-      sku: product.sku,
+      sku,
       unitPrice: unitPrice ?? 0,
       minimumOrderQty: product.minimumOrderQty,
       imageUrl: getPrimaryImageUrl(product.images),
       availability: product.availability,
+      variantId: resolvedVariant?.id,
+      variantLabel: resolvedVariant
+        ? `${resolvedVariant.name}: ${resolvedVariant.value}`
+        : undefined,
     };
   }
 
@@ -94,6 +145,10 @@ export class CommercePricingService {
     cartItemId: string,
     product: ProductForPricing,
     quantity: number,
+    variant?: Pick<
+      ProductVariant,
+      'id' | 'name' | 'value' | 'sku' | 'priceModifier'
+    > | null,
   ): {
     id: string;
     productId: string;
@@ -101,19 +156,25 @@ export class CommercePricingService {
     productSku: string;
     productSlug?: string;
     productImage?: string;
+    variantId?: string;
+    variantLabel?: string;
     quantity: number;
     unitPrice: number;
     totalPrice: number;
   } {
-    const unitPrice = decimalToNumber(product.retailPrice) ?? 0;
+    const basePrice = decimalToNumber(product.retailPrice) ?? 0;
+    const priceModifier = variant ? decimalToNumber(variant.priceModifier) ?? 0 : 0;
+    const unitPrice = basePrice + priceModifier;
 
     return {
       id: cartItemId,
       productId: product.id,
       productName: product.name,
-      productSku: product.sku,
+      productSku: variant?.sku || product.sku,
       productSlug: product.slug,
       productImage: getPrimaryImageUrl(product.images),
+      variantId: variant?.id,
+      variantLabel: variant ? `${variant.name}: ${variant.value}` : undefined,
       quantity,
       unitPrice,
       totalPrice: Number((unitPrice * quantity).toFixed(2)),

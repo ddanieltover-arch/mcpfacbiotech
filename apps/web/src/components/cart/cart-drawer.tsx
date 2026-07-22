@@ -17,12 +17,15 @@ export function CartDrawer() {
   const removeItem = useCartStore((s) => s.removeItem);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const refreshFromServer = useCartStore((s) => s.refreshFromServer);
+  const pendingSyncs = useCartStore((s) => s.pendingSyncs);
+  const isSyncing = useCartStore((s) => s.isSyncing);
 
   useEffect(() => {
-    if (isOpen) {
+    // Opening the drawer must not pull a stale server snapshot over in-flight adds.
+    if (isOpen && pendingSyncs === 0 && !isSyncing) {
       void refreshFromServer();
     }
-  }, [isOpen, refreshFromServer]);
+  }, [isOpen, pendingSyncs, isSyncing, refreshFromServer]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -108,7 +111,7 @@ export function CartDrawer() {
                   {items.map((item) => {
                     const sku = displayProductSku(item.productSku);
                     return (
-                      <li key={item.productId} className="py-4 first:pt-0">
+                      <li key={`${item.productId}:${item.variantId ?? 'base'}`} className="py-4 first:pt-0">
                         <div className="flex items-start gap-3">
                           <Link
                             href={item.productSlug ? `/products/${item.productSlug}` : '/products'}
@@ -152,7 +155,7 @@ export function CartDrawer() {
                               </div>
                               <button
                                 type="button"
-                                onClick={() => void removeItem(item.productId)}
+                                onClick={() => void removeItem(item.productId, item.variantId)}
                                 className="rounded-lg p-1.5 text-neutral-400 transition-colors hover:bg-red-50 hover:text-red-600"
                                 aria-label={`Remove ${item.productName}`}
                               >
@@ -167,20 +170,24 @@ export function CartDrawer() {
                                   className="px-2.5 py-1.5 text-neutral-600 transition-colors hover:bg-neutral-50"
                                   aria-label={`Decrease quantity of ${item.productName}`}
                                   onClick={() =>
-                                    void updateQuantity(item.productId, Math.max(1, item.quantity - 1))
+                                    void updateQuantity(
+                                      item.productId,
+                                      Math.max(1, item.quantity - 1),
+                                      item.variantId,
+                                    )
                                   }
                                 >
                                   <Minus className="h-3.5 w-3.5" />
                                 </button>
                                 <input
-                                  id={`qty-${item.productId}`}
+                                  id={`qty-${item.productId}-${item.variantId ?? 'base'}`}
                                   type="number"
                                   min={1}
                                   value={item.quantity}
                                   onChange={(event) => {
                                     const next = Number(event.target.value);
                                     if (Number.isFinite(next)) {
-                                      void updateQuantity(item.productId, next);
+                                      void updateQuantity(item.productId, next, item.variantId);
                                     }
                                   }}
                                   className="w-10 border-x border-neutral-200 bg-white py-1.5 text-center text-sm outline-none"
@@ -191,7 +198,11 @@ export function CartDrawer() {
                                   className="px-2.5 py-1.5 text-neutral-600 transition-colors hover:bg-neutral-50"
                                   aria-label={`Increase quantity of ${item.productName}`}
                                   onClick={() =>
-                                    void updateQuantity(item.productId, item.quantity + 1)
+                                    void updateQuantity(
+                                      item.productId,
+                                      item.quantity + 1,
+                                      item.variantId,
+                                    )
                                   }
                                 >
                                   <Plus className="h-3.5 w-3.5" />

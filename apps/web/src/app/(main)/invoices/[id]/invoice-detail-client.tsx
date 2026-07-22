@@ -6,7 +6,6 @@ import { useParams } from 'next/navigation';
 import type { InvoiceDetail } from '@mcpfac/shared-types';
 import { getInvoice } from '@/lib/commerce-api';
 import { formatCurrency, formatDate } from '@/lib/utils';
-import { OpsSurface } from '@/components/layout/ops-surface';
 
 export function InvoiceDetailClient() {
   const params = useParams<{ id: string }>();
@@ -43,7 +42,7 @@ export function InvoiceDetailClient() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 text-center text-neutral-500">
+      <div className="rounded-xl border border-neutral-200 bg-white p-12 text-center text-neutral-500">
         Loading invoice…
       </div>
     );
@@ -51,7 +50,7 @@ export function InvoiceDetailClient() {
 
   if (error || !invoice) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 text-center">
+      <div className="rounded-xl border border-red-200 bg-white p-12 text-center">
         <p className="text-red-600">{error ?? 'Invoice not found'}</p>
         <Link href="/invoices" className="mt-4 inline-block text-sm text-brand-deep hover:underline">
           Back to invoices
@@ -61,23 +60,21 @@ export function InvoiceDetailClient() {
   }
 
   return (
-    <OpsSurface className="bg-neutral-50">
-      <section className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-10">
-          <Link href="/invoices" className="text-sm text-brand-deep hover:underline">
-            ← All invoices
-          </Link>
-          <h1 className="mt-3 font-heading text-4xl font-bold text-brand-deep">
-            {invoice.invoiceNumber}
-          </h1>
-          <p className="mt-2 text-neutral-600">
-            Status: <span className="font-medium">{invoice.status}</span>
-          </p>
-        </div>
-      </section>
+    <div className="space-y-6">
+      <div>
+        <Link href="/invoices" className="text-sm text-brand-deep hover:underline">
+          ← All invoices
+        </Link>
+        <h1 className="mt-3 font-heading text-3xl font-bold text-brand-deep">
+          {invoice.invoiceNumber}
+        </h1>
+        <p className="mt-2 text-neutral-600">
+          Status: <span className="font-medium">{invoice.status}</span>
+        </p>
+      </div>
 
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1fr_280px]">
-        <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
+      <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
+        <div className="overflow-x-auto rounded-xl border border-neutral-200 bg-white">
           <table className="min-w-full text-left text-sm">
             <thead className="border-b border-neutral-200 bg-neutral-50 text-neutral-600">
               <tr>
@@ -138,6 +135,6 @@ export function InvoiceDetailClient() {
           </Link>
         </aside>
       </div>
-    </OpsSurface>
+    </div>
   );
 }

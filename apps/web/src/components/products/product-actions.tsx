@@ -16,6 +16,8 @@ export function ProductActions({
   unitPrice,
   productImage,
   minimumOrderQuantity = 1,
+  variantId,
+  variantLabel,
 }: {
   productId: string;
   productName: string;
@@ -23,6 +25,8 @@ export function ProductActions({
   unitPrice?: number;
   productImage?: string;
   minimumOrderQuantity?: number;
+  variantId?: string;
+  variantLabel?: string;
 }) {
   const router = useRouter();
   const user = useAuthStore((s) => s.user);
@@ -47,27 +51,25 @@ export function ProductActions({
     toast.success(hasCompare ? 'Removed from compare' : 'Added to compare');
   };
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = () => {
     if (unitPrice == null) {
       toast.error('Pricing unavailable — request a quote instead');
       return;
     }
 
-    try {
-      await addToCart(
-        {
-          productId,
-          productName,
-          productSku,
-          productImage,
-          unitPrice,
-        },
-        minimumOrderQuantity,
-      );
-      toast.success('Added to cart');
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to add to cart');
-    }
+    void addToCart(
+      {
+        productId,
+        productName: variantLabel ? `${productName} (${variantLabel})` : productName,
+        productSku,
+        productImage,
+        unitPrice,
+        variantId,
+        variantLabel,
+      },
+      minimumOrderQuantity,
+    );
+    toast.success('Added to cart');
   };
 
   const handleRequestQuote = async () => {
@@ -93,7 +95,7 @@ export function ProductActions({
       {unitPrice != null ? (
         <button
           type="button"
-          onClick={() => void handleAddToCart()}
+          onClick={handleAddToCart}
           className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand-deep px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-natural"
         >
           <ShoppingCart className="h-4 w-4" />

@@ -8,6 +8,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -61,6 +62,7 @@ export class CartController {
       body.quantity,
       user?.profileId,
       sessionId,
+      body.variantId,
     );
 
     return {
@@ -77,6 +79,7 @@ export class CartController {
     @Body() body: UpdateCartItemDto,
     @CurrentUser() user: AuthUser | undefined,
     @Headers('x-cart-session') sessionId?: string,
+    @Query('variantId') variantId?: string,
   ) {
     this.cartService.requireIdentity(user?.profileId, sessionId);
     const data = await this.cartService.updateItem(
@@ -84,6 +87,7 @@ export class CartController {
       body.quantity,
       user?.profileId,
       sessionId,
+      body.variantId ?? variantId,
     );
 
     return {
@@ -99,12 +103,14 @@ export class CartController {
     @Param('productId', ParseUUIDPipe) productId: string,
     @CurrentUser() user: AuthUser | undefined,
     @Headers('x-cart-session') sessionId?: string,
+    @Query('variantId') variantId?: string,
   ) {
     this.cartService.requireIdentity(user?.profileId, sessionId);
     const data = await this.cartService.removeItem(
       productId,
       user?.profileId,
       sessionId,
+      variantId,
     );
 
     return {

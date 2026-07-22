@@ -89,7 +89,21 @@ export interface ProductSummary {
   sku: string;
   casNumber?: string;
   purity?: string;
+  /** Lowest effective retail price (base, or min variant). */
   price?: number;
+  /** Lowest variant/base price when ranges exist. */
+  priceMin?: number;
+  /** Highest variant/base price when ranges exist. */
+  priceMax?: number;
+  hasVariants?: boolean;
+  /** Compact variant list for catalog cards / quick add. */
+  variants?: Array<{
+    id: string;
+    name: string;
+    value: string;
+    price?: number;
+    isDefault: boolean;
+  }>;
   availability: ProductAvailability;
   imageUrl?: string;
   categoryName?: string;
@@ -480,6 +494,8 @@ export interface CartItem {
   productSku: string;
   productSlug?: string;
   productImage?: string;
+  variantId?: string;
+  variantLabel?: string;
   quantity: number;
   unitPrice: number;
   totalPrice: number;
