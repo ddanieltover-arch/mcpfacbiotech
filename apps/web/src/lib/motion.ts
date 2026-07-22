@@ -1,6 +1,6 @@
 import type { Transition, Variants } from 'framer-motion';
 
-const easeOut: Transition['ease'] = [0.22, 1, 0.36, 1];
+export const easeOut: Transition['ease'] = [0.22, 1, 0.36, 1];
 
 /** Shared Framer Motion variants (Volume 2 / Appendix D). */
 export const fadeIn: Variants = {
@@ -44,3 +44,43 @@ export const staggerChildren = {
     transition: { staggerChildren: 0.06 },
   },
 } satisfies Variants;
+
+/** Hero / section entrance — slightly slower stagger for readable hierarchy. */
+export const staggerChildrenSlow = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.04 },
+  },
+} satisfies Variants;
+
+const instantVisible: Variants = {
+  hidden: { opacity: 1, y: 0, x: 0, scale: 1 },
+  visible: { opacity: 1, y: 0, x: 0, scale: 1, transition: { duration: 0 } },
+};
+
+/** Collapse animated variants when `prefers-reduced-motion` is set. */
+export function variantsFor(
+  reduceMotion: boolean | null,
+  variants: Variants,
+): Variants {
+  if (reduceMotion) return instantVisible;
+  return variants;
+}
+
+export function staggerFor(
+  reduceMotion: boolean | null,
+  variants: Variants = staggerChildren,
+): Variants {
+  if (reduceMotion) {
+    return { hidden: {}, visible: { transition: { staggerChildren: 0, delayChildren: 0 } } };
+  }
+  return variants;
+}
+
+export function transitionFor(
+  reduceMotion: boolean | null,
+  transition: Transition,
+): Transition {
+  if (reduceMotion) return { duration: 0 };
+  return transition;
+}
