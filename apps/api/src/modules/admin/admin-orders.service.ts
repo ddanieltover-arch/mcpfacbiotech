@@ -1,11 +1,13 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InvoiceStatus, OrderStatus, Prisma } from '@prisma/client';
 import type { AdminOrderSummary, OrderDetail } from '@mcpfac/shared-types';
 import { PrismaService } from '@/database/prisma.service';
+import { EmailService } from '@/modules/email/email.service';
 import { decimalToNumber } from '@/modules/products/products.mapper';
 import type { AdminOrderQueryDto } from './dto/admin-query.dto';
 import type { UpdateAdminOrderStatusDto } from './dto/admin-mutations.dto';
@@ -23,7 +25,12 @@ const ALLOWED_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
 
 @Injectable()
 export class AdminOrdersService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly logger = new Logger(AdminOrdersService.name);
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly emailService: EmailService,
+  ) {}
 
   async list(query: AdminOrderQueryDto) {
     const where: Prisma.OrderWhereInput = {
@@ -164,7 +171,15 @@ export class AdminOrdersService {
   ) {
     const existing = await this.prisma.order.findFirst({
       where: { id, deletedAt: null },
-      include: { items: true, invoices: true },
+      include: {
+        items: true,
+        invoices: true,
+        customer: {
+          include: {
+            profile: { select: { email: true, firstName: true, lastName: true } },
+          },
+        },
+      },
     });
 
     if (!existing) {
@@ -178,6 +193,8 @@ export class AdminOrdersService {
       );
     }
 
+    const statusNote = dto.note ?? `Status updated by admin to ${dto.status}`;
+
     await this.prisma.$transaction(async (tx) => {
       await tx.order.update({
         where: { id },
@@ -188,7 +205,7 @@ export class AdminOrdersService {
             create: {
               fromStatus: existing.status,
               toStatus: dto.status,
-              note: dto.note ?? `Status updated by admin to ${dto.status}`,
+              note: statusNote,
               changedBy: actorProfileId,
             },
           },
@@ -231,7 +248,51 @@ export class AdminOrdersService {
       }
     });
 
+    await this.notifyCustomerStatusChange({
+      email: existing.customer.profile.email,
+      firstName: existing.customer.profile.firstName,
+      lastName: existing.customer.profile.lastName,
+      orderNumber: existing.orderNumber,
+      fromStatus: existing.status,
+      toStatus: dto.status,
+      note: statusNote,
+    });
+
     return this.getById(id);
+  }
+
+  private async notifyCustomerStatusChange(options: {
+    email: string | null;
+    firstName: string | null;
+    lastName: string | null;
+    orderNumber: string;
+    fromStatus: OrderStatus;
+    toStatus: OrderStatus;
+    note?: string;
+  }): Promise<void> {
+    if (!options.email) {
+      this.logger.warn(
+        `Skipped status email for ${options.orderNumber} — customer email missing`,
+      );
+      return;
+    }
+
+    const customerName = [options.firstName, options.lastName].filter(Boolean).join(' ').trim();
+
+    const sent = await this.emailService.sendOrderStatusUpdate({
+      to: options.email,
+      customerName: customerName || undefined,
+      orderNumber: options.orderNumber,
+      fromStatus: options.fromStatus,
+      toStatus: options.toStatus,
+      note: options.note,
+    });
+
+    if (!sent) {
+      this.logger.warn(
+        `Failed to send status email for ${options.orderNumber} → ${options.toStatus}`,
+      );
+    }
   }
 
   private async generateInvoiceNumber(tx: Prisma.TransactionClient): Promise<string> {

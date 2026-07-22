@@ -8,6 +8,7 @@ import {
   newsletterWelcomeEmail,
   orderAdminEmail,
   orderConfirmationEmail,
+  orderStatusUpdateEmail,
   quoteAdminEmail,
   quoteSubmittedEmail,
 } from './email.templates';
@@ -113,6 +114,23 @@ export class EmailService {
     }
 
     return customerSent;
+  }
+
+  /** Notify the customer whenever an order status changes. */
+  async sendOrderStatusUpdate(options: {
+    to: string;
+    customerName?: string;
+    orderNumber: string;
+    fromStatus?: string;
+    toStatus: string;
+    note?: string;
+  }): Promise<boolean> {
+    const template = orderStatusUpdateEmail(options);
+    return this.sendMail({
+      to: options.to,
+      subject: template.subject,
+      html: template.html,
+    });
   }
 
   /** Customer acknowledgement + admin alert for quote requests. */

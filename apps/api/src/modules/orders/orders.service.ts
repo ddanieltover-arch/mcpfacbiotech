@@ -362,6 +362,14 @@ export class OrdersService {
       }
     });
 
+    await this.notifyOrderStatusChange(
+      profileId,
+      existing.orderNumber,
+      OrderStatus.PENDING,
+      OrderStatus.CONFIRMED,
+      'Order confirmed by customer',
+    );
+
     return this.getById(profileId, orderId);
   }
 
@@ -394,6 +402,14 @@ export class OrdersService {
       },
     });
 
+    await this.notifyOrderStatusChange(
+      profileId,
+      existing.orderNumber,
+      OrderStatus.PENDING,
+      OrderStatus.CANCELLED,
+      'Order cancelled by customer',
+    );
+
     return this.getById(profileId, orderId);
   }
 
@@ -420,6 +436,34 @@ export class OrdersService {
       orderNumber,
       totalAmount,
       currency,
+    });
+  }
+
+  private async notifyOrderStatusChange(
+    profileId: string,
+    orderNumber: string,
+    fromStatus: OrderStatus,
+    toStatus: OrderStatus,
+    note?: string,
+  ): Promise<void> {
+    const profile = await this.prisma.profile.findUnique({
+      where: { id: profileId },
+      select: { email: true, firstName: true, lastName: true },
+    });
+
+    if (!profile?.email) {
+      return;
+    }
+
+    const customerName = [profile.firstName, profile.lastName].filter(Boolean).join(' ').trim();
+
+    await this.emailService.sendOrderStatusUpdate({
+      to: profile.email,
+      customerName: customerName || undefined,
+      orderNumber,
+      fromStatus,
+      toStatus,
+      note,
     });
   }
 

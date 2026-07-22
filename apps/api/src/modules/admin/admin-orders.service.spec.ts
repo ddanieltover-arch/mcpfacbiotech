@@ -17,10 +17,15 @@ describe('AdminOrdersService', () => {
     $transaction: jest.fn(),
   };
 
-  const service = new AdminOrdersService(prisma as never);
+  const emailService = {
+    sendOrderStatusUpdate: jest.fn().mockResolvedValue(true),
+  };
+
+  const service = new AdminOrdersService(prisma as never, emailService as never);
 
   beforeEach(() => {
     jest.clearAllMocks();
+    emailService.sendOrderStatusUpdate.mockResolvedValue(true);
   });
 
   it('rejects invalid status transitions', async () => {
@@ -29,6 +34,7 @@ describe('AdminOrdersService', () => {
       status: OrderStatus.DELIVERED,
       items: [],
       invoices: [],
+      customer: { profile: { email: 'a@b.com', firstName: 'Ada', lastName: 'Lab' } },
     });
 
     await expect(
@@ -41,6 +47,7 @@ describe('AdminOrdersService', () => {
   it('confirms pending order and issues invoice', async () => {
     const pending = {
       id: 'order-1',
+      orderNumber: 'ORD-1',
       customerId: 'customer-1',
       status: OrderStatus.PENDING,
       subtotal: 100,
@@ -58,6 +65,9 @@ describe('AdminOrdersService', () => {
         },
       ],
       invoices: [],
+      customer: {
+        profile: { email: 'a@b.com', firstName: 'Ada', lastName: 'Lab' },
+      },
     };
 
     prisma.order.findFirst
@@ -65,7 +75,6 @@ describe('AdminOrdersService', () => {
       .mockResolvedValueOnce({
         ...pending,
         status: OrderStatus.CONFIRMED,
-        orderNumber: 'ORD-1',
         notes: null,
         purchaseOrderNum: null,
         quoteId: null,
@@ -76,9 +85,6 @@ describe('AdminOrdersService', () => {
         updatedAt: new Date('2026-01-01'),
         statusHistory: [],
         invoices: [{ id: 'inv-1' }],
-        customer: {
-          profile: { email: 'a@b.com', firstName: 'Ada', lastName: 'Lab' },
-        },
         items: [
           {
             id: 'item-1',
@@ -104,6 +110,15 @@ describe('AdminOrdersService', () => {
 
     expect(prisma.order.update).toHaveBeenCalled();
     expect(prisma.invoice.create).toHaveBeenCalled();
+    expect(emailService.sendOrderStatusUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        to: 'a@b.com',
+        orderNumber: 'ORD-1',
+        fromStatus: OrderStatus.PENDING,
+        toStatus: OrderStatus.CONFIRMED,
+        note: 'Approved by ops',
+      }),
+    );
     expect(result.status).toBe(OrderStatus.CONFIRMED);
   });
 

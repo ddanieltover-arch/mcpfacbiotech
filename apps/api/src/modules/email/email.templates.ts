@@ -252,6 +252,100 @@ export function orderAdminEmail(options: {
   };
 }
 
+const ORDER_STATUS_COPY: Record<
+  string,
+  { title: string; intro: string; eyebrow: string }
+> = {
+  PENDING: {
+    eyebrow: 'Order update',
+    title: 'Your order is pending',
+    intro: 'Your order is awaiting confirmation. We will email you when it moves to the next step.',
+  },
+  CONFIRMED: {
+    eyebrow: 'Order confirmed',
+    title: 'Your order is confirmed',
+    intro: 'We confirmed your order and will begin fulfilment preparation shortly.',
+  },
+  PROCESSING: {
+    eyebrow: 'Order update',
+    title: 'Your order is being processed',
+    intro: 'Our team is preparing your research materials for packing.',
+  },
+  PACKED: {
+    eyebrow: 'Order update',
+    title: 'Your order is packed',
+    intro: 'Your order has been packed and is ready for dispatch.',
+  },
+  SHIPPED: {
+    eyebrow: 'Order shipped',
+    title: 'Your order is on the way',
+    intro: 'Your order has shipped. Tracking details will follow when available from the carrier.',
+  },
+  DELIVERED: {
+    eyebrow: 'Order delivered',
+    title: 'Your order was delivered',
+    intro: 'Your order is marked as delivered. Contact support if anything is missing or damaged.',
+  },
+  CANCELLED: {
+    eyebrow: 'Order cancelled',
+    title: 'Your order was cancelled',
+    intro: 'This order has been cancelled. Reply to this email if you need help placing a new order.',
+  },
+  RETURNED: {
+    eyebrow: 'Order update',
+    title: 'Your order return was recorded',
+    intro: 'We recorded a return for this order. Our team may follow up with next steps.',
+  },
+};
+
+export function orderStatusUpdateEmail(options: {
+  customerName?: string;
+  orderNumber: string;
+  fromStatus?: string;
+  toStatus: string;
+  note?: string;
+}) {
+  const base = siteUrl();
+  const copy =
+    ORDER_STATUS_COPY[options.toStatus] ??
+    ({
+      eyebrow: 'Order update',
+      title: `Order status: ${options.toStatus}`,
+      intro: `Your order status was updated to ${options.toStatus}.`,
+    } as const);
+
+  const details: DetailRow[] = [
+    { label: 'Order number', value: options.orderNumber },
+    { label: 'New status', value: options.toStatus },
+  ];
+
+  if (options.fromStatus) {
+    details.splice(1, 0, { label: 'Previous status', value: options.fromStatus });
+  }
+
+  return {
+    subject: `Order ${options.orderNumber} is now ${options.toStatus} — MCPFAC BIOTECH`,
+    html: brandedHtml({
+      preheader: `Order ${options.orderNumber} status: ${options.toStatus}`,
+      eyebrow: copy.eyebrow,
+      title: copy.title,
+      greeting: options.customerName ? `Hello ${options.customerName},` : 'Hello,',
+      intro: copy.intro,
+      details,
+      bodyHtml: options.note
+        ? `
+        <div style="margin:8px 0 0;padding:16px 18px;border-left:3px solid ${BRAND.leaf};background:${BRAND.surface};border-radius:0 10px 10px 0;">
+          <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:${BRAND.muted};font-weight:700;">Update note</p>
+          <p style="margin:0;font-size:15px;line-height:1.7;color:${BRAND.ink};white-space:pre-wrap;">${escapeHtml(options.note)}</p>
+        </div>`
+        : undefined,
+      cta: { label: 'View your order', href: `${base}/orders` },
+      note: 'For research use only. Contact support if you have questions about this update.',
+      footerNote: 'For research use only. Not for human or veterinary consumption.',
+    }),
+  };
+}
+
 export function quoteSubmittedEmail(options: {
   customerName?: string;
   quoteNumber: string;

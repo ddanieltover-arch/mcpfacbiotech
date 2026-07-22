@@ -61,6 +61,7 @@ describe('OrdersService', () => {
 
   const emailService = {
     sendOrderConfirmation: jest.fn().mockResolvedValue(true),
+    sendOrderStatusUpdate: jest.fn().mockResolvedValue(true),
   };
 
   const service = new OrdersService(
