@@ -2,13 +2,20 @@
   "name": "@mcpfac/shared-validators",
   "version": "0.1.0",
   "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "dependencies": {
     "zod": "^3.24.0"
   },
   "scripts": {
-    "type-check": "tsc --noEmit",
+    "build": "tsc -p tsconfig.json",
+    "type-check": "tsc --noEmit -p tsconfig.json",
     "clean": "rimraf dist"
   },
   "devDependencies": {

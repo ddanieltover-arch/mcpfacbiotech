@@ -1,5 +1,26 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "NODE_ENV",
+    "PORT",
+    "LOG_LEVEL",
+    "DATABASE_URL",
+    "DIRECT_URL",
+    "FRONTEND_URL",
+    "APP_URL",
+    "SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "RESEND_API_KEY",
+    "RESEND_FROM_EMAIL",
+    "RESEND_FROM_NAME",
+    "COMPANY_EMAIL",
+    "NEXT_PUBLIC_BACKEND_URL",
+    "NEXT_PUBLIC_APP_URL",
+    "NEXT_PUBLIC_SITE_URL"
+  ],
   "tasks": {
     "dev": {
       "cache": false,
@@ -7,7 +28,28 @@
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "dist/**", "!.next/cache/**"]
+      "outputs": [".next/**", "dist/**", "!.next/cache/**"],
+      "env": [
+        "NODE_ENV",
+        "PORT",
+        "LOG_LEVEL",
+        "DATABASE_URL",
+        "DIRECT_URL",
+        "FRONTEND_URL",
+        "APP_URL",
+        "SUPABASE_URL",
+        "NEXT_PUBLIC_SUPABASE_URL",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "RESEND_API_KEY",
+        "RESEND_FROM_EMAIL",
+        "RESEND_FROM_NAME",
+        "COMPANY_EMAIL",
+        "NEXT_PUBLIC_BACKEND_URL",
+        "NEXT_PUBLIC_APP_URL",
+        "NEXT_PUBLIC_SITE_URL"
+      ]
     },
     "lint": {
       "dependsOn": ["^build"]
