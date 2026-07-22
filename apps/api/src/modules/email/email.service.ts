@@ -2,10 +2,13 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
 import {
+  contactAckEmail,
   contactMessageEmail,
   newsletterAdminEmail,
   newsletterWelcomeEmail,
+  orderAdminEmail,
   orderConfirmationEmail,
+  quoteAdminEmail,
   quoteSubmittedEmail,
 } from './email.templates';
 
@@ -74,6 +77,7 @@ export class EmailService {
     }
   }
 
+  /** Customer confirmation + admin alert for checkout orders. */
   async sendOrderConfirmation(options: {
     to: string;
     customerName?: string;
@@ -81,14 +85,37 @@ export class EmailService {
     totalAmount: number;
     currency: string;
   }): Promise<boolean> {
-    const template = orderConfirmationEmail(options);
-    return this.sendMail({
-      to: options.to,
-      subject: template.subject,
-      html: template.html,
+    const customer = orderConfirmationEmail(options);
+    const admin = orderAdminEmail({
+      customerName: options.customerName,
+      customerEmail: options.to,
+      orderNumber: options.orderNumber,
+      totalAmount: options.totalAmount,
+      currency: options.currency,
     });
+
+    const [customerSent, adminSent] = await Promise.all([
+      this.sendMail({
+        to: options.to,
+        subject: customer.subject,
+        html: customer.html,
+      }),
+      this.sendMail({
+        to: this.getCompanyInbox(),
+        subject: admin.subject,
+        html: admin.html,
+        replyTo: options.to,
+      }),
+    ]);
+
+    if (!adminSent) {
+      this.logger.warn(`Order admin notification failed for ${options.orderNumber}`);
+    }
+
+    return customerSent;
   }
 
+  /** Customer acknowledgement + admin alert for quote requests. */
   async sendQuoteSubmitted(options: {
     to: string;
     customerName?: string;
@@ -96,14 +123,37 @@ export class EmailService {
     totalAmount: number;
     currency: string;
   }): Promise<boolean> {
-    const template = quoteSubmittedEmail(options);
-    return this.sendMail({
-      to: options.to,
-      subject: template.subject,
-      html: template.html,
+    const customer = quoteSubmittedEmail(options);
+    const admin = quoteAdminEmail({
+      customerName: options.customerName,
+      customerEmail: options.to,
+      quoteNumber: options.quoteNumber,
+      totalAmount: options.totalAmount,
+      currency: options.currency,
     });
+
+    const [customerSent, adminSent] = await Promise.all([
+      this.sendMail({
+        to: options.to,
+        subject: customer.subject,
+        html: customer.html,
+      }),
+      this.sendMail({
+        to: this.getCompanyInbox(),
+        subject: admin.subject,
+        html: admin.html,
+        replyTo: options.to,
+      }),
+    ]);
+
+    if (!adminSent) {
+      this.logger.warn(`Quote admin notification failed for ${options.quoteNumber}`);
+    }
+
+    return customerSent;
   }
 
+  /** Admin inbox + customer acknowledgement for contact form. */
   async sendContactMessage(options: {
     name: string;
     email: string;
@@ -111,15 +161,35 @@ export class EmailService {
     subject: string;
     message: string;
   }): Promise<boolean> {
-    const template = contactMessageEmail(options);
-    return this.sendMail({
-      to: this.getCompanyInbox(),
-      subject: template.subject,
-      html: template.html,
-      replyTo: options.email,
+    const admin = contactMessageEmail(options);
+    const ack = contactAckEmail({
+      name: options.name,
+      email: options.email,
+      subject: options.subject,
     });
+
+    const [adminSent, ackSent] = await Promise.all([
+      this.sendMail({
+        to: this.getCompanyInbox(),
+        subject: admin.subject,
+        html: admin.html,
+        replyTo: options.email,
+      }),
+      this.sendMail({
+        to: options.email,
+        subject: ack.subject,
+        html: ack.html,
+      }),
+    ]);
+
+    if (!ackSent) {
+      this.logger.warn(`Contact acknowledgement failed for ${options.email}`);
+    }
+
+    return adminSent;
   }
 
+  /** User welcome + admin alert for newsletter subscribe. */
   async sendNewsletterSubscription(options: { email: string }): Promise<boolean> {
     const welcome = newsletterWelcomeEmail(options);
     const admin = newsletterAdminEmail(options);

@@ -33,11 +33,11 @@ function formatMoney(amount: number, currency: string): string {
 }
 
 function siteUrl(): string {
-  return (
-    process.env.FRONTEND_URL ??
-    process.env.APP_URL ??
-    'https://mcpfacbiotech.site'
-  ).replace(/\/$/, '');
+  const raw =
+    process.env.FRONTEND_URL?.split(',')[0]?.trim() ||
+    process.env.APP_URL ||
+    'https://www.mcpfacbiotech.site';
+  return raw.replace(/\/$/, '');
 }
 
 type DetailRow = { label: string; value: string };
@@ -215,9 +215,39 @@ export function orderConfirmationEmail(options: {
         { label: 'Order number', value: options.orderNumber },
         { label: 'Order total', value: amount },
       ],
-      cta: { label: 'View account orders', href: `${base}/account` },
+      cta: { label: 'View account orders', href: `${base}/orders` },
       note: 'Nothing is charged online at checkout. Settlement instructions are sent separately for your selected payment method.',
       footerNote: 'For research use only. Not for human or veterinary consumption.',
+    }),
+  };
+}
+
+export function orderAdminEmail(options: {
+  customerName?: string;
+  customerEmail: string;
+  orderNumber: string;
+  totalAmount: number;
+  currency: string;
+}) {
+  const amount = formatMoney(options.totalAmount, options.currency);
+  const base = siteUrl();
+
+  return {
+    subject: `[Order] ${options.orderNumber} — ${options.customerEmail}`,
+    html: brandedHtml({
+      preheader: `New checkout order ${options.orderNumber} from ${options.customerEmail}`,
+      eyebrow: 'New order',
+      title: 'New order placed',
+      intro: 'A customer completed checkout on the MCPFAC BIOTECH storefront.',
+      details: [
+        { label: 'Order number', value: options.orderNumber },
+        { label: 'Customer', value: options.customerName || '—' },
+        { label: 'Email', value: options.customerEmail },
+        { label: 'Order total', value: amount },
+      ],
+      cta: { label: 'Open admin orders', href: `${base}/admin/orders` },
+      note: 'Follow up with payment settlement instructions and prepare fulfilment once payment is confirmed.',
+      footerNote: 'Internal notification — reply to the customer at the email above.',
     }),
   };
 }
@@ -247,6 +277,36 @@ export function quoteSubmittedEmail(options: {
       cta: { label: 'View your quotes', href: `${base}/quotes` },
       note: 'Estimated totals may change after review of quantities, documentation, and destination requirements.',
       footerNote: 'For research use only. Not for human or veterinary consumption.',
+    }),
+  };
+}
+
+export function quoteAdminEmail(options: {
+  customerName?: string;
+  customerEmail: string;
+  quoteNumber: string;
+  totalAmount: number;
+  currency: string;
+}) {
+  const amount = formatMoney(options.totalAmount, options.currency);
+  const base = siteUrl();
+
+  return {
+    subject: `[Quote] ${options.quoteNumber} — ${options.customerEmail}`,
+    html: brandedHtml({
+      preheader: `New quote ${options.quoteNumber} from ${options.customerEmail}`,
+      eyebrow: 'New quote request',
+      title: 'New quotation request',
+      intro: 'A customer submitted a quotation request from the storefront.',
+      details: [
+        { label: 'Quote number', value: options.quoteNumber },
+        { label: 'Customer', value: options.customerName || '—' },
+        { label: 'Email', value: options.customerEmail },
+        { label: 'Estimated total', value: amount },
+      ],
+      cta: { label: 'Open admin quotes', href: `${base}/admin/quotes` },
+      note: 'Review quantities, documentation needs, and destination before confirming pricing.',
+      footerNote: 'Internal notification — reply to the customer at the email above.',
     }),
   };
 }
@@ -282,6 +342,33 @@ export function contactMessageEmail(options: {
         </div>
       `,
       footerNote: 'Reply directly to the sender using the reply-to address on this email.',
+    }),
+  };
+}
+
+export function contactAckEmail(options: {
+  name: string;
+  email: string;
+  subject: string;
+}) {
+  const base = siteUrl();
+
+  return {
+    subject: `We received your message — MCPFAC BIOTECH`,
+    html: brandedHtml({
+      preheader: `Thanks ${options.name}, we received your inquiry.`,
+      eyebrow: 'Message received',
+      title: 'Thank you for contacting us',
+      greeting: `Hello ${options.name},`,
+      intro:
+        'We received your message and our team will respond as soon as possible during business hours (Mon–Fri, China Standard Time).',
+      details: [
+        { label: 'Your email', value: options.email },
+        { label: 'Subject', value: options.subject },
+      ],
+      cta: { label: 'Visit support center', href: `${base}/support` },
+      note: 'If your request is urgent, reply to this email or write directly to info@mcpfacbiotech.site.',
+      footerNote: 'For research use only. Not for human or veterinary consumption.',
     }),
   };
 }
@@ -322,3 +409,4 @@ export function newsletterAdminEmail(options: { email: string }) {
     }),
   };
 }
+
