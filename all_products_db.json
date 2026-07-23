@@ -1,0 +1,2825 @@
+[
+  {
+    "id": "ea9461ba-4a95-45cb-b110-717185e8c595",
+    "name": "5-Amino-1MQ",
+    "slug": "5-amino-1mq",
+    "shortDescription": null,
+    "description": "5-Amino-1MQ is a synthetic small-molecule compound belonging to the quinolinium chemical class. This product is supplied in an encapsulated solid format to support controlled handling, storage, and measurement within laboratory research environments.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/5-amino-1mq.png"
+      }
+    ]
+  },
+  {
+    "id": "b7666e28-87a9-40e5-956c-c7299a37fd6e",
+    "name": "5-Amino-1MQ 10mg",
+    "slug": "5-amino-1mq-10mg",
+    "shortDescription": null,
+    "description": "5-Amino-1MQ 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/5-amino-1mq-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d02cb777-9439-44b6-8540-08e7ca20c9c7",
+    "name": "5-Amino-1MQ 5mg",
+    "slug": "5-amino-1mq-5mg",
+    "shortDescription": null,
+    "description": "5-Amino-1MQ 5mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/5-amino-1mq-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "f617596e-11a7-4f39-803f-671b27529986",
+    "name": "ACCUTANE (20MG) (50 TABLETS)",
+    "slug": "accutane-20mg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "cbb7e17b-f483-4c0f-8b6d-b28cd079f68a",
+    "name": "Acetic Acid",
+    "slug": "acetic-acid",
+    "shortDescription": null,
+    "description": "Acetic Acid is a simple organic carboxylic acid commonly used in laboratory and research environments as a chemical reagent, solvent component, and pH-adjusting agent. It is a clear, colorless liquid with a characteristic odor and high miscibility in water and many organic solvents. Acetic acid is produced through chemical synthesis and supplied as a liquid research material. This product is intended exclusively for controlled in vitro research applications conducted by qualified professionals and is not formulated for clinical, diagnostic, or therapeutic use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "26472c14-d0b7-4a01-b88f-73b71af09bd9",
+    "name": "Acetic Acid 0.6% 3ml",
+    "slug": "acetic-acid-0-6-3ml",
+    "shortDescription": null,
+    "description": "Acetic Acid 0.6% vial containing 3ml to be used to adjust pH while reconstituting lypholized peptides. For long term storage, may be stored at room temperature. DO NOT FREEZE.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/acetic-acid-0-6-3ml.png"
+      }
+    ]
+  },
+  {
+    "id": "a30f4776-f918-4b8e-83b3-ca9736d41309",
+    "name": "Adipotide",
+    "slug": "adipotide",
+    "shortDescription": null,
+    "description": "Adipotide is a synthetic peptidomimetic consisting of a defined amino acid sequence. The sequence incorporates D-amino acids to support resistance to proteolytic degradation. This compound features disulfide bridges that contribute to structural stability under laboratory conditions. Adipotide is supplied in lyophilized powder form and is intended strictly for in vitro laboratory research.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/adipotide.png"
+      }
+    ]
+  },
+  {
+    "id": "65cc55fc-e54f-4d28-9dbf-c41fc20ea225",
+    "name": "AHK-CU",
+    "slug": "ahk-cu",
+    "shortDescription": null,
+    "description": "AHK-CU research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/ahk-cu.png"
+      }
+    ]
+  },
+  {
+    "id": "deb7a42a-95d4-498a-bd53-b52cbccf2ce5",
+    "name": "AICAR",
+    "slug": "aicar",
+    "shortDescription": null,
+    "description": "AICAR is a synthetic nucleotide analog commonly used as a reference compound in laboratory research involving cellular and biochemical assay systems. It is not a peptide and is produced via chemical synthesis rather than amino acid assembly. Supplied as a solid research material, AICAR is intended exclusively for controlled in-vitro laboratory research conducted by qualified professionals.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/aicar.png"
+      }
+    ]
+  },
+  {
+    "id": "6fe67a37-a2d0-4915-b03d-b6e9e4844de8",
+    "name": "AICAR (10MG) (50 TABLETS)",
+    "slug": "aicar-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "a288e600-7b57-4287-9e63-2f4ba16fbdd1",
+    "name": "ANADROL (50MG) (50 TABLETS)",
+    "slug": "anadrol-50mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/anadrol-50mg-50-tablets.png"
+      }
+    ]
+  },
+  {
+    "id": "55f4e34d-1023-4f4f-b382-c9ccf922faea",
+    "name": "ANAVAR (10MG) (60 TABLETS)",
+    "slug": "anavar-10mg-60-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "371e5bad-951a-4d31-897d-bed40cf437b9",
+    "name": "ANAVAR (20MG) (50 TABLETS)",
+    "slug": "anavar-20mg-50-tablets",
+    "shortDescription": null,
+    "description": "$110.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "af12f4a3-c7ab-4bb1-87b7-1a1879ea5b47",
+    "name": "ANAVAR (25MG) (50 TABLETS)",
+    "slug": "anavar-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$110.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/anavar-25mg-50-tablets.png?v=1779605842"
+      }
+    ]
+  },
+  {
+    "id": "4648366a-ec84-4089-b8a8-8818d6311528",
+    "name": "ANDARINE S4 (25MG) (50 TABLETS)",
+    "slug": "andarine-s4-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "bf69c9ad-5063-42e8-bb0e-7303a522b588",
+    "name": "AOD-9604 5mg",
+    "slug": "aod-9604",
+    "shortDescription": null,
+    "description": "AOD-9604 5mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. All orders containing AOD-9604 will also include one (1) free 3ml vial of Acetic Acid 0.6% solution to be used for pH balancing during reconstitution. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "933afcc4-da34-4140-9f14-9e7ba858a462",
+    "name": "AOD9604",
+    "slug": "aod9604",
+    "shortDescription": null,
+    "description": "AOD9604 is a synthetic peptide analog derived from the C-terminal region (176–191) of human growth hormone (HGH), consisting of a defined amino acid sequence produced through controlled peptide synthesis. The compound incorporates structural modifications relative to the native fragment and is not identical to endogenous HGH or its naturally occurring derivatives. It is structurally characterized and utilized in laboratory research settings for analytical and experimental evaluation under controlled conditions. The compound is supplied in lyophilized powder form to support stability and integrity during storage and handling in research environments. No therapeutic, diagnostic, or clinical claims are made or implied.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/aod9604.png"
+      }
+    ]
+  },
+  {
+    "id": "f6d458aa-bd45-429d-ac40-1293d2e2c568",
+    "name": "ARA-290",
+    "slug": "ara-290",
+    "shortDescription": null,
+    "description": "ARA-290 is a synthetic peptide consisting of a defined 15–amino-acid sequence. It is produced via peptide synthesis and supplied for use in controlled laboratory research environments. Supplied as a lyophilized peptide powder, ARA-290 is intended exclusively for in-vitro laboratory research where high-purity peptide material is required.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "c69effce-4b01-49fc-8b87-518cb340b9b2",
+    "name": "ARIMIDEX (1MG) (50 TABLETS)",
+    "slug": "arimidex-1mg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/arimidex-1mg-50-tablets.png?v=1779605842"
+      }
+    ]
+  },
+  {
+    "id": "56585ad1-6979-4b8f-8c93-b16b408e8d47",
+    "name": "AROMASIN (25MG) (50 TABLETS)",
+    "slug": "aromasin-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/aromasin-25mg-50-tablets.png?v=1779605842"
+      }
+    ]
+  },
+  {
+    "id": "ebcd83cb-8402-4b02-94fc-e0db009ad3d9",
+    "name": "BAC WATER",
+    "slug": "bac-water",
+    "shortDescription": null,
+    "description": "BAC WATER research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/bac-water.png"
+      }
+    ]
+  },
+  {
+    "id": "f75cbc4e-886d-4406-9cb5-270838e3338b",
+    "name": "Bacteriostatic Water",
+    "slug": "bacteriostatic-water-30ml",
+    "shortDescription": null,
+    "description": "Bacteriostatic Water is a sterile, non-pyrogenic aqueous solution containing 0.9% benzyl alcohol as a preservative component. It is intended strictly for laboratory and research purposes, where it may be used as a solvent or diluent for compatible substances in controlled experimental settings. The inclusion of benzyl alcohol supports solution stability by limiting microbial proliferation under appropriate handling conditions, enabling repeated sampling when maintained using proper laboratory techniques.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "f8ceb5cc-e76d-4229-8643-d58862e46ef0",
+    "name": "Bacteriostatic Water",
+    "slug": "bacteriostatic-water",
+    "shortDescription": null,
+    "description": "Bacteriostatic Water is a sterile, non-pyrogenic aqueous solution containing 0.9% benzyl alcohol as a preservative component. It is intended strictly for laboratory and research purposes, where it may be used as a solvent or diluent for compatible substances in controlled experimental settings. The inclusion of benzyl alcohol supports solution stability by limiting microbial proliferation under appropriate handling conditions, enabling repeated sampling when maintained using proper laboratory techniques.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "ab6c15cc-0571-4645-8058-532253ed6812",
+    "name": "BAM15",
+    "slug": "bam15",
+    "shortDescription": null,
+    "description": "BAM15 is a synthetic small-molecule compound belonging to a benzimidazole-derived chemical class that has been investigated in experimental biochemical research settings. The compound is produced through controlled chemical synthesis and supplied as a solid research material.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/bam15.png"
+      }
+    ]
+  },
+  {
+    "id": "be3101c9-4233-4e2e-9e53-9a86328b45de",
+    "name": "BD LUER-LOK SYRINGE (3ML) (10-PACK)",
+    "slug": "bd-luer-lok-syringe-3ml-10-pack",
+    "shortDescription": null,
+    "description": "$15.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "fe278ef5-0be1-4938-80b3-4f2142af50c4",
+    "name": "BOLDENONE UNDECYLENATE (300MG)",
+    "slug": "boldenone-undecylenate-300mg",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "a934ddce-2624-4f16-91bf-f24d1ecfd26c",
+    "name": "BPC-157",
+    "slug": "bpc-157",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "39a48d1c-0154-4b34-a07a-e1dd40ba4194",
+    "name": "BPC-157 (Arginate Salt)",
+    "slug": "bpc-157-arginate-salt",
+    "shortDescription": null,
+    "description": "BPC-157 is a synthetic penta-decapeptide consisting of a 15-amino-acid sequence originally derived from a partial gastric peptide fragment. This product is supplied in an arginine salt form to support stability and handling characteristics relevant to laboratory research environments. The material is provided in an encapsulated solid format, intended solely as a physical containment and presentation method to facilitate controlled storage, handling, and measurement in research settings. The encapsulated format does not imply any route of administration. BPC-157 (Arginate Salt) is intended exclusively for controlled in-vitro laboratory research conducted by qualified professionals.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "79c539ad-767a-4bf6-811a-d4c980024ff5",
+    "name": "BPC-157 / TB-500 (Tβ4) Blend",
+    "slug": "bpc-157-tb-500-tb4-blend",
+    "shortDescription": null,
+    "description": "Product Name: BPC-157 / TB-500 (Tβ4) Blend (Encapsulated Solid) Chemical Information: BPC-157 Peptide Name: BPC-157 (Body Protection Compound-157) Molecular Formula: C₆₂H₉₈N₁₆O₂₂ Molecular Weight: ~1419.5 g/mol Sequence: Gly-Glu-Pro-Pro-Pro-Gly-Lys-Pro-Ala-Asp-Asp-Ala-Gly-Leu-Val TB-500 (Thymosin Beta-4) Parent Peptide: Thymosin Beta-4 (Tβ4) Molecular Formula: C₂₁₂H₃₅₀N₅₆O₇₈S Molecular Weight: ~4963 g/mol Compound Class: Synthetic peptide (Thymosin Beta-4) Sequence: Ac-Ser-Asp-Lys-Pro-Asp-Met-Ala-Glu-Ile-Glu-Lys-Phe-Asp-Lys-Ser-Lys-Leu-Lys-Lys-Thr-Glu-Thr-Gln-Glu-Lys-Asn-Pro-Leu-Pro-Ser-Lys-Glu-Thr-Ile-Glu-Gln-Glu-Lys-Gln-Ala-Gly-Glu-Ser Structure Class: Synthetic multi-peptide research blend Product Description: This product is a synthetic multi-peptide research blend composed of BPC-157 and TB-500 (Thymosin Beta-4). Each peptide represents a distinct structural class commonly investigated in peptide research contexts. The blend is supplied in an encapsulated solid format to support controlled storage, handling, and measurement within laboratory environments. The encapsulated format serves solely as a physical containment and presentation method and does not imply any route of administration. BPC-157 / TB-500 (Tβ4) Blend is intended exclusively for controlled in-vitro laboratory research conducted by qualified professionals exploring peptide stability, compatibility, and interaction models. Research Applications: In-vitro evaluation of multi-peptide compatibility and stability Laboratory studies examining interactions between distinct peptide classes Comparative analysis of single-peptide versus blended research systems Analytical and mechanistic research involving synthetic regulatory peptides Storage and Handling: Store in a cool, dry environment away from direct light Maintain container tightly sealed when not in use Handle using appropriate laboratory safety and aseptic techniques Product Specifications: Analytical Approach to Finished Formulations: Purity is a metric used for isolated raw materials, such as lyophilized peptide powders. Finished formulations—such as capsules, liquids, and topicals—contain multiple components, including excipients and stabilizers. In these systems, a single purity value does not accurately represent the overall composition. Instead, identity and assay (content) are reported on the COA to confirm the presence of the correct compound and to verify that the labeled amount per unit is accurate. This approach reflects standard analytical practice and provides more meaningful information for research applications. Format: Encapsulated solid multi-peptide research blend Appearance: White to off-white solid Solubility: Soluble in aqueous laboratory media following capsule removal for analytical use Compliance Notice: BPC-157 / TB-500 (Tβ4) Blend is FOR RESEARCH USE ONLY. It is not intended for human or veterinary use. This product has not been evaluated by the FDA. Misuse of this product is strictly prohibited and may violate federal, state, or local laws. By purchasing this product, buyer represents and warrants that it will be used only for in vitro research purposes.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "8dcc7201-da49-416c-a6f0-8ec740df1aad",
+    "name": "BPC-157 / TB-500(Tβ4)",
+    "slug": "bpc-157-tb-500-tb4",
+    "shortDescription": null,
+    "description": "BPC-157 / TB-500 (Tβ4) is a combined peptide formulation consisting of two synthetic peptides commonly studied in laboratory research environments. BPC-157 is a penta-decapeptide consisting of a defined amino acid sequence, while TB-500 (Tβ4) is a synthetic peptide corresponding to Thymosin Beta-4. This product is supplied as a pre-formulated aqueous research solution, designed to support controlled experimental workflows where multi-peptide systems are evaluated under standardized laboratory conditions.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "31e439a0-07b8-42c9-a422-961471268532",
+    "name": "BPC-157 + TB-500 5mg/5mg",
+    "slug": "bpc-157-tb-500-5mg-5mg",
+    "shortDescription": null,
+    "description": "BPC-157 + TB-500 5mg/5mg blend in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "16212d61-14f3-4ca9-98a5-93cb07c74353",
+    "name": "BPC-157 + TB-500 5mg/5mg",
+    "slug": "bpc-157-tb-500-blend",
+    "shortDescription": null,
+    "description": "BPC-157 + TB-500 5mg/5mg blend in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "11c9a55c-70cb-49db-8a3e-dfd5e16658a3",
+    "name": "BPC-157 5mg",
+    "slug": "bpc-157-5mg",
+    "shortDescription": "Body protection compound peptide for tissue regeneration research.",
+    "description": "BPC-157 is a synthetic peptide studied for its regenerative properties in laboratory models. Supplied as lyophilized powder with COA and HPLC verification.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "ede9e6ee-8621-4cac-978f-ddde52372507",
+    "name": "BPC-157/TB-500",
+    "slug": "bpc-157-tb-500",
+    "shortDescription": null,
+    "description": "BPC-157/TB-500 is a synthetic peptide blend composed of two defined amino acid sequences produced through controlled peptide synthesis. Each component is structurally characterized and combined in a standardized formulation for use in laboratory research environments. The blend is utilized in controlled experimental settings for analytical evaluation of peptide behavior and interaction within defined systems. It is supplied in lyophilized powder form to support stability and integrity during storage and handling.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "dc360c3f-6385-4ab7-8ca6-f8d335a16614",
+    "name": "Cagrilintide",
+    "slug": "cagrilintide",
+    "shortDescription": null,
+    "description": "Cagrilintide research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "ea80edd5-01e6-4526-b57a-3ab5a269bb80",
+    "name": "Cerebrolysin",
+    "slug": "cerebrolysin",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/cerebrolysin.png"
+      }
+    ]
+  },
+  {
+    "id": "2d3ada19-90e9-4097-9e8c-7c875802b77c",
+    "name": "Chonluten",
+    "slug": "chonluten",
+    "shortDescription": null,
+    "description": "Chonluten is a synthetic tripeptide composed of L-glutamic acid, L-aspartic acid, and L-proline. It is supplied as a lyophilized powder and is intended for use exclusively in controlled in-vitro laboratory research conducted by qualified professionals. As a low–molecular-weight peptide, Chonluten is commonly utilized in experimental settings focused on peptide structure, stability, and interaction characteristics under controlled laboratory conditions.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "47b98bb8-a34e-4e78-b933-89ad07d1f626",
+    "name": "CIALIS (25MG) (50 TABLETS)",
+    "slug": "cialis-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/cialis-25mg-50-tablets.png?v=1779605842"
+      }
+    ]
+  },
+  {
+    "id": "52413736-5325-42ec-a039-0eb266a81a6a",
+    "name": "CIALIS (30MG) (50 TABLETS)",
+    "slug": "cialis-30mg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/cialis-30mg-50-tablets.png?v=1779605842"
+      }
+    ]
+  },
+  {
+    "id": "5de7c661-1a06-4fcf-b362-2f857b08edab",
+    "name": "CJC-1295",
+    "slug": "cjc-1295",
+    "shortDescription": null,
+    "description": "CJC-1295 (no DAC) is a synthetic peptide composed of a defined amino acid sequence produced through controlled peptide synthesis. It is structurally characterized and utilized in laboratory research settings for analytical and experimental evaluation under controlled conditions. The compound is supplied in lyophilized powder form to support stability and integrity during storage and handling in research environments.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "3afcd88c-0795-485d-9e89-dd3a90bee84d",
+    "name": "CJC-1295 (DAC)",
+    "slug": "cjc-1295-dac",
+    "shortDescription": null,
+    "description": "CJC-1295 (with DAC) is a synthetic peptide composed of a defined amino acid sequence and modified with a Drug Affinity Complex (DAC) component. This modification is incorporated to support structural stability and extended presence in controlled experimental systems. The compound is structurally characterized and utilized in laboratory research settings for analytical and experimental evaluation under controlled, non-clinical conditions. It is supplied in lyophilized powder form to maintain stability and integrity during storage and handling.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "51358f9b-1eb8-49be-b6ae-98aa2c6b9458",
+    "name": "CJC-1295 (DAC)/Ipamorelin",
+    "slug": "cjc-1295-dac-ipamorelin",
+    "shortDescription": null,
+    "description": "This research blend consists of two structurally defined synthetic peptides: CJC-1295 (with DAC) and Ipamorelin. Each component is produced through controlled peptide synthesis and combined in a standardized formulation for use in laboratory research environments. The blend is utilized in controlled experimental settings for analytical evaluation of peptide behavior, stability, and interaction within defined systems. All applications are limited to in vitro research models. The product is supplied in lyophilized powder form to support stability and integrity during storage and handling.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "65247c23-5d0b-4a55-8cf0-6db72c85e8a5",
+    "name": "CJC-1295 with DAC",
+    "slug": "cjc-1295-with-dac",
+    "shortDescription": null,
+    "description": "CJC-1295 with DAC research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/cjc-1295-with-dac.png"
+      }
+    ]
+  },
+  {
+    "id": "6dcdae0f-30f1-45cb-8ebf-e5a1eec0a5e4",
+    "name": "CJC-1295 without DAC",
+    "slug": "cjc-1295-without-dac",
+    "shortDescription": null,
+    "description": "CJC-1295 without DAC research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/cjc-1295-without-dac.png"
+      }
+    ]
+  },
+  {
+    "id": "1229d665-42e2-4e7a-a0c2-e559de4b4bf8",
+    "name": "CJC-1295 without DAC + IPA 5mg",
+    "slug": "cjc-1295-without-dac-ipa-5mg",
+    "shortDescription": null,
+    "description": "CJC-1295 without DAC + IPA 5mg research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/cjc-1295-without-dac-ipa-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "2a4a4f26-5123-4513-87ef-1d64e0941c58",
+    "name": "CJC-1295/Ipamorelin",
+    "slug": "cjc-1295-ipamorelin",
+    "shortDescription": null,
+    "description": "CJC-1295 (No DAC) / Ipamorelin is a research blend consisting of two structurally defined synthetic peptides produced through controlled peptide synthesis. The components are combined in a standardized formulation for use in laboratory research environments. This blend is utilized in controlled experimental settings for analytical evaluation of peptide behavior, stability, and interaction within controlled experimental systems. All applications are limited to in vitro research models. The product is supplied in lyophilized powder form to support stability and integrity during storage and handling.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "50a433d1-fd81-42b5-b27a-b71404d9b5cc",
+    "name": "CJC/IPA 5mg/5mg (No DAC)",
+    "slug": "cjc-ipa-no-dac",
+    "shortDescription": null,
+    "description": "CJC/Ipamorelin 5mg/5mg (without DAC) vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "1522541f-dc8a-44df-bb64-a3fca0318d99",
+    "name": "CJC1295 WITH DAC (2MG)",
+    "slug": "cjc1295-with-dac",
+    "shortDescription": null,
+    "description": "$60.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b49779db-1f15-4f4e-a7a8-3dea3df9268b",
+    "name": "CLENBUTEROL (100MCG) (50 TABLETS)",
+    "slug": "clenbuterol-100mcg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/clenbuterol-100mcg-50-tablets.png?v=1779605842"
+      }
+    ]
+  },
+  {
+    "id": "4aabcdf9-1bef-4598-be61-5b4285c44034",
+    "name": "CLENBUTEROL (50MCG) (50 TABLETS)",
+    "slug": "clenbuterol-50mcg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "30967040-8f4a-4ace-aead-195d6896ffa8",
+    "name": "CLOMID (50MG) (50 TABLETS)",
+    "slug": "clomid-50mg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b9397d99-b93a-4988-af26-e443a1e71bb5",
+    "name": "Cortagen",
+    "slug": "cortagen",
+    "shortDescription": null,
+    "description": "Cortagen is a synthetic tetrapeptide composed of L-alanine, L-glutamic acid, L-aspartic acid, and L-proline. It is supplied as a lyophilized powder and is intended for use exclusively in controlled in-vitro laboratory research conducted by qualified professionals. As a short-chain peptide, Cortagen is commonly utilized in experimental settings focused on peptide structure, stability, and interaction characteristics under controlled conditions.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "57c41da0-a99f-4937-8fd3-2906be3242e2",
+    "name": "D-BOL (25MG) (50 TABLETS)",
+    "slug": "d-bol-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "3b22e9e4-de13-4f43-a791-18edc19a1395",
+    "name": "DECA DURABOLIN (250MG)",
+    "slug": "deca-durabolin-250mg",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "43593cfb-733e-4fe6-a826-ae9c97aa06a8",
+    "name": "DHX / PNB-0408",
+    "slug": "dhx-pnb-0408",
+    "shortDescription": null,
+    "description": "PNB-0408 is a synthetic peptide-derived compound produced through chemical modification of a short amino-acid sequence. It is supplied as a solid research material intended for controlled analytical and mechanistic investigation within laboratory research environments.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "c16528da-71fe-448c-af63-0183ad283309",
+    "name": "DIANABOL (20MG) (50 TABLETS)",
+    "slug": "dianabol-20mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "fb506b30-0ddb-4adf-a672-02a00439e426",
+    "name": "DROSTANOLONE ENANTHATE (200MG)",
+    "slug": "drostanolone-enanthate-200mg",
+    "shortDescription": null,
+    "description": "$110.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "5b70ca9d-2702-47fb-b9df-e8dbefacf452",
+    "name": "DROSTANOLONE PROPIONATE (100MG)",
+    "slug": "drostanolone-propionate-100mg",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b1aa9bc6-2390-4a3f-b2ea-263070f7a0e6",
+    "name": "DSIP",
+    "slug": "dsip",
+    "shortDescription": null,
+    "description": "Delta Sleep-Inducing Peptide (DSIP) is a synthetic peptide composed of a defined amino acid sequence produced through controlled peptide synthesis. It is provided exclusively for in vitro laboratory research in qualified experimental settings. The compound is structurally characterized and utilized for analytical and experimental evaluation under controlled, non-clinical conditions. It is supplied in lyophilized powder form to support stability and integrity during storage and handling.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "1c70e662-0378-4ee5-a24b-8dfbd0681dd0",
+    "name": "DSIP 10mg",
+    "slug": "dsip-10mg",
+    "shortDescription": null,
+    "description": "DSIP (Deep Sleep Inducing Peptide) 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/dsip-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "c9d70a2c-1ed0-49dd-8ccf-9912b7ca1c64",
+    "name": "DSIP 5mg",
+    "slug": "dsip-5mg",
+    "shortDescription": null,
+    "description": "DSIP (Deep Sleep Inducing Peptide) 5mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/dsip-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "dbb68c1b-022d-41a2-919e-18526f29ebaa",
+    "name": "Epitalon 10mg",
+    "slug": "epitalon",
+    "shortDescription": null,
+    "description": "Epitalon 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "3d85c8eb-051d-47c5-979a-ebb71ec292df",
+    "name": "Epitalon 50mg",
+    "slug": "epitalon-50mg",
+    "shortDescription": null,
+    "description": "Epitalon 50mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/epitalon-50mg.png"
+      }
+    ]
+  },
+  {
+    "id": "fc44703b-3b58-4d0c-a913-bbdc592e5c5b",
+    "name": "Epithalon",
+    "slug": "epithalon",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "423b4a6c-ddd3-4fcb-a4a2-19e50be9bcb9",
+    "name": "EQ (250MG)",
+    "slug": "eq-250mg",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "11e69185-fccf-41dc-9d8d-0716cb2e4804",
+    "name": "Fat Blaster (LC526)",
+    "slug": "fat-blaster-lc526",
+    "shortDescription": null,
+    "description": "Fat Blaster (LC526) research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b1806746-535a-4a13-9e5c-6f86a9aadcc3",
+    "name": "FLIBANSERIN (100MG) (50 TABLETS)",
+    "slug": "flibanserin-100mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "7c24b573-941e-4c5c-a7e7-a60a03afe2a3",
+    "name": "Follistatin 315",
+    "slug": "follistatin-315",
+    "shortDescription": null,
+    "description": "Follistatin 315 (FS315) is a recombinant protein research material commonly utilized in laboratory settings for the study of protein–protein interactions and signaling ligand binding in controlled in vitro environments. This product is supplied as a lyophilized solid and is intended exclusively for qualified laboratory research. This compound is not formulated for clinical, diagnostic, or therapeutic use and is not intended for applications associated with muscle physiology or performance-related outcomes, nor for any human or veterinary use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "6cd3abd7-a9eb-47be-af1a-ed63b13e6b57",
+    "name": "Follistatin 344",
+    "slug": "follistatin-344",
+    "shortDescription": null,
+    "description": "Follistatin 344 is a synthetic peptide fragment modeled on a defined region of the human follistatin protein, a naturally occurring binding protein. In laboratory research settings, follistatin-derived peptides are utilized for the study of protein–protein interactions and binding characteristics within controlled experimental systems. Supplied as a lyophilized powder, Follistatin 344 is intended strictly for controlled in vitro laboratory research and analytical applications. It is not designed for clinical, diagnostic, or therapeutic use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b8bd76c3-146e-4aac-be7d-47b53c9eae00",
+    "name": "FOXO4-DRI",
+    "slug": "foxo4-dri",
+    "shortDescription": null,
+    "description": "FOXO4-DRI (FOXO4 D-Retro-Inverso) is a synthetic peptide engineered in a D-retro-inverso configuration based on a defined peptide sequence. The retro-inverso design and D-residue composition are utilized in research to examine peptide stability and interaction characteristics in vitro. Supplied as a lyophilized powder, FOXO4-DRI is intended strictly for controlled laboratory research.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "736898c9-3fed-4733-a480-3b19efe85a2e",
+    "name": "Free Acetic Acid 0.6% 3ml",
+    "slug": "free-acetic-acid-0-6-3ml",
+    "shortDescription": null,
+    "description": "Acetic Acid 0.6% vial containing 3ml to be used to adjust pH while reconstituting lypholized peptides. For long term storage, may be stored at room temperature. DO NOT FREEZE.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "faf998ad-5bf5-49ec-aab2-17b93d8761af",
+    "name": "GDF-8",
+    "slug": "gdf-8",
+    "shortDescription": null,
+    "description": "GDF-8 (Growth Differentiation Factor-8) is a synthetic 23-amino-acid sequence modeled on a defined region of the GDF-8 prodomain. It is supplied as a lyophilized powder for use exclusively in controlled in vitro research by qualified professionals.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "34caf421-3555-4009-a735-c14201819542",
+    "name": "GHK-CU",
+    "slug": "ghk-cu",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "1fd5a9cb-920b-4dae-bc06-444b0a44e50b",
+    "name": "GHPR-2",
+    "slug": "ghpr-2",
+    "shortDescription": null,
+    "description": "GHPR-2 (Growth Hormone Releasing Peptide-2) is a synthetic hexapeptide composed of a defined amino acid sequence produced through controlled peptide synthesis. It is provided exclusively for in vitro laboratory research in qualified experimental settings. The compound is structurally characterized and utilized in controlled environments for analytical and experimental evaluation under non-clinical conditions. It is supplied in lyophilized powder form to support stability and integrity during storage and handling.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "05e7d6d9-ec4c-44b7-bb50-2be9fefd3afe",
+    "name": "GHPR-6",
+    "slug": "ghpr-6",
+    "shortDescription": null,
+    "description": "GHPR-6 (Growth Hormone Releasing Peptide-6) is a synthetic hexapeptide composed of a defined amino acid sequence produced through controlled peptide synthesis. It is provided exclusively for in vitro laboratory research in qualified experimental settings. The compound is structurally characterized and utilized in controlled environments for analytical and experimental evaluation under non-clinical conditions. It is supplied in lyophilized powder form to support stability and integrity during storage and handling.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "fb9c39f8-b920-4a7f-969b-0f6edf39191d",
+    "name": "GHRP (5MG)",
+    "slug": "ghrp",
+    "shortDescription": null,
+    "description": "$60.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "3e22ac02-0e7e-4d60-b974-93cb8ad7bf62",
+    "name": "GLOW",
+    "slug": "glow",
+    "shortDescription": null,
+    "description": "GLOW is a synthetic multi-peptide research blend composed of BPC-157, GHK-Cu (Copper Tripeptide-1), and TB-500 (Thymosin Beta-4). Each peptide represents a distinct structural class commonly investigated in peptide research environments.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "13b068ff-5321-41af-a781-1c8dff8eddfc",
+    "name": "GLOW &amp;#8211; BPC-157/GHK-Cu/TB-500 Blend",
+    "slug": "glow-bpc-157-ghk-cu-tb-500-blend",
+    "shortDescription": null,
+    "description": "The “GLOW” Blend is a research formulation consisting of three structurally defined synthetic peptide components: BPC-157, GHK-Cu, and TB-500. Each component is produced through controlled synthesis and combined in a standardized formulation for use in laboratory research environments. This blend is utilized in controlled experimental settings for analytical evaluation of peptide behavior, stability, and interaction within defined systems. All applications are limited to in vitro research models. The product is supplied in lyophilized powder form to support stability and integrity during storage and handling.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "55149454-ee01-47ff-a5ec-dc7710191d7d",
+    "name": "GLOW 10mg/70mg/10mg",
+    "slug": "glow-10mg-70mg-10mg",
+    "shortDescription": null,
+    "description": "BPC-157 10mg + GHK-cu 70mg + TB-500 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/glow-10mg-70mg-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "a16264bd-9e8d-4b53-ab9d-316cf3d7c9a0",
+    "name": "GLOW Plus (BPC-157/GHK-Cu/TB-500/Thymosin Alpha-1 Blend)",
+    "slug": "glow-plus-bpc-157-ghk-cu-tb-500-thymosin-alpha-1-blend",
+    "shortDescription": null,
+    "description": "The “GLOW-Plus” Blend is a research formulation consisting of four structurally defined synthetic peptide components: BPC-157, GHK-Cu, TB-500 (Thymosin Beta-4), and Thymosin Alpha-1. Each component is produced through controlled synthesis and combined in a standardized formulation for use in laboratory research environments. This blend is utilized in controlled experimental settings for analytical evaluation of peptide behavior, stability, and interaction within defined systems. All applications are limited to in vitro research models. The product is supplied in lyophilized powder form to support stability and integrity during storage and handling.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "dcb47aca-473e-485c-91f1-be332fbc77aa",
+    "name": "GLP-1 (C)",
+    "slug": "glp-1-c",
+    "shortDescription": null,
+    "description": "This is a synthetic peptide analog supplied in lyophilized powder form for use in qualified laboratory environments. The compound is intended for in vitro and analytical research applications involving peptide interaction and assay-based systems under controlled experimental conditions. This material is provided strictly for research use only and has not been evaluated for clinical, therapeutic, or diagnostic use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "272f0a54-fb23-45ab-a649-ad2e0be94bd2",
+    "name": "GLP-1 (C/S)",
+    "slug": "glp-1-c-s",
+    "shortDescription": null,
+    "description": "This laboratory research peptide blend is composed of GLP-1 (C) and GLP-1 (S). The blend is intended for controlled in-vitro research environments where researchers examine the combined physicochemical behavior, analytical characteristics, and co-formulation properties of two distinct peptide analog classes.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "632c7bae-d4a2-4764-b513-d36d07ee5f08",
+    "name": "GLP-1 (S)",
+    "slug": "glp-1-s",
+    "shortDescription": null,
+    "description": "This synthetic peptide analog is provided for research use only and is designed to support laboratory investigation of modified peptide structures in controlled experimental systems. The compound is utilized in non-clinical environments to examine analog stability, resistance to enzymatic degradation, and structure–property relationships in defined assay systems. This material has not been evaluated for clinical, therapeutic, or diagnostic use.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/glp-1-s.png"
+      }
+    ]
+  },
+  {
+    "id": "5453e7db-95de-4340-a107-423e85a93760",
+    "name": "GLP-2 (T)",
+    "slug": "glp-2-t",
+    "shortDescription": null,
+    "description": "This synthetic peptide analog is provided for research use only and is designed to support laboratory investigation of modified peptide structures in controlled experimental systems. The compound is utilized in non-clinical environments to examine structure–property relationships, peptide stability characteristics, and receptor binding interaction characteristics in defined assay systems. This material has not been evaluated for clinical, therapeutic, or diagnostic use.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/glp-2-t.png"
+      }
+    ]
+  },
+  {
+    "id": "75531a6b-e345-483e-be7c-395d819f4790",
+    "name": "GLP-3 (R)",
+    "slug": "glp-3-r",
+    "shortDescription": null,
+    "description": "This is a synthetic peptide analog supplied in lyophilized powder form for use in qualified laboratory environments. The compound is intended exclusively for in vitro and analytical research applications involving peptide interaction and assay-based systems under controlled experimental conditions. This material is provided strictly for research use only and has not been evaluated for clinical, therapeutic, or diagnostic use.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/glp-3-r.png"
+      }
+    ]
+  },
+  {
+    "id": "05d4f808-c0d8-466d-8370-631a9ad208e8",
+    "name": "Glutathione",
+    "slug": "glutathione",
+    "shortDescription": null,
+    "description": "Glutathione is a naturally occurring tripeptide composed of glutamine, cysteine, and glycine. It is widely studied in biochemical and cellular research due to its role in intracellular redox processes and thiol-based molecular interactions. In laboratory settings, glutathione is utilized as a reference compound in studies involving oxidative-reductive (redox) systems, cellular stress response pathways, and molecular stability under controlled experimental conditions. This material is supplied in lyophilized powder form and is intended strictly for in vitro research and analytical use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "300421ed-95aa-49cc-86bc-dbed4d705876",
+    "name": "Glutathione 1200mg",
+    "slug": "glutathione-1200mg",
+    "shortDescription": null,
+    "description": "Glutathione 1200mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/glutathione-1200mg.png"
+      }
+    ]
+  },
+  {
+    "id": "463d5a34-e64b-46e4-9394-15c8884e8ed2",
+    "name": "Gonadorelin",
+    "slug": "gonadorelin",
+    "shortDescription": null,
+    "description": "Gonadorelin is a synthetic decapeptide corresponding to the naturally occurring gonadotropin-releasing hormone (GnRH) peptide sequence. It is produced via solid-phase peptide synthesis and supplied as a lyophilized powder for laboratory use. Supplied as a lyophilized powder, Gonadorelin is intended exclusively for controlled in-vitro laboratory research applications conducted by qualified professionals and is not formulated for clinical, diagnostic, or therapeutic use.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/gonadorelin.png"
+      }
+    ]
+  },
+  {
+    "id": "469d02fb-1b08-4a64-ac03-c36496733d0b",
+    "name": "GW-501516 (10MG) (50 TABLETS)",
+    "slug": "gw-501516-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "8d92e0ca-1b1f-4517-b682-96b6b48aea7e",
+    "name": "HALO (10MG) (50 TABLETS)",
+    "slug": "halo-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$110.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "41e64e9e-f130-48d3-9019-5240be449e18",
+    "name": "HCG",
+    "slug": "hcg",
+    "shortDescription": null,
+    "description": "HCG research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/hcg.png"
+      }
+    ]
+  },
+  {
+    "id": "3bd9de94-01c6-4fd7-9f5d-4d01a5b06539",
+    "name": "Hexarelin",
+    "slug": "hexarelin",
+    "shortDescription": null,
+    "description": "Hexarelin is a synthetic hexapeptide belonging to the growth hormone secretagogue (GHS) class of compounds. It is utilized in laboratory research involving peptide structure and interaction analysis under controlled experimental conditions. This material is supplied in lyophilized powder form and is intended strictly for in vitro research and analytical applications.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "36f825a5-29a5-4bcd-84e3-93b77b7947d4",
+    "name": "Hexarelin Acetate",
+    "slug": "hexarelin-acetate",
+    "shortDescription": null,
+    "description": "Hexarelin Acetate is a synthetic hexapeptide produced via solid-phase peptide synthesis and supplied as a lyophilized powder. The compound incorporates non-standard amino acid residues and is provided in acetate salt form to support stability and handling in laboratory settings. This product is intended for use exclusively in controlled in vitro laboratory research conducted by qualified professionals. It is not formulated for clinical, diagnostic, or therapeutic applications.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "1d4b1138-f884-4068-b1eb-773d3c110d4f",
+    "name": "HGH 176-191",
+    "slug": "hgh-176-191",
+    "shortDescription": null,
+    "description": "HGH 176–191 is a synthetic peptide fragment derived from the C-terminal region of human growth hormone (HGH). It is commonly utilized in biochemical research involving peptide fragment analysis and structure-function characterization. In controlled laboratory settings, this peptide is studied for its involvement in metabolic pathway modeling and peptide interaction dynamics under defined experimental conditions. This material is supplied in lyophilized powder form and is intended strictly for in vitro research and analytical use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "c418f8a9-9948-4003-94f7-10e31d45f71d",
+    "name": "HGH 191AA (Somatropin)",
+    "slug": "hgh-191aa-somatropin",
+    "shortDescription": null,
+    "description": "HGH 191AA (Somatropin) research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "66669474-d2fb-44d7-acb4-8b899c196c8b",
+    "name": "HGH Fragment 176-191",
+    "slug": "hgh-fragment-176-191",
+    "shortDescription": null,
+    "description": "HGH Fragment 176-191 research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "dc524612-ac70-413f-82d2-9bae313fe207",
+    "name": "HMG",
+    "slug": "hmg",
+    "shortDescription": null,
+    "description": "HMG research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/hmg.png"
+      }
+    ]
+  },
+  {
+    "id": "380b9579-c440-48a3-9dca-e2d6ce0aa1e3",
+    "name": "Humanin",
+    "slug": "humanin",
+    "shortDescription": null,
+    "description": "Humanin is a synthetic peptide corresponding to a mitochondrial-derived sequence. It is provided in lyophilized powder form to ensure stability and purity for laboratory use. This compound is utilized in controlled in vitro research settings involving peptide stability, receptor binding, and intracellular signaling pathway analysis.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/humanin.png"
+      }
+    ]
+  },
+  {
+    "id": "09fdd037-abf3-4007-b77d-c3df9b7cc0fd",
+    "name": "Ibutamorin",
+    "slug": "ibutamorin",
+    "shortDescription": null,
+    "description": "Ibutamorin is a synthetic small-molecule compound produced via chemical synthesis and supplied as a solid research material. This product is provided in an encapsulated solid format to support controlled storage, handling, and analytical preparation within laboratory research environments.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "5e2f815c-4449-414e-bd4e-b419637a63dc",
+    "name": "IGF-1 LR3",
+    "slug": "igf-1-lr3",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "0c636845-d7a5-48f3-8625-b29ae940bf8c",
+    "name": "Insulin Syringes (10 pack)",
+    "slug": "insulin-syringes-10-pack",
+    "shortDescription": null,
+    "description": "29G 1ml insulin syringes for precise research measurements.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/insulin-syringes-10-pack.png"
+      }
+    ]
+  },
+  {
+    "id": "fa5cdbc7-27f5-475b-8b58-0873a6a00d21",
+    "name": "Ipamorelin",
+    "slug": "ipamorelin",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "5e70d9b4-b469-4208-aba9-5bb0aa453949",
+    "name": "Kisspeptin-10",
+    "slug": "kisspeptin-10",
+    "shortDescription": null,
+    "description": "Kisspeptin-10 research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d7a8dde8-1c3e-4e22-8729-493046a4ce5b",
+    "name": "KLOW",
+    "slug": "klow",
+    "shortDescription": null,
+    "description": "KLOW is a proprietary research peptide blend composed of BPC-157, GHK-Cu, TB-500, and KPV. Each component represents a distinct structural class of peptide, combined in lyophilized form for use in advanced laboratory studies. This blend is supplied exclusively for in vitro use and is intended for qualified research professionals.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d5c7f20a-4c59-4ac8-b08f-de6aa5bbd113",
+    "name": "KLOW 10mg/10mg/10mg/50mg",
+    "slug": "klow-10mg-10mg-10mg-50mg",
+    "shortDescription": null,
+    "description": "KPV 10mg + BPC-157 10mg + GHK-cu 50mg + TB-500 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/klow-10mg-10mg-10mg-50mg.png"
+      }
+    ]
+  },
+  {
+    "id": "20242884-1548-4b1e-a2b2-b8e033c33132",
+    "name": "KPV",
+    "slug": "kpv",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "a1687999-85b6-4ef6-89be-6939d2c20f7d",
+    "name": "LC 120 (Lipo-C formulation)",
+    "slug": "lc-120-lipo-c-formulation",
+    "shortDescription": null,
+    "description": "LC 120 is a multi-component liquid research formulation composed of four well-characterized non-peptide compounds: methionine, choline chloride, carnitine, and dexpanthenol. Each component is supplied in a defined quantity and combined into a single aqueous solution to support controlled laboratory research applications involving formulated compound systems. This product is not intended for injection or any human or veterinary use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b6c88db8-23f8-489b-b16f-0664de2eb3d8",
+    "name": "LC 216 (Lipo-B formulation)",
+    "slug": "lc-216-lipo-b-formulation",
+    "shortDescription": null,
+    "description": "LC 216 is a multi-component liquid research formulation designed for laboratory studies involving amino acids and vitamin-based cofactors. Each compound is included at a defined concentration to support controlled research into formulation behavior, compound compatibility, and biochemical interaction in vitro. LC216 is supplied as an aqueous solution for ease of handling and experimental consistency. This product is not intended for injection, parenteral administration, or any human or veterinary use.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/lc-216-lipo-b-formulation.png"
+      }
+    ]
+  },
+  {
+    "id": "bb8897d1-6854-4e55-b165-ac34f07feaee",
+    "name": "LGD-4033 (10MG) (50 TABLETS)",
+    "slug": "lgd-4033-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "ad20944b-4339-47ec-92e6-8428f6fc6f36",
+    "name": "LIPO-B 10ml",
+    "slug": "lipo-b",
+    "shortDescription": null,
+    "description": "$89.99",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "adb0d9aa-02d3-44dc-b3fa-b20c4fa4511d",
+    "name": "LIPO-C 10ml",
+    "slug": "lipo-c",
+    "shortDescription": null,
+    "description": "ALL PRODUCTS ARE INTENDED AS RESEARCH CHEMICALS ONLY. THIS MATERIAL IS SOLD FOR LABORATORY RESEARCH USE ONLY. TERMS OF SALE APPLY. NOT FOR HUMAN CONSUMPTION, NOR MEDICAL, VETERINARY, OR HOUSEHOLD USES. BY PURCHASING FROM FELIXCHEM YOU AGREE THAT YOU ARE PURCHASING RESEARCH CHEMICALS. FELIXCHEM PRODUCTS ARE FURNISHED FOR LABORATORY RESEARCH USE ONLY. THIS PRODUCT SHOULD ONLY BE HANDLED BY QUALIFIED, AND LICENSED PROFESSIONALS. THE PRODUCT MAY NOT BE USED AS A DRUG, AGRICULTURAL OR PESTICIDAL PRODUCT, FOOD ADDITIVE OR HOUSEHOLD CHEMICAL – AND MAY NOT BE MISBRANDED AS SUCH. ALL INFORMATION ON THIS WEBSITE IS AVAILABLE FOR EDUCATIONAL PURPOSES ONLY. BODILY INTRODUCTION OF ANY KIND INTO HUMANS AND/OR ANIMALS IS STRICTLY FORBIDDEN BY LAW. *RESEARCH CHEMICALS ARE CHEMICAL SUBSTANCE USED BY SCIENTISTS FOR MEDICAL AND SCIENTIFIC RESEARCH PURPOSES. ONE CHARACTERISTIC OF A RESEARCH CHEMICAL IS THAT IT IS FOR LABORATORY RESEARCH USE ONLY; A RESEARCH CHEMICAL IS NOT INTENDED FOR HUMAN OR VETERINARY USE. THIS DISTINCTION IS REQUIRED ON THE LABELS OF RESEARCH CHEMICALS, AND IS WHAT EXEMPTS THEM FROM REGULATION UNDER PARTS 100-740 IN TITLE 21 OF THE CODE OF FEDERAL REGULATIONS (21CFR). RESEARCH CHEMICALS ARE NOT TO BE CONFUSED WITH DIETARY SUPPLEMENTS AND SHOULD NOT BE USED IN SUCH MANNER.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b3b91083-3d90-432d-aa6c-54e8ab7e4e9f",
+    "name": "Livagen",
+    "slug": "livagen",
+    "shortDescription": null,
+    "description": "Livagen is a synthetic tetrapeptide complex containing lysine, glycine, aspartic acid, and alanine, stabilized in the presence of zinc. It is provided in lyophilized powder form to ensure high purity and stability for laboratory use. Livagen is intended exclusively for in vitro studies by qualified research professionals investigating peptide–metal interactions and peptide-based research models.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d2185634-ea31-49b2-bd0e-43b1f4c7c3b5",
+    "name": "LL-37",
+    "slug": "ll-37",
+    "shortDescription": null,
+    "description": "LL-37 is a synthetic peptide corresponding to a sequence derived from the human cathelicidin protein family. It is commonly utilized in biochemical and molecular research involving peptide-mediated signaling and interaction dynamics. In controlled laboratory settings, LL-37 is studied for its role in peptide–membrane interactions, signaling pathway analysis, and structure-function characterization under defined in vitro conditions. This material is supplied in lyophilized powder form and is intended strictly for in vitro research and analytical applications.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "600f652b-9978-4db8-b523-3eea2e846997",
+    "name": "MASTERON ENANTHATE (200MG)",
+    "slug": "masteron-enanthate-200mg",
+    "shortDescription": null,
+    "description": "$100.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "0e1f7c58-756a-48e3-89d5-48bf0e708c30",
+    "name": "MASTERON P (100MG)",
+    "slug": "masteron-p-100mg",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "088713b3-4b02-4428-b65a-37929084bf36",
+    "name": "MELANOTAN (10MG)",
+    "slug": "melanotan",
+    "shortDescription": null,
+    "description": "$60.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/melanotan-ii-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "dd8102a8-2e8a-432f-8a8f-77eb7bc5ade6",
+    "name": "Melanotan-I 10mg",
+    "slug": "melanotan-i",
+    "shortDescription": null,
+    "description": "Melanotan-I 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/melanotan-ii-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "26b4142a-0c6c-4ced-8a9a-8226156d52f2",
+    "name": "Melanotan-II 10mg",
+    "slug": "melanotan-ii",
+    "shortDescription": null,
+    "description": "Melanotan-II 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/melanotan-ii-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "110c0c1e-7a2a-4a96-a62b-8fa503c72a1c",
+    "name": "Melanoten-2",
+    "slug": "melanoten-2",
+    "shortDescription": null,
+    "description": "Melanoten-2 is a synthetic peptide provided exclusively for in vitro laboratory research to study cellular pathways and receptor interactions under controlled experimental conditions. This compound is intended solely for use in qualified research settings to investigate molecular mechanisms and structural characteristics.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "fbd25da1-c382-4900-a670-f3c4b5855712",
+    "name": "Methylene Blue",
+    "slug": "methylene-blue",
+    "shortDescription": null,
+    "description": "Methylene Blue is a synthetic small-molecule compound belonging to the phenothiazine chemical class. It has a long history of use as a chemical dye and redox indicator in laboratory and analytical research environments.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/methylene-blue.png"
+      }
+    ]
+  },
+  {
+    "id": "4053af33-f4e7-4d74-a936-f67b65978ddd",
+    "name": "MGF",
+    "slug": "mgf",
+    "shortDescription": null,
+    "description": "MGF research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/mgf.png"
+      }
+    ]
+  },
+  {
+    "id": "cb6e9b64-24e9-4863-b7fb-5aafdc788751",
+    "name": "MK-2866 (10MG) (50 TABLETS)",
+    "slug": "mk-2866-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "c5a72f72-8239-41ec-b0f7-3cd0b4748b2f",
+    "name": "MK-677 (10MG) (50 TABLETS)",
+    "slug": "mk-677-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$100.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "8c5ed714-b131-4405-b2fd-dd572536fc07",
+    "name": "MK-906 (5MG) (50 TABLETS)",
+    "slug": "mk-906-5mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b66d3a1a-8fb5-446e-b3f6-ca138b45c557",
+    "name": "MOTS-C",
+    "slug": "mots-c",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/mots-c.png"
+      }
+    ]
+  },
+  {
+    "id": "5188098c-0816-48df-a8f9-1af6b6f514df",
+    "name": "MT-1",
+    "slug": "mt-1",
+    "shortDescription": null,
+    "description": "MT-1 research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/mt-1.png"
+      }
+    ]
+  },
+  {
+    "id": "e90962bb-92f5-4398-be7c-e5b63b334329",
+    "name": "MT-2 (Melanotan 2 Acetate)",
+    "slug": "mt-2-melanotan-2-acetate",
+    "shortDescription": null,
+    "description": "MT-2 (Melanotan 2 Acetate) research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/melanotan-ii-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "dab64fd6-5eab-44e3-839d-387fb0646268",
+    "name": "N-Acetyl Epithalon Amidate",
+    "slug": "n-acetyl-epithalon-amidate",
+    "shortDescription": null,
+    "description": "N-Acetyl Epithalon Amidate is a chemically modified synthetic tetrapeptide derived from the Epithalon peptide backbone. The compound incorporates N-terminal acetylation and C-terminal amidation, structural modifications commonly applied in peptide chemistry to influence molecular stability and resistance to enzymatic degradation in experimental systems. Supplied as a lyophilized powder, N-Acetyl Epithalon Amidate is intended exclusively for controlled in-vitro laboratory research conducted by qualified professionals.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "c9d99d73-a397-4276-a056-55f3c2e3dac1",
+    "name": "N-Acetyl Selank Amidate",
+    "slug": "n-acetyl-selank-amidate",
+    "shortDescription": null,
+    "description": "N-Acetyl Selank Amidate is a chemically modified synthetic heptapeptide derived from the Selank peptide backbone. The compound incorporates N-terminal acetylation and C-terminal amidation, modifications commonly applied in peptide chemistry to influence molecular stability and resistance to enzymatic degradation under experimental conditions. Supplied as a lyophilized powder, N-Acetyl Selank Amidate is intended exclusively for controlled in-vitro laboratory research conducted by qualified professionals.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "34ad3c29-e852-4112-b7e0-1eb1f9e04cc7",
+    "name": "N-Acetyl Semx Amidate",
+    "slug": "n-acetyl-semx-amidate",
+    "shortDescription": null,
+    "description": "Thos compound is a chemically modified synthetic heptapeptide derived from the Semx peptide backbone. The compound incorporates N-terminal acetylation and C-terminal amidation, modifications commonly employed in peptide chemistry to alter molecular stability and degradation characteristics under experimental conditions. Supplied as a lyophilized powder, N-Acetyl Semx Amidate is intended exclusively for controlled in-vitro laboratory research conducted by qualified professionals.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "fb9daea1-af88-403c-93c9-1f04a44aa26a",
+    "name": "NAD+",
+    "slug": "nad-plus",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "36c42402-89e8-4991-a434-51b6d33c02da",
+    "name": "NAD⁺ (Nicotinamide Adenine Dinucleotide)",
+    "slug": "nad-nicotinamide-adenine-dinucleotide",
+    "shortDescription": null,
+    "description": "NAD⁺ (Nicotinamide Adenine Dinucleotide) is a naturally occurring coenzyme present in all living cells and plays a fundamental role in cellular redox reactions. In laboratory environments, NAD⁺ is widely used in biochemical and molecular research to study metabolic pathways, enzymatic reactions, and cellular energy transfer mechanisms. This product is supplied as a pre-formulated aqueous research solution, intended to support controlled experimental use and analytical consistency.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "29d7ee7d-2879-4382-85f5-eb7701cc5775",
+    "name": "NANDROLONE DECANOATE (300MG)",
+    "slug": "nandrolone-decanoate-300mg",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "c1d53322-6271-42aa-af44-703bc2c7ecd4",
+    "name": "NOLVADEX (20MG) (50 TABLETS)",
+    "slug": "nolvadex-20mg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d3eec35c-3a02-4a1e-af16-5384c647b56e",
+    "name": "NOLVADEX (25MG) (50 TABLETS)",
+    "slug": "nolvadex-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "34c1d5fa-9984-425a-9df2-afeff2036bf2",
+    "name": "NPP (100MG)",
+    "slug": "npp-100mg",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "51130f51-8bed-4ace-aa09-e361fb41ccd9",
+    "name": "NPP (150MG)",
+    "slug": "npp-150mg",
+    "shortDescription": null,
+    "description": "$85.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "364061b2-ba5e-4d37-b9ae-e1c09ef1e13c",
+    "name": "Ovagen",
+    "slug": "ovagen",
+    "shortDescription": null,
+    "description": "Ovagen is a synthetic tripeptide composed of L-lysine, L-glutamic acid, and L-aspartic acid. It is supplied as a lyophilized powder and is intended for use exclusively in controlled in vitro laboratory research conducted by qualified professionals. As a low–molecular-weight peptide, Ovagen is commonly utilized in experimental settings focused on peptide structure, stability, and interaction characteristics under controlled laboratory conditions.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/ovagen.png"
+      }
+    ]
+  },
+  {
+    "id": "18fc2466-deb7-4921-b514-f563fba09879",
+    "name": "Oxytocin",
+    "slug": "oxytocin",
+    "shortDescription": null,
+    "description": "Oxytocin is a synthetic peptide corresponding to a sequence found in endogenous neuropeptide systems. It is utilized in laboratory research involving peptide structure and interaction analysis under controlled experimental conditions. This material is supplied in lyophilized powder form and is intended strictly for controlled in vitro research and analytical applications.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/oxytocin.png"
+      }
+    ]
+  },
+  {
+    "id": "f031ba69-ca19-4d48-9206-f3b995465610",
+    "name": "P-21 (Adamantane)",
+    "slug": "p-21-adamantane",
+    "shortDescription": null,
+    "description": "P-21 (Adamantane) is a synthetic peptide research compound that incorporates an adamantane structural modification, a hydrophobic moiety commonly used in chemical research to alter physicochemical properties of peptide sequences. The compound is produced via controlled synthesis and supplied as a lyophilized powder for laboratory use. This product is intended exclusively for controlled in-vitro research applications conducted by qualified professionals and is not formulated for clinical, diagnostic, or therapeutic use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "9033f2b9-4f41-48fd-a459-ad563a111265",
+    "name": "PEG-MGF",
+    "slug": "peg-mgf",
+    "shortDescription": null,
+    "description": "PEG-MGF is a pegylated synthetic peptide provided exclusively for in vitro laboratory research in controlled experimental settings. This material is intended for investigation of molecular pathways, peptide modification effects, and cellular interaction mechanisms by qualified research professionals. It is supplied in lyophilized powder form for analytical and reference purposes only.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "70ed7575-1ead-41f8-80af-50401c1389e4",
+    "name": "Peptide-31 25mg",
+    "slug": "peptide-31",
+    "shortDescription": null,
+    "description": "Peptide-31 25mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "7147deb8-5f8d-40b7-a760-255ecec97fc8",
+    "name": "Peptide-31 60mg",
+    "slug": "peptide-31-60mg",
+    "shortDescription": null,
+    "description": "Peptide-31 60mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-31-60mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b65744c0-e16b-49a5-92a1-aa9cb43634a9",
+    "name": "Peptide-C 10mg",
+    "slug": "peptide-c-10mg",
+    "shortDescription": null,
+    "description": "Peptide-C 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-c-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "71d1dcb7-c1e2-4c6b-9590-e7552f9ece21",
+    "name": "Peptide-C 20mg",
+    "slug": "peptide-c-20mg",
+    "shortDescription": null,
+    "description": "Peptide-C 20mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-c-20mg.png"
+      }
+    ]
+  },
+  {
+    "id": "dbbaf64b-19cc-420b-836d-0592c99d5b8f",
+    "name": "Peptide-C 5mg",
+    "slug": "peptide-c",
+    "shortDescription": null,
+    "description": "Peptide-C 5mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-c.png"
+      }
+    ]
+  },
+  {
+    "id": "1113e0d5-f114-4312-bd05-03d4735ab43d",
+    "name": "Peptide-CS 5mg/5mg",
+    "slug": "peptide-cs",
+    "shortDescription": null,
+    "description": "Peptide-CS 5mg/5mg (a combination of Peptide-S 5mg and Peptide-C 5mg) vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "f3ec5a71-c847-4437-a67e-59cdc8a2f889",
+    "name": "Peptide-M 10mg",
+    "slug": "peptide-m",
+    "shortDescription": null,
+    "description": "Peptide-M 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-m.png"
+      }
+    ]
+  },
+  {
+    "id": "1e8d5be4-db26-424a-bda9-9c11697ae585",
+    "name": "Peptide-M 15mg",
+    "slug": "peptide-m-15mg",
+    "shortDescription": null,
+    "description": "Peptide-M 15mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-m-15mg.png"
+      }
+    ]
+  },
+  {
+    "id": "cb5aa799-2a8e-4726-b367-2f7d8b5950d7",
+    "name": "Peptide-R 10mg",
+    "slug": "peptide-r",
+    "shortDescription": null,
+    "description": "Peptide-R 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use . Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-r.png"
+      }
+    ]
+  },
+  {
+    "id": "b0f5b671-e897-4617-b59d-b8277047ec42",
+    "name": "Peptide-R 20mg",
+    "slug": "peptide-r-20mg",
+    "shortDescription": null,
+    "description": "Peptide-R 20mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use . Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-r-20mg.png"
+      }
+    ]
+  },
+  {
+    "id": "0a0bb032-8224-4cb9-8cd6-c3aef689cb63",
+    "name": "Peptide-R 50mg",
+    "slug": "peptide-r-50mg",
+    "shortDescription": null,
+    "description": "Peptide-R 50mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-r-50mg.png"
+      }
+    ]
+  },
+  {
+    "id": "890f7505-f283-4b0d-b538-866daa0bdd51",
+    "name": "Peptide-S 10mg",
+    "slug": "peptide-s-10mg",
+    "shortDescription": null,
+    "description": "Peptide-S 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-s-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "7eec812d-823e-4755-adb9-a4cd470b46ae",
+    "name": "Peptide-S 15mg",
+    "slug": "peptide-s-15mg",
+    "shortDescription": null,
+    "description": "Peptide-S 15mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-s-15mg.png"
+      }
+    ]
+  },
+  {
+    "id": "03d85891-e5cf-4eca-9df8-55092cfa1ad0",
+    "name": "Peptide-S 5mg",
+    "slug": "peptide-s",
+    "shortDescription": null,
+    "description": "Peptide-S 5mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-s.png"
+      }
+    ]
+  },
+  {
+    "id": "8d4259fd-7ed8-45ec-a02a-5f39e1c69968",
+    "name": "Peptide-SU 10mg",
+    "slug": "peptide-su",
+    "shortDescription": null,
+    "description": "Peptide-SU 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "19d4dfd6-1b48-43a1-9eda-6d390e619a53",
+    "name": "Peptide-T 100mg",
+    "slug": "peptide-t-100mg",
+    "shortDescription": null,
+    "description": "Peptide-T 100mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "78632f9d-3ff9-4f92-ab9d-a9ef2bef82da",
+    "name": "Peptide-T 10mg",
+    "slug": "peptide-t",
+    "shortDescription": null,
+    "description": "Peptide-T 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-t.png"
+      }
+    ]
+  },
+  {
+    "id": "2998c012-f06e-4f3a-9c05-488875d48990",
+    "name": "Peptide-T 15mg",
+    "slug": "peptide-t-15mg",
+    "shortDescription": null,
+    "description": "Peptide-T 15mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-t-15mg.png"
+      }
+    ]
+  },
+  {
+    "id": "22b30818-5da2-4515-830b-c66dfd0f4e27",
+    "name": "Peptide-T 30mg",
+    "slug": "peptide-t-30mg",
+    "shortDescription": null,
+    "description": "Peptide-T 30mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "7ad8f06c-1128-48d3-b663-45f424d9ae1b",
+    "name": "Peptide-T 60mg",
+    "slug": "peptide-t-60mg",
+    "shortDescription": null,
+    "description": "Peptide-T 60mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/peptide-t-60mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d506762f-443d-4714-a07f-b9ea0382895f",
+    "name": "Pinealon",
+    "slug": "pinealon",
+    "shortDescription": null,
+    "description": "Pinealon is a synthetic tripeptide composed of L-glutamic acid, L-aspartic acid, and L-arginine. It is supplied as a lyophilized powder for use exclusively in controlled in-vitro laboratory research by qualified professionals",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "0f947493-4fe0-43e3-8255-13fe7cdc7230",
+    "name": "PNC-27",
+    "slug": "pnc-27",
+    "shortDescription": null,
+    "description": "PNC-27 is a synthetic peptide consisting of a defined amino acid sequence. It is supplied in lyophilized powder form to support purity and stability in laboratory environments. PNC-27 is intended strictly for controlled in vitro laboratory research by qualified professionals.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/pnc-27.png"
+      }
+    ]
+  },
+  {
+    "id": "d15f5e36-7a53-414f-84d2-d6f97a0d7149",
+    "name": "Portable Insulin Cooler",
+    "slug": "portable-insulin-cooler",
+    "shortDescription": "Mini Drugs Constant Temperature Refrigerator Drug Reefer, Portable Insulin Cooler, Small Drug Travel Box, for Car, Travel, Home, Diabetic",
+    "description": "➤Features:\n✔ Cold storage of insulin/interferon/growth hormone/vaccine/eye drops and other medicines\n✔ Long battery life, about 10 hours with rechargeable battery.\n✔ LCD display, large screen, convenient for the elderly to use.\n✔ A variety of power supply methods, USB charging, can be connected to charging in cars, homes and other devices.\n✔ Smart one-button operation, 3 alarms (low battery reminder / high temperature reminder / low temperature reminder)\n✔ Portable size, suitable for travel or family use.\n\n➤Specifications:\nProduct name: insulin refrigerator\nDimensions: 210*106*95mm\nInner size: 190*60*30mm\nNet Weight: 1.8kg\nMaterial: ABS\nBattery life: 8-36H\nBattery Capacity: 10200mAh\nRated power: 15W\nCooling temperature: 22°C lower than the ambient temperature\nTemperature in the box: 2-8°C at 30°C ambient temperature\n\n➤Notes\n⚠ It is forbidden to operate the small refrigerator with excessive force.\n⚠ It is forbidden to use the machine in high temperature and water immersion.\n⚠ Do not block the ventilation openings.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/portable-insulin-cooler.png"
+      }
+    ]
+  },
+  {
+    "id": "31165a3c-c212-4790-83f0-efbc9da0a623",
+    "name": "PRIMO (100MG)",
+    "slug": "primo-100mg",
+    "shortDescription": null,
+    "description": "$110.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "0251c981-b927-4efd-b545-a4582be9f0ff",
+    "name": "PRIMO (200MG)",
+    "slug": "primo-200mg",
+    "shortDescription": null,
+    "description": "$140.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "c8723a04-e315-4201-bb34-69739180c407",
+    "name": "PRIMOBOLAN (100MG)",
+    "slug": "primobolan-100mg",
+    "shortDescription": null,
+    "description": "$110.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "2fcb1767-2809-432f-9698-50546b666dbe",
+    "name": "Prostamax",
+    "slug": "prostamax",
+    "shortDescription": null,
+    "description": "Prostamax is a synthetic tetrapeptide belonging to the Khavinson peptide class. It is commonly utilized in biochemical and molecular research involving peptide–DNA interactions and structure-function analysis in controlled experimental systems. In laboratory settings, Prostamax is studied for its interaction with nucleic acid structures and its role in peptide-associated signaling and chromatin-related research models under defined in vitro conditions. This material is supplied in lyophilized powder form and is intended strictly for in vitro research and analytical applications.​",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "45dc1b8e-f2d8-41c0-bbb3-db83470efee7",
+    "name": "PROVIRON (20MG) (50 TABLETS)",
+    "slug": "proviron-20mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "12c4856f-ea58-4223-b772-6aae872aa0f1",
+    "name": "PROVIRON (25MG) (50 TABLETS)",
+    "slug": "proviron-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "05c7fe43-c096-4abf-a5fa-58eb6c805b62",
+    "name": "PT-141",
+    "slug": "pt-141",
+    "shortDescription": null,
+    "description": "PT-141 is a synthetic cyclic peptide consisting of a defined amino acid sequence. In laboratory environments, it is studied for its chemical stability and peptide behavior under controlled experimental conditions. This product is supplied as a pre-formulated aqueous research solution, intended exclusively for laboratory research use.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/pt-141.png"
+      }
+    ]
+  },
+  {
+    "id": "5d600bc2-496a-4661-acda-6a8fa6f5606f",
+    "name": "PT-141 10mg",
+    "slug": "pt-141-10mg",
+    "shortDescription": null,
+    "description": "PT-141 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/pt-141-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "18819ae1-b4e2-4bdf-85f2-c18d653fd7e7",
+    "name": "RAD140 (10MG) (50 TABLETS)",
+    "slug": "rad140-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "69663a00-908c-426f-ae34-30ae22dfbc2e",
+    "name": "Reconstitution Solution &amp;#8211; 30ml",
+    "slug": "reconstitution-solution-30ml",
+    "shortDescription": null,
+    "description": "Reconstitution Solution bottle containing 30ml to be used to reconstitute lyphilized peptides. Once opened, shelf life is 28 days. For long term storage, may be stored at room temperature. DO NOT FREEZE.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/reconstitution-solution-30ml.png"
+      }
+    ]
+  },
+  {
+    "id": "6164818f-12ef-4b22-9063-241a54db4d11",
+    "name": "Retatrutide",
+    "slug": "retatrutide",
+    "shortDescription": null,
+    "description": "Research peptide supplied in lyophilized vials for laboratory use. Offered as multi-vial strength options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/retatrutide.png"
+      }
+    ]
+  },
+  {
+    "id": "b3f37a5b-0827-497a-be47-a3e3cfe8cb7c",
+    "name": "Selank",
+    "slug": "selank",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "be4063a2-05a2-4987-b398-8e90e0b35bb5",
+    "name": "Selank TP-7",
+    "slug": "selank-tp-7",
+    "shortDescription": null,
+    "description": "Selank TP-7 is a synthetic heptapeptide originally developed as a stabilized analogue of naturally occurring regulatory peptides. It consists of seven amino acids and is studied in laboratory environments for its biochemical properties, peptide stability, and interaction behavior in controlled experimental systems. This product is supplied as a pre-formulated aqueous research solution, intended exclusively for laboratory research use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d13682f4-32c1-4060-8fd8-12e415ae3354",
+    "name": "Semaglutide",
+    "slug": "semaglutide",
+    "shortDescription": null,
+    "description": "Semaglutide research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/semaglutide-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "a025769c-b529-4e51-8c3e-914863befe70",
+    "name": "Semax",
+    "slug": "semax",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "9b78318c-cd76-421c-bc6b-277472766190",
+    "name": "Semx",
+    "slug": "semx",
+    "shortDescription": null,
+    "description": "This liquid compound is a synthetic heptapeptide consisting of a defined amino acid sequence, modified through N-terminal acetylation to enhance stability. In laboratory environments, Semx is studied for its biochemical properties, peptide stability, and interaction behavior within controlled experimental systems. This product is supplied as a pre-formulated aqueous research solution, intended exclusively for laboratory research use.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "e57cf701-1b00-4ba2-b121-0c5a5feaf5cb",
+    "name": "Sermorelin 10mg",
+    "slug": "sermorelin",
+    "shortDescription": null,
+    "description": "Sermorelin 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "8b2e0a54-c64e-4c2a-b26d-daf7a5553c24",
+    "name": "Sermorelin Acetate",
+    "slug": "sermorelin-acetate",
+    "shortDescription": null,
+    "description": "Sermorelin Acetate research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/sermorelin-acetate.png"
+      }
+    ]
+  },
+  {
+    "id": "55c6cbfb-e55b-48ca-a588-514bbf1409a0",
+    "name": "Sermorlin",
+    "slug": "sermorlin",
+    "shortDescription": null,
+    "description": "Sermorlin is a synthetic peptide analog of growth hormone-releasing hormone (GHRH), consisting of the first 29 amino acids of the native human sequence. It is commonly utilized in biochemical and molecular research involving peptide–receptor interactions and signaling pathway analysis. In controlled laboratory settings, Sermorlin is studied for its interaction with growth hormone-releasing hormone receptors (GHRH-R) and its role in intracellular signaling mechanisms within endocrine research models under defined in vitro conditions. This material is supplied in lyophilized powder form and is intended strictly for in vitro research and analytical applications.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "9509e6f2-a8fe-4026-b021-03583366bbf4",
+    "name": "SLU-PP-332",
+    "slug": "slu-pp-332",
+    "shortDescription": null,
+    "description": "SLU-PP-332 is a synthetic small-molecule compound belonging to a non-peptide heterocyclic chemical class. It is supplied as a solid research material intended for controlled analytical and mechanistic investigation within laboratory research environments.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/slu-pp-332.png"
+      }
+    ]
+  },
+  {
+    "id": "a42924cd-1b7e-477c-b9d2-4871c598b76a",
+    "name": "SNAP-8 10mg",
+    "slug": "snap-8-10mg",
+    "shortDescription": null,
+    "description": "SNAP-8 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/snap-8-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "f1a2acd3-6e7d-4e1b-827f-8f6a9d9b51ea",
+    "name": "SR9009 (10MG) (50 TABLETS)",
+    "slug": "sr9009-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "122e4ba3-a8e6-4393-800f-1e938125762d",
+    "name": "SS-31",
+    "slug": "ss-31",
+    "shortDescription": null,
+    "description": "SS-31 research product with multi-strength vial options.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/ss-31.png"
+      }
+    ]
+  },
+  {
+    "id": "237505c1-d6f3-4b72-99bc-7f2d05dff50e",
+    "name": "SUPERDROL (10MG) (50 TABLETS)",
+    "slug": "superdrol-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "51a682b9-1283-4dc3-99ea-e85baeba2097",
+    "name": "SUPERDROL (25MG) (50 TABLETS)",
+    "slug": "superdrol-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "c6be03ef-9c1a-4577-a575-63957ef4fa9c",
+    "name": "SUPERMAN (50MG) (50 TABLETS)",
+    "slug": "superman-50mg-50-tablets",
+    "shortDescription": null,
+    "description": "$100.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "5ba27b61-dbc3-4371-9a6d-e953deb8cf13",
+    "name": "SUSTANON (250MG)",
+    "slug": "sustanon-250mg",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "72b98a0e-73d9-4603-9bab-da12ed691235",
+    "name": "T-BOL (25MG) (50 TABLETS)",
+    "slug": "t-bol-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "7ca539ac-c15c-4765-b324-27b78929e30f",
+    "name": "T3 (25MCG) (50 TABLETS)",
+    "slug": "t3-25mcg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "ac240104-2b8d-46a9-bdc4-26f72f8b545e",
+    "name": "T400 (400MG)",
+    "slug": "t400-400mg",
+    "shortDescription": null,
+    "description": "$100.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "18ed4b3e-f515-41d9-9337-224580277fdb",
+    "name": "TB-500",
+    "slug": "tb-500-5mg",
+    "shortDescription": "Thymosin beta-4 fragment for cellular mobility research.",
+    "description": "TB-500 is a synthetic peptide derived from Thymosin Beta-4 and is commonly utilized in biochemical and molecular research involving peptide–receptor interactions and signaling pathway analysis. In controlled laboratory settings, TB-500 is studied for its role in peptide-associated signaling mechanisms, intracellular pathway analysis, and structure-function characterization under defined in vitro conditions. This material is supplied in lyophilized powder form and is intended strictly for in vitro research and analytical applications.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      },
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d044a4ca-23f8-4009-b4bb-799aecd5ca6f",
+    "name": "TB-500 (Thymosin Beta-4 synthetic fragment)",
+    "slug": "tb-500",
+    "shortDescription": null,
+    "description": "Thymosin Beta-4 synthetic fragment peptide for laboratory research.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "e50084dd-b0e3-47ab-b4e1-37441a55c853",
+    "name": "TB-500 (Tβ-4)",
+    "slug": "tb-500-tb-4",
+    "shortDescription": null,
+    "description": "TB-500 is a synthetic peptide corresponding to a fragment of Thymosin Beta-4 (Tβ-4), a naturally occurring actin-binding protein studied extensively in peptide research. This product is supplied in an encapsulated solid format to support controlled storage, handling, and measurement within laboratory research environments.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "f3e3bd34-d824-490a-b83a-c8a4e8cc7c7f",
+    "name": "TB-500 (Tβ4)",
+    "slug": "tb-500-tb4",
+    "shortDescription": null,
+    "description": "TB-500 is a synthetic peptide corresponding to the Thymosin Beta-4 protein. It consists of 43 amino acids in its native form; TB-500 represents a truncated sequence designed for experimental and analytical research applications. In laboratory settings, TB-500 is studied for its biochemical properties and peptide behavior under controlled conditions. This product is supplied as a pre-formulated aqueous research solution to support consistency in experimental workflows.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "4ac0c2d5-2639-4c28-bd49-6a109177166f",
+    "name": "TB-500 10mg",
+    "slug": "tb-500-10mg",
+    "shortDescription": null,
+    "description": "TB-500 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "0a7931bf-b42c-4de6-8c4d-ae71b63781ba",
+    "name": "TB500 (5MG)",
+    "slug": "tb500",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/tb-500-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "477c16ab-5f90-4144-8053-5868d332916f",
+    "name": "Tesamorelin",
+    "slug": "tesamorelin",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d825faa6-db4c-4b56-bdd2-91d829bc85f5",
+    "name": "Tesmorelin",
+    "slug": "tesmorelin",
+    "shortDescription": null,
+    "description": "Tesmorelin is a synthetic peptide analog of growth hormone-releasing hormone (GHRH) and is commonly utilized in biochemical and molecular research involving peptide–receptor interactions and signaling pathway analysis. In controlled laboratory settings, it is studied for its interaction with growth hormone-releasing hormone receptors (GHRH-R) and its role in intracellular signaling mechanisms within endocrine research models under defined in vitro conditions. This material is supplied in lyophilized powder form and is intended strictly for in vitro research and analytical applications.",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b29e29ad-19b7-41c1-828e-0c9dfc4d117c",
+    "name": "TESO / NS2330",
+    "slug": "teso-ns2330",
+    "shortDescription": null,
+    "description": "TESO/NS2330 is a synthetic small-molecule compound produced through chemical synthesis and supplied as a solid research material. This product is provided in an encapsulated solid format to support controlled storage, handling, and measurement within laboratory research environments. &amp;nbsp;",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/teso-ns2330.png"
+      }
+    ]
+  },
+  {
+    "id": "456de58b-dd42-4b63-ac75-8848dbe2ee9e",
+    "name": "TEST CYPIONATE (250MG)",
+    "slug": "test-cypionate-250mg",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "44be5827-5758-4287-93bf-a7f7556bbd51",
+    "name": "TEST ENANTHATE (250MG)",
+    "slug": "test-enanthate-250mg",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b3fcff8a-5307-473a-8816-901070014502",
+    "name": "TEST PROPIONATE (100MG)",
+    "slug": "test-propionate-100mg",
+    "shortDescription": null,
+    "description": "$70.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "e681f232-89fd-4fa8-8787-dcee178ed899",
+    "name": "TESTOSTERONE 400 (400MG)",
+    "slug": "testosterone-400-400mg",
+    "shortDescription": null,
+    "description": "$105.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "85d494b0-58f3-43f9-b948-7636a1f4d70e",
+    "name": "TESTOSTERONE CYPIONATE (300MG)",
+    "slug": "testosterone-cypionate-300mg",
+    "shortDescription": null,
+    "description": "$85.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "de159abf-9587-450b-b8f5-c4a0d1f22f70",
+    "name": "TESTOSTERONE ENANTHATE (300MG)",
+    "slug": "testosterone-enanthate-300mg",
+    "shortDescription": null,
+    "description": "$85.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/testosterone-enanthate-300mg.jpg"
+      }
+    ]
+  },
+  {
+    "id": "423b0f2c-751b-4e42-8339-bc98cdc457a8",
+    "name": "TESTOSTERONE MIX (300MG)",
+    "slug": "testosterone-mix-300mg",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "d6544700-6bf9-4d08-829b-9b5be10e3440",
+    "name": "TESTOSTERONE PROPIONATE (100MG)",
+    "slug": "testosterone-propionate-100mg",
+    "shortDescription": null,
+    "description": "$75.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/testosterone-propionate-100mg.png"
+      }
+    ]
+  },
+  {
+    "id": "8082bade-53d6-4c4a-84f0-59a5ae86c95e",
+    "name": "TESTOSTERONE TRENBOLONE (400MG)",
+    "slug": "testosterone-trenbolone-400mg",
+    "shortDescription": null,
+    "description": "$110.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  },
+  {
+    "id": "afe74eb0-f587-42c8-94a8-8a7ce1bc8c41",
+    "name": "TESTOSTERONE UNDECANOATE (250MG)",
+    "slug": "testosterone-undecanoate-250mg",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/testosterone-undecanoate-250mg.jpg"
+      }
+    ]
+  },
+  {
+    "id": "6d02385c-3651-4b6b-b7a4-c2800b4de3d2",
+    "name": "Thymalin",
+    "slug": "thymalin",
+    "shortDescription": null,
+    "description": "Thymalin is a synthetic peptide consisting of a defined amino acid sequence. It is supplied in lyophilized powder form and is studied in controlled laboratory environments for its structural characteristics, stability, and physicochemical properties. This compound is intended solely for in vitro use by qualified research professionals.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/thymalin.jpg"
+      }
+    ]
+  },
+  {
+    "id": "b47760c6-fdff-414d-a586-36bcc551d294",
+    "name": "Thymogen",
+    "slug": "thymogen",
+    "shortDescription": null,
+    "description": "Thymogen is a synthetic dipeptide composed of L-glutamic acid and L-tryptophan. It was originally modeled on peptide fragments derived from thymic proteins. In laboratory environments, Thymogen is utilized in research involving peptide signaling and structure-function analysis under controlled experimental conditions. It is provided in lyophilized powder form to ensure stability and high purity during storage.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/thymogen.jpg"
+      }
+    ]
+  },
+  {
+    "id": "c8f87f3b-51a3-4be3-838e-e297a52b9d6d",
+    "name": "Thymosin-α1 10mg",
+    "slug": "thymosin-a1-10mg",
+    "shortDescription": null,
+    "description": "Thymosin-α1 10mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/thymosin-a1-10mg.png"
+      }
+    ]
+  },
+  {
+    "id": "b8ea7eca-85eb-4e3a-966d-9e7fc9abdda3",
+    "name": "Thymosin-α1 5mg",
+    "slug": "thymosin-a1",
+    "shortDescription": null,
+    "description": "Thymosin-α1 5mg vial in lyophilized powder form. Must be reconstituted with Reconstitution Solution prior to use. Once reconstituted, shelf life is 56 days when refrigerated. For long term storage, place in a cold, dark place (freezer is recommended.) When stored properly, lyophilized powders will retain potency upwards of 1 year.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/thymosin-a1.jpg"
+      }
+    ]
+  },
+  {
+    "id": "953df1af-76d6-43a6-942e-c8222cfd751e",
+    "name": "Tirzepatide",
+    "slug": "tirzepatide",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/tirzepatide.jpg"
+      }
+    ]
+  },
+  {
+    "id": "50e4e242-6d3c-4020-83de-1e68f4b1e0f0",
+    "name": "TNT 200 (200MG)",
+    "slug": "tnt-200-200mg",
+    "shortDescription": null,
+    "description": "$110.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/tnt-200-200mg.jpg"
+      }
+    ]
+  },
+  {
+    "id": "93046a94-3b8d-4698-90bc-af47d85c78ec",
+    "name": "TNT 400 (400MG)",
+    "slug": "tnt-400-400mg",
+    "shortDescription": null,
+    "description": "$110.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/tnt-400-400mg.jpg"
+      }
+    ]
+  },
+  {
+    "id": "a6fd5615-15b4-4115-82bf-1a4f97f1fce6",
+    "name": "Travel Cold-Case",
+    "slug": "travel-cold-case",
+    "shortDescription": null,
+    "description": "One Reusable Ice Pack Cold-Case Keep your peptides cold and organized while on the go.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/travel-cold-case.jpg"
+      }
+    ]
+  },
+  {
+    "id": "31edce7f-0bf8-42d8-ac82-39a07e1239ba",
+    "name": "TREN A (100MG)",
+    "slug": "tren-a-100mg",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/tren-a-100mg.jpg"
+      }
+    ]
+  },
+  {
+    "id": "fc348401-bfb8-49d5-8ff6-ee88d5557174",
+    "name": "TREN E (200MG)",
+    "slug": "tren-e-200mg",
+    "shortDescription": null,
+    "description": "$100.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/tren-e-200mg.jpg"
+      }
+    ]
+  },
+  {
+    "id": "d1d7f891-083b-404c-9bec-a02ad9f60216",
+    "name": "TRENBOLONE ENANTHATE (200MG)",
+    "slug": "trenbolone-enanthate-200mg",
+    "shortDescription": null,
+    "description": "$100.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/trenbolone-enanthate-200mg.png"
+      }
+    ]
+  },
+  {
+    "id": "237c8bbb-73eb-4aaa-9c19-a36cbe654a0e",
+    "name": "TUDCA",
+    "slug": "tudca",
+    "shortDescription": null,
+    "description": "TUDCA (Tauroursodeoxycholic Acid) is a chemically defined small-molecule compound belonging to the bile acid derivative class. It is produced via chemical synthesis and supplied as a solid research material for use in controlled laboratory research environments.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/tudca.png"
+      }
+    ]
+  },
+  {
+    "id": "0a8c42fc-5854-4d28-894c-3af0001e42a1",
+    "name": "TURINABOL (20MG) (50 TABLETS)",
+    "slug": "turinabol-20mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/turinabol-20mg-50-tablets.png"
+      }
+    ]
+  },
+  {
+    "id": "531b732e-cbf8-4127-aa7e-fa932f7429cd",
+    "name": "Vesugen",
+    "slug": "vesugen",
+    "shortDescription": null,
+    "description": "Vesugen is a synthetic tripeptide composed of L-lysine, L-glutamic acid, and L-aspartic acid. It is supplied as a lyophilized powder and is intended for use exclusively in controlled in-vitro laboratory research conducted by qualified professionals. As a low–molecular-weight peptide, Vesugen is commonly utilized in experimental settings focused on peptide structure, stability, and interaction characteristics under controlled laboratory conditions.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/vesugen.png"
+      }
+    ]
+  },
+  {
+    "id": "67f51e4a-6069-4c4b-96e5-2bc1e8c9f42a",
+    "name": "VIAGRA (50MG) (50 TABLETS)",
+    "slug": "viagra-50mg-50-tablets",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/viagra-50mg-50-tablets.png"
+      }
+    ]
+  },
+  {
+    "id": "e521ef44-0ca1-4272-8281-e3b63a1f8955",
+    "name": "Vilon",
+    "slug": "vilon",
+    "shortDescription": null,
+    "description": "Vilon is a synthetic dipeptide composed of lysine and glutamic acid. It is supplied in lyophilized powder form for stability and high purity. Vilon is designed exclusively for in-vitro laboratory research by qualified professionals and is not intended for human or veterinary use.",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/vilon.png"
+      }
+    ]
+  },
+  {
+    "id": "7ef5e783-5cd2-4236-b576-213eb9bc5d9f",
+    "name": "VIP",
+    "slug": "vip",
+    "shortDescription": null,
+    "description": null,
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/vip.png"
+      }
+    ]
+  },
+  {
+    "id": "8a8d037a-f4ee-4762-b5fb-087930abd737",
+    "name": "WIN DEPOT (50MG)",
+    "slug": "win-depot-50mg",
+    "shortDescription": null,
+    "description": "$80.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/win-depot-50mg.png"
+      }
+    ]
+  },
+  {
+    "id": "4d1eb164-1210-456d-ac93-37e90d483389",
+    "name": "WINSTROL (20MG) (50 TABLETS)",
+    "slug": "winstrol-20mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/winstrol-20mg-50-tablets.png"
+      }
+    ]
+  },
+  {
+    "id": "b96daf85-f991-4b01-9711-60c0faf560dd",
+    "name": "WINSTROL (25MG) (50 TABLETS)",
+    "slug": "winstrol-25mg-50-tablets",
+    "shortDescription": null,
+    "description": "$100.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/winstrol-25mg-50-tablets.png"
+      }
+    ]
+  },
+  {
+    "id": "88dc764d-c1cf-4068-bb66-d720c3877207",
+    "name": "YK11 (10MG) (50 TABLETS)",
+    "slug": "yk11-10mg-50-tablets",
+    "shortDescription": null,
+    "description": "$90.00",
+    "images": [
+      {
+        "url": "https://tbgmkqklkshkjfhcqtzz.supabase.co/storage/v1/object/public/catalog-heroes/yk11-10mg-50-tablets.png"
+      }
+    ]
+  },
+  {
+    "id": "c60f36fd-a921-4bf2-a212-badd19d43d3c",
+    "name": "ZIO SHREDZ (20MG) (50 TABLETS)",
+    "slug": "zio-shredz-20mg-50-tablets",
+    "shortDescription": null,
+    "description": "$115.00",
+    "images": [
+      {
+        "url": "https://yoojdbprdgjwzfmyjcif.supabase.co/storage/v1/object/public/product-images/bpc-157-5mg.png"
+      }
+    ]
+  }
+]
