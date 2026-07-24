@@ -163,14 +163,6 @@ export const useCartStore = create<CartStore>()(
       },
 
       addItem: async (item, quantity = 1) => {
-        const before = get().items.map((i) => ({
-          productId: i.productId,
-          name: i.productName,
-          variantId: i.variantId ?? null,
-          qty: i.quantity,
-        }));
-        const existingIndex = get().items.findIndex((i) => sameLine(i, item));
-
         // Optimistic local update — resolve immediately so UI never waits on Supabase RTT.
         set((state) => {
           const idx = state.items.findIndex((i) => sameLine(i, item));

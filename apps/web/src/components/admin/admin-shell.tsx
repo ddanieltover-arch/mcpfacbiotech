@@ -11,36 +11,29 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const user = useAuthStore((s) => s.user);
   const profile = useAuthStore((s) => s.profile);
   const authLoading = useAuthStore((s) => s.isLoading);
-  const [ready, setReady] = useState(false);
   const [profileWaitTimedOut, setProfileWaitTimedOut] = useState(false);
-  // Once admin access is proven, keep the shell mounted so pathname auth refresh
-  // cannot unmount order detail mid-fetch.
   const [adminUnlocked, setAdminUnlocked] = useState(false);
   const [lastAdminRole, setLastAdminRole] = useState('ADMINISTRATOR');
 
-  useEffect(() => {
-    if (!authLoading) {
-      setReady(true);
-    }
-  }, [authLoading]);
+  const ready = !authLoading;
 
   useEffect(() => {
     if (profile && isAdminRole(profile.role)) {
       setAdminUnlocked(true);
       setLastAdminRole(profile.role);
-    }
-    if (!user) {
+    } else if (!user) {
       setAdminUnlocked(false);
     }
   }, [profile, user]);
 
   useEffect(() => {
     if (!user || profile || authLoading || adminUnlocked) {
-      setProfileWaitTimedOut(false);
       return;
     }
     const timer = window.setTimeout(() => setProfileWaitTimedOut(true), 15_000);
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(timer);
+    };
   }, [user, profile, authLoading, adminUnlocked]);
 
   const isAdmin = Boolean(profile && isAdminRole(profile.role)) || adminUnlocked;

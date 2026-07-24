@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { ProductSummary } from '@mcpfac/shared-types';
 import { ProductCard } from '@/components/products/product-card';
@@ -26,12 +26,16 @@ export function ProductCardGrid({
   const reduceMotion = useReducedMotion();
   const container = staggerFor(reduceMotion, staggerChildren);
   const item = variantsFor(reduceMotion, slideUp);
-  const seenIds = useRef(new Set<string>());
-  const isFirstPass = useRef(true);
+  const [seenIds, setSeenIds] = useState<Set<string>>(() => new Set());
+  const [isFirstPass, setIsFirstPass] = useState(true);
 
   useEffect(() => {
-    products.forEach((product) => seenIds.current.add(product.id));
-    isFirstPass.current = false;
+    setSeenIds((prev) => {
+      const next = new Set(prev);
+      products.forEach((product) => next.add(product.id));
+      return next;
+    });
+    setIsFirstPass(false);
   }, [products]);
 
   return (
@@ -42,7 +46,7 @@ export function ProductCardGrid({
       animate="visible"
     >
       {products.map((product, index) => {
-        const isAppended = !isFirstPass.current && !seenIds.current.has(product.id);
+        const isAppended = !isFirstPass && !seenIds.has(product.id);
 
         return (
           <motion.div

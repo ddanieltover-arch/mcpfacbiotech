@@ -19,8 +19,8 @@ export default function AdminInventoryPage() {
   >({});
   const [busyId, setBusyId] = useState<string>();
 
-  async function load(nextLow = lowStockOnly, nextSearch = search) {
-    setLoading(true);
+  async function load(nextLow = lowStockOnly, nextSearch = search, showSpinner = false) {
+    if (showSpinner) setLoading(true);
     try {
       const result = await listAdminInventory({
         page: 1,
@@ -49,7 +49,7 @@ export default function AdminInventoryPage() {
   }
 
   useEffect(() => {
-    void load();
+    void load(lowStockOnly, search, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

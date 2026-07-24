@@ -44,8 +44,8 @@ export default function AdminBlogPage() {
   const [createStatus, setCreateStatus] = useState<BlogPostStatus>('DRAFT');
   const [content, setContent] = useState(DEFAULT_CONTENT);
 
-  async function load() {
-    setLoading(true);
+  async function load(showSpinner = false) {
+    if (showSpinner) setLoading(true);
     try {
       const result = await listAdminBlogPosts({
         page: 1,
@@ -63,7 +63,7 @@ export default function AdminBlogPage() {
   }
 
   useEffect(() => {
-    void load();
+    void load(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

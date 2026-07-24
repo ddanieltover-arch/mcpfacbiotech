@@ -15,8 +15,8 @@ export default function AdminCustomersPage() {
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string>();
 
-  async function load() {
-    setLoading(true);
+  async function load(showSpinner = false) {
+    if (showSpinner) setLoading(true);
     try {
       const result = await listAdminCustomers({
         page: 1,
@@ -33,7 +33,7 @@ export default function AdminCustomersPage() {
   }
 
   useEffect(() => {
-    void load();
+    void load(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

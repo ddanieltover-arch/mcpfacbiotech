@@ -27,8 +27,8 @@ export default function AdminFaqPage() {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
 
-  async function load() {
-    setLoading(true);
+  async function load(showSpinner = false) {
+    if (showSpinner) setLoading(true);
     try {
       const [cats, questions] = await Promise.all([
         listAdminFaqCategories(),
@@ -46,7 +46,7 @@ export default function AdminFaqPage() {
   }
 
   useEffect(() => {
-    void load();
+    void load(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -30,7 +30,7 @@ export function ProductSearch() {
 
   useEffect(() => {
     if (query.trim().length < 2) {
-      setResults([]);
+      setResults((prev) => (prev.length > 0 ? [] : prev));
       return;
     }
 

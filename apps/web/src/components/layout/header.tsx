@@ -78,8 +78,8 @@ export function Header({ productCategories = [] }: HeaderProps) {
 
   // Close drawer on route change
   useEffect(() => {
-    closeMobile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only react to pathname
+    setMobileOpen(false);
+    setExpandedMobile(null);
   }, [pathname]);
 
   // Escape + body scroll lock while drawer is open

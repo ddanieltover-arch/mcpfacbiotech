@@ -38,10 +38,7 @@ function StatValue({
   const [display, setDisplay] = useState(value);
 
   useEffect(() => {
-    if (!parsed || reduceMotion) {
-      setDisplay(value);
-      return;
-    }
+    if (!parsed || reduceMotion) return;
 
     if (!active) {
       setDisplay(`${parsed.prefix}0${parsed.suffix}`);

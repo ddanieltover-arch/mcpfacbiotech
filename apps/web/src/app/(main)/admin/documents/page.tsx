@@ -40,8 +40,8 @@ export default function AdminDocumentsPage() {
   const [productSku, setProductSku] = useState('');
   const [attachSkuByDoc, setAttachSkuByDoc] = useState<Record<string, string>>({});
 
-  async function load() {
-    setLoading(true);
+  async function load(showSpinner = false) {
+    if (showSpinner) setLoading(true);
     try {
       const result = await listAdminDocuments({
         page: 1,
@@ -59,7 +59,7 @@ export default function AdminDocumentsPage() {
   }
 
   useEffect(() => {
-    void load();
+    void load(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
