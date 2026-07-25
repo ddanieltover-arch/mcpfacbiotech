@@ -1,5 +1,7 @@
+import path from 'node:path';
 import { createRequire } from 'node:module';
 import { Readable } from 'node:stream';
+import { existsSync } from 'node:fs';
 import type { IncomingMessage } from 'node:http';
 import type { Express } from 'express';
 
@@ -35,11 +37,46 @@ let cachedApp: Express | null = null;
 let bootPromise: Promise<Express> | null = null;
 let bootError: Error | null = null;
 
+function candidateCreateAppPaths(): string[] {
+  const cwd = process.cwd();
+  return [
+    // Copied next to the Next app during Vercel build (most reliable for tracing).
+    path.join(cwd, 'vendor', 'nest-api', 'create-app.js'),
+    // Monorepo sibling (local / full checkout).
+    path.join(cwd, '..', 'api', 'dist', 'create-app.js'),
+    path.join(cwd, 'node_modules', '@mcpfac', 'api', 'dist', 'create-app.js'),
+    path.join(cwd, '..', '..', 'node_modules', '@mcpfac', 'api', 'dist', 'create-app.js'),
+  ];
+}
+
 function loadCreateApp(): NestCreateApp {
   const require = createRequire(
     typeof __filename !== 'undefined' ? __filename : import.meta.url,
   );
-  return require('@mcpfac/api/create-app') as NestCreateApp;
+
+  const errors: string[] = [];
+
+  try {
+    return require('@mcpfac/api/create-app') as NestCreateApp;
+  } catch (error) {
+    errors.push(
+      `@mcpfac/api/create-app: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+
+  for (const candidate of candidateCreateAppPaths()) {
+    if (!existsSync(candidate)) {
+      errors.push(`missing ${candidate}`);
+      continue;
+    }
+    try {
+      return require(candidate) as NestCreateApp;
+    } catch (error) {
+      errors.push(`${candidate}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  throw new Error(`Unable to load Nest create-app. Tried:\n${errors.join('\n')}`);
 }
 
 async function loadNestExpress(): Promise<Express> {
@@ -237,7 +274,6 @@ export async function handleWithNest(request: Request): Promise<Response> {
         req.push(bodyBuffer);
       }
       req.push(null);
-      // Express accepts IncomingMessage/ServerResponse; our mock is compatible at runtime.
       app(req, res as never);
     } catch (error) {
       if (!resolved) {
@@ -248,9 +284,8 @@ export async function handleWithNest(request: Request): Promise<Response> {
   });
 }
 
-/** Local turbo dx: proxy :3000 API traffic to Nest on :3001. */
-export async function proxyToLocalNest(request: Request): Promise<Response> {
-  const nestOrigin = (process.env.BACKEND_URL || 'http://localhost:3001').replace(/\/$/, '');
+export async function proxyToOrigin(origin: string, request: Request): Promise<Response> {
+  const nestOrigin = origin.replace(/\/$/, '');
   const incoming = new URL(request.url);
   const target = new URL(`${incoming.pathname}${incoming.search}`, nestOrigin);
 
@@ -271,6 +306,29 @@ export async function proxyToLocalNest(request: Request): Promise<Response> {
   return fetch(target, init);
 }
 
+/** Local turbo dx: proxy :3000 API traffic to Nest on :3001. */
+export async function proxyToLocalNest(request: Request): Promise<Response> {
+  return proxyToOrigin(process.env.BACKEND_URL || 'http://localhost:3001', request);
+}
+
 export function shouldEmbedNest(): boolean {
   return process.env.VERCEL === '1' || process.env.NEST_EMBEDDED === '1';
+}
+
+/**
+ * Temporary bridge while Nest embed cold-start / tracing is verified.
+ * Keep the old API project until same-origin embed is healthy, then unset.
+ */
+export function getNestFallbackOrigin(): string | undefined {
+  const explicit =
+    process.env.NEST_FALLBACK_URL?.trim() ||
+    process.env.BACKEND_URL?.trim() ||
+    process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
+  if (explicit) {
+    return explicit.replace(/\/$/, '');
+  }
+  if (process.env.VERCEL === '1') {
+    return 'https://api.mcpfacbiotech.site';
+  }
+  return undefined;
 }

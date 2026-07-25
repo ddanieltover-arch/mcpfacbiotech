@@ -1,5 +1,11 @@
 import 'reflect-metadata';
-import { handleWithNest, proxyToLocalNest, shouldEmbedNest } from '@/server/nest-bridge';
+import {
+  getNestFallbackOrigin,
+  handleWithNest,
+  proxyToLocalNest,
+  proxyToOrigin,
+  shouldEmbedNest,
+} from '@/server/nest-bridge';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -8,7 +14,19 @@ export const maxDuration = 60;
 async function handle(request: Request): Promise<Response> {
   try {
     if (shouldEmbedNest()) {
-      return await handleWithNest(request);
+      try {
+        return await handleWithNest(request);
+      } catch (embedError) {
+        const fallback = getNestFallbackOrigin();
+        if (fallback) {
+          console.error(
+            '[nest-route] embed failed; proxying to fallback API:',
+            embedError instanceof Error ? embedError.message : embedError,
+          );
+          return await proxyToOrigin(fallback, request);
+        }
+        throw embedError;
+      }
     }
     return await proxyToLocalNest(request);
   } catch (error) {

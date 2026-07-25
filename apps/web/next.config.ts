@@ -1,8 +1,22 @@
+import path from 'node:path';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   // Enable React strict mode for catching potential issues
   reactStrictMode: true,
+
+  // Trace monorepo packages (Nest dist + Prisma) into the serverless function.
+  outputFileTracingRoot: path.join(__dirname, '../..'),
+  outputFileTracingIncludes: {
+    '/api/v1/[[...path]]': [
+      './vendor/nest-api/**/*',
+      '../api/dist/**/*',
+      '../../node_modules/.prisma/**/*',
+      '../../node_modules/@prisma/client/**/*',
+      '../../node_modules/.pnpm/@prisma+client@*/**/*',
+      '../../node_modules/.pnpm/@nestjs+*/**/*',
+    ],
+  },
 
   // Nest + Prisma must stay external so the compiled API bundle can boot on Vercel.
   serverExternalPackages: [
