@@ -3,6 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Public } from '@/common/decorators/public.decorator';
 import { PrismaService } from '@/database/prisma.service';
 import { EmailService } from '@/modules/email/email.service';
+import { API_DEPLOY_STAMP, API_PACKAGE_VERSION } from '@/deploy-stamp';
 
 @ApiTags('health')
 @Controller('health')
@@ -31,7 +32,8 @@ export class HealthController {
         api: 'healthy',
         database: databaseStatus,
         email: this.emailService.isEnabled() ? 'configured' : 'disabled',
-        version: '0.1.0',
+        version: API_PACKAGE_VERSION,
+        deployStamp: API_DEPLOY_STAMP,
         environment: process.env.NODE_ENV ?? 'development',
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),

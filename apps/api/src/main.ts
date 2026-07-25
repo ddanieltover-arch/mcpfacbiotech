@@ -1,8 +1,6 @@
 import { Logger } from 'nestjs-pino';
 import { createNestApp } from './create-app';
-
-/** Build stamp so Vercel Root Directory `apps/api` picks up monorepo pushes. */
-export const API_DEPLOY_STAMP = '2026-07-25-api-only-redeploy';
+import { API_DEPLOY_STAMP } from './deploy-stamp';
 
 async function bootstrap() {
   const app = await createNestApp();

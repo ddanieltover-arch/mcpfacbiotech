@@ -73,7 +73,12 @@ export async function getProducts(params: ProductListParams = {}, options?: { ca
       options?.cache ?? true,
     );
 
-    return response.data;
+    const data = response.data;
+    const items = await enrichSummariesWithVariants(data.items ?? [], options?.cache ?? true);
+    // #region agent log
+    fetch('http://127.0.0.1:7267/ingest/55f7ba81-d8d9-4dd4-98b1-67ce1d44203b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c73b1e'},body:JSON.stringify({sessionId:'c73b1e',runId:'pre-fix',hypothesisId:'A',location:'catalog-api.ts:getProducts',message:'Product list after enrich',data:{apiBase:API_BASE_URL,rawHadVariants:(data.items??[]).filter((i)=>Boolean(i.variants?.length)).length,enrichedWithVariants:items.filter((i)=>Boolean(i.variants?.length)).length,sample:items.slice(0,3).map((i)=>({name:i.name,hasVariants:i.hasVariants,variantCount:i.variants?.length??0,priceMin:i.priceMin,priceMax:i.priceMax}))},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+    return { ...data, items };
   } catch {
     return { ...EMPTY_CATALOG, limit: params.limit ?? EMPTY_CATALOG.limit };
   }
@@ -84,7 +89,81 @@ export async function getFeaturedProducts(limit = 6) {
     buildUrl('/products/featured'),
   );
 
-  return response.data.slice(0, limit);
+  const items = await enrichSummariesWithVariants(response.data.slice(0, limit), true);
+  // #region agent log
+  fetch('http://127.0.0.1:7267/ingest/55f7ba81-d8d9-4dd4-98b1-67ce1d44203b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c73b1e'},body:JSON.stringify({sessionId:'c73b1e',runId:'pre-fix',hypothesisId:'A',location:'catalog-api.ts:getFeaturedProducts',message:'Featured list after enrich',data:{count:items.length,withVariants:items.filter((i)=>Boolean(i.variants?.length)).length,sample:items.slice(0,3).map((i)=>({name:i.name,variantCount:i.variants?.length??0}))},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
+  return items;
+}
+
+/**
+ * Production API may still omit summary.variants while detail returns them.
+ * Bridge: hydrate missing variants from /products/:slug (cached).
+ */
+async function enrichSummariesWithVariants(
+  items: ProductSummary[],
+  cache = true,
+): Promise<ProductSummary[]> {
+  const missing = items.filter((item) => !item.variants?.length);
+  if (missing.length === 0) {
+    return items;
+  }
+
+  // #region agent log
+  fetch('http://127.0.0.1:7267/ingest/55f7ba81-d8d9-4dd4-98b1-67ce1d44203b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c73b1e'},body:JSON.stringify({sessionId:'c73b1e',runId:'pre-fix',hypothesisId:'A',location:'catalog-api.ts:enrichSummariesWithVariants',message:'List missing variants; hydrating from detail',data:{total:items.length,missing:missing.length,slugs:missing.slice(0,8).map((i)=>i.slug)},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
+
+  const details = await Promise.all(
+    missing.map(async (item) => {
+      try {
+        const response = await fetchJson<ApiResponse<ProductDetail>>(
+          buildUrl(`/products/${item.slug}`),
+          cache,
+        );
+        return response.data;
+      } catch {
+        return null;
+      }
+    }),
+  );
+
+  const byId = new Map(
+    details.filter((detail): detail is ProductDetail => Boolean(detail)).map((detail) => [detail.id, detail]),
+  );
+
+  return items.map((item) => {
+    if (item.variants?.length) {
+      return item;
+    }
+    const detail = byId.get(item.id);
+    if (!detail?.variants?.length) {
+      return item;
+    }
+
+    const sorted = [...detail.variants].sort(
+      (a, b) => (a.price ?? Number.POSITIVE_INFINITY) - (b.price ?? Number.POSITIVE_INFINITY),
+    );
+    const prices = sorted
+      .map((variant) => variant.price)
+      .filter((price): price is number => price != null && Number.isFinite(price));
+    const priceMin = prices.length ? Math.min(...prices) : item.price;
+    const priceMax = prices.length ? Math.max(...prices) : item.price;
+
+    return {
+      ...item,
+      price: priceMin ?? item.price,
+      priceMin,
+      priceMax,
+      hasVariants: true,
+      variants: sorted.map((variant) => ({
+        id: variant.id,
+        name: variant.name,
+        value: variant.value,
+        price: variant.price,
+        isDefault: variant.isDefault,
+      })),
+    };
+  });
 }
 
 export async function getProductBySlug(slug: string): Promise<ProductDetail | null> {
@@ -166,7 +245,7 @@ export async function getProductsByIds(ids: string[]): Promise<ProductSummary[]>
     false,
   );
 
-  return response.data;
+  return enrichSummariesWithVariants(response.data, false);
 }
 
 /** @deprecated Use getCategoryOptions() — hardcoded seeds had 0 products in live DB. */

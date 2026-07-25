@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Beaker, ShoppingCart } from 'lucide-react';
@@ -37,6 +37,12 @@ export function ProductCard({ product }: { product: ProductSummary }) {
 
   const displayPrice = selectedVariant?.price ?? product.price;
   const variantGroupLabel = variants[0]?.name ?? 'Option';
+
+  // #region agent log
+  useEffect(() => {
+    fetch('http://127.0.0.1:7267/ingest/55f7ba81-d8d9-4dd4-98b1-67ce1d44203b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c73b1e'},body:JSON.stringify({sessionId:'c73b1e',runId:'pre-fix',hypothesisId:'B',location:'product-card.tsx:mount',message:'ProductCard variant state',data:{name:product.name,hasVariants,variantCount:variants.length,selectedVariantId:selectedVariantId??null,displayPrice:displayPrice??null,priceMin:product.priceMin??null,priceMax:product.priceMax??null},timestamp:Date.now()})}).catch(()=>{});
+  }, [product.name, hasVariants, variants.length, selectedVariantId, displayPrice, product.priceMin, product.priceMax]);
+  // #endregion
 
   async function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
