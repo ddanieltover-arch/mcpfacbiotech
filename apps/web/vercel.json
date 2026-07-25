@@ -2,6 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "cd ../.. && pnpm install --frozen-lockfile",
-  "buildCommand": "cd ../.. && pnpm db:generate && pnpm --filter @mcpfac/shared-types build && pnpm --filter @mcpfac/api build && node -e \"const fs=require('fs');const path=require('path');const src=path.join('apps','api','dist');const dest=path.join('apps','web','vendor','nest-api');fs.rmSync(dest,{recursive:true,force:true});fs.mkdirSync(path.dirname(dest),{recursive:true});fs.cpSync(src,dest,{recursive:true});\" && pnpm --filter @mcpfac/web build",
+  "buildCommand": "cd ../.. && node apps/web/scripts/vercel-build.js",
   "outputDirectory": ".next"
 }
