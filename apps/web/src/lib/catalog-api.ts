@@ -5,8 +5,9 @@ import type {
   ProductDetail,
   ProductSummary,
 } from '@mcpfac/shared-types';
+import { getBackendOrigin } from '@/lib/backend-origin';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3001';
+const API_BASE_URL = getBackendOrigin();
 
 type QueryValue = string | number | boolean | undefined;
 

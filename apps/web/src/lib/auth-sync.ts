@@ -1,6 +1,7 @@
 import type { AuthUser } from '@mcpfac/shared-types';
+import { getBackendOrigin } from '@/lib/backend-origin';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3001';
+const API_BASE_URL = getBackendOrigin();
 
 /**
  * Sync the authenticated Supabase user to the NestJS backend profile tables.

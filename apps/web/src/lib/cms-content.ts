@@ -1,8 +1,9 @@
 import type { BlogPostDetail, BlogPostSummary, FaqItem } from '@mcpfac/shared-types';
 import { BLOG_POSTS, type BlogPost } from '@/lib/blog-posts';
 import { FAQ_ITEMS } from '@/lib/marketing-content';
+import { getBackendOrigin } from '@/lib/backend-origin';
 
-const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3001';
+const API_BASE = getBackendOrigin();
 
 function staticToSummary(post: BlogPost, index: number): BlogPostSummary {
   return {

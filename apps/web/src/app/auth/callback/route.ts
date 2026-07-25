@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getBackendOrigin } from '@/lib/backend-origin';
 
-const BACKEND_URL = process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3001';
+const BACKEND_URL = getBackendOrigin();
 
 async function syncProfileWithBackend(accessToken: string): Promise<void> {
   const response = await fetch(`${BACKEND_URL}/api/v1/auth/sync`, {

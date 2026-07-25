@@ -142,6 +142,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.0.0
         version: 5.4.0(react-hook-form@7.82.0(react@19.2.4))
+      '@mcpfac/api':
+        specifier: workspace:*
+        version: link:../api
       '@mcpfac/shared-types':
         specifier: workspace:*
         version: link:../../packages/shared-types
@@ -212,6 +215,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.3.3
+      '@types/express':
+        specifier: ^5.0.0
+        version: 5.0.6
       '@types/node':
         specifier: ^22
         version: 22.20.1

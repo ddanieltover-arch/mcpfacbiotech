@@ -2,6 +2,13 @@
   "name": "@mcpfac/api",
   "version": "0.1.2",
   "private": true,
+  "exports": {
+    "./create-app": {
+      "types": "./dist/create-app.d.ts",
+      "require": "./dist/create-app.js",
+      "default": "./dist/create-app.js"
+    }
+  },
   "scripts": {
     "build": "nest build",
     "dev": "nest build && nest start --watch",

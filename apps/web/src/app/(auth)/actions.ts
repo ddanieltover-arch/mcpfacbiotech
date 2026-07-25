@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { getBackendOrigin } from '@/lib/backend-origin';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Auth Server Actions (Volume 3 — Next.js App Router Conventions)
@@ -34,8 +35,7 @@ export async function login(formData: FormData): Promise<{ error: string } | voi
   } = await supabase.auth.getSession();
 
   if (session?.access_token) {
-    const backendUrl =
-      process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3001';
+    const backendUrl = getBackendOrigin();
 
     try {
       await fetch(`${backendUrl}/api/v1/auth/sync`, {

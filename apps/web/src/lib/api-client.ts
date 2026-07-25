@@ -1,6 +1,7 @@
 import type { ApiResponse, ApiPaginatedResponse, ApiErrorResponse } from '@mcpfac/shared-types';
+import { getBackendOrigin } from '@/lib/backend-origin';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3001';
+const API_BASE_URL = getBackendOrigin();
 
 type RequestOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
