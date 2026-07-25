@@ -51,25 +51,29 @@ export function ProductActions({
     toast.success(hasCompare ? 'Removed from compare' : 'Added to compare');
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (unitPrice == null) {
       toast.error('Pricing unavailable — request a quote instead');
       return;
     }
 
-    void addToCart(
-      {
-        productId,
-        productName: variantLabel ? `${productName} (${variantLabel})` : productName,
-        productSku,
-        productImage,
-        unitPrice,
-        variantId,
-        variantLabel,
-      },
-      minimumOrderQuantity,
-    );
-    toast.success('Added to cart');
+    try {
+      await addToCart(
+        {
+          productId,
+          productName: variantLabel ? `${productName} (${variantLabel})` : productName,
+          productSku,
+          productImage,
+          unitPrice,
+          variantId,
+          variantLabel,
+        },
+        minimumOrderQuantity,
+      );
+      toast.success('Added to cart');
+    } catch {
+      // Cart store already surfaced the API error toast.
+    }
   };
 
   const handleRequestQuote = async () => {

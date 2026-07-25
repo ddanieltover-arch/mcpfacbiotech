@@ -10,12 +10,18 @@ import type {
   QuoteDetail,
   QuoteSummary,
 } from '@mcpfac/shared-types';
-import { apiClient } from '@/lib/api-client';
+import { apiClient, ApiError } from '@/lib/api-client';
 import { createClient } from '@/lib/supabase/client';
 
 const CART_SESSION_KEY = 'mcpfac-cart-session';
 
 let cachedAccessToken: { token?: string; at: number } | null = null;
+
+/**
+ * Production API may still reject `variantId` (forbidNonWhitelisted).
+ * After the first rejection we stop sending it until the page reloads.
+ */
+let cartVariantIdSupported: boolean | null = null;
 
 function createSessionId(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -73,45 +79,13 @@ async function commerceOptions(extraHeaders?: Record<string, string>) {
   };
 }
 
-export async function fetchCart(): Promise<CartSummary> {
-  const options = await commerceOptions();
-  const response = await apiClient.get<CartSummary>('/cart', options);
-  return response.data;
-}
-
-export async function addCartItem(
-  productId: string,
-  quantity = 1,
-  variantId?: string,
-): Promise<CartSummary> {
-  const options = await commerceOptions();
-  const resolvedVariantId =
-    typeof variantId === 'string' && variantId.trim().length > 0 ? variantId.trim() : undefined;
-
-  const body: { productId: string; quantity: number; variantId?: string } = {
-    productId,
-    quantity,
-  };
-  if (resolvedVariantId) {
-    body.variantId = resolvedVariantId;
+function resolveVariantId(variantId?: string): string | undefined {
+  if (cartVariantIdSupported === false) {
+    return undefined;
   }
-
-  try {
-    const response = await apiClient.post<CartSummary>('/cart/items', body, options);
-    return response.data;
-  } catch (error) {
-    // Older production API DTOs reject unknown `variantId` (forbidNonWhitelisted).
-    // Retry without it so add-to-cart still works until the API project is redeployed.
-    if (resolvedVariantId && isValidationFailedError(error)) {
-      const response = await apiClient.post<CartSummary>(
-        '/cart/items',
-        { productId, quantity },
-        options,
-      );
-      return response.data;
-    }
-    throw error;
-  }
+  return typeof variantId === 'string' && variantId.trim().length > 0
+    ? variantId.trim()
+    : undefined;
 }
 
 function isValidationFailedError(error: unknown): boolean {
@@ -128,14 +102,86 @@ function isValidationFailedError(error: unknown): boolean {
   return status === 400 && /validation failed/i.test(message);
 }
 
+function isRetryableCartServerError(error: unknown): boolean {
+  if (!(error instanceof ApiError)) {
+    return false;
+  }
+  return error.statusCode >= 500 || error.statusCode === 429;
+}
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+async function postCartItem(
+  productId: string,
+  quantity: number,
+  variantId: string | undefined,
+  options: Awaited<ReturnType<typeof commerceOptions>>,
+): Promise<CartSummary> {
+  const body: { productId: string; quantity: number; variantId?: string } = {
+    productId,
+    quantity,
+  };
+  if (variantId) {
+    body.variantId = variantId;
+  }
+  const response = await apiClient.post<CartSummary>('/cart/items', body, options);
+  return response.data;
+}
+
+export async function fetchCart(): Promise<CartSummary> {
+  const options = await commerceOptions();
+  const response = await apiClient.get<CartSummary>('/cart', options);
+  return response.data;
+}
+
+export async function addCartItem(
+  productId: string,
+  quantity = 1,
+  variantId?: string,
+): Promise<CartSummary> {
+  const options = await commerceOptions();
+  let resolvedVariantId = resolveVariantId(variantId);
+
+  const attempt = async (withVariant: string | undefined): Promise<CartSummary> => {
+    try {
+      return await postCartItem(productId, quantity, withVariant, options);
+    } catch (error) {
+      if (withVariant && isValidationFailedError(error)) {
+        cartVariantIdSupported = false;
+        return postCartItem(productId, quantity, undefined, options);
+      }
+      throw error;
+    }
+  };
+
+  try {
+    const cart = await attempt(resolvedVariantId);
+    if (resolvedVariantId) {
+      cartVariantIdSupported = true;
+    }
+    return cart;
+  } catch (error) {
+    // Fresh guest carts can 500 under concurrent create on the older API; one retry usually recovers.
+    if (isRetryableCartServerError(error)) {
+      await delay(200);
+      resolvedVariantId = resolveVariantId(variantId);
+      return attempt(undefined);
+    }
+    throw error;
+  }
+}
+
 export async function updateCartItemQuantity(
   productId: string,
   quantity: number,
   variantId?: string,
 ): Promise<CartSummary> {
   const options = await commerceOptions();
-  const resolvedVariantId =
-    typeof variantId === 'string' && variantId.trim().length > 0 ? variantId.trim() : undefined;
+  const resolvedVariantId = resolveVariantId(variantId);
   const path = resolvedVariantId
     ? `/cart/items/${productId}?variantId=${encodeURIComponent(resolvedVariantId)}`
     : `/cart/items/${productId}`;
@@ -149,6 +195,16 @@ export async function updateCartItemQuantity(
     return response.data;
   } catch (error) {
     if (resolvedVariantId && isValidationFailedError(error)) {
+      cartVariantIdSupported = false;
+      const response = await apiClient.patch<CartSummary>(
+        `/cart/items/${productId}`,
+        { quantity },
+        options,
+      );
+      return response.data;
+    }
+    if (isRetryableCartServerError(error)) {
+      await delay(200);
       const response = await apiClient.patch<CartSummary>(
         `/cart/items/${productId}`,
         { quantity },
@@ -162,10 +218,20 @@ export async function updateCartItemQuantity(
 
 export async function removeCartItem(productId: string, variantId?: string): Promise<CartSummary> {
   const options = await commerceOptions();
-  const path = variantId
-    ? `/cart/items/${productId}?variantId=${encodeURIComponent(variantId)}`
+  const resolvedVariantId = resolveVariantId(variantId);
+  const path = resolvedVariantId
+    ? `/cart/items/${productId}?variantId=${encodeURIComponent(resolvedVariantId)}`
     : `/cart/items/${productId}`;
-  await apiClient.delete(path, options);
+  try {
+    await apiClient.delete(path, options);
+  } catch (error) {
+    // Older APIs ignore unknown query params; if delete still fails, try without variant.
+    if (resolvedVariantId) {
+      await apiClient.delete(`/cart/items/${productId}`, options);
+    } else {
+      throw error;
+    }
+  }
   return fetchCart();
 }
 

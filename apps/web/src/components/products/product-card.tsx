@@ -58,23 +58,27 @@ export function ProductCard({ product }: { product: ProductSummary }) {
       return;
     }
 
-    await addToCart(
-      {
-        productId: product.id,
-        productName: selectedVariant
-          ? `${product.name} (${selectedVariant.name}: ${selectedVariant.value})`
-          : product.name,
-        productSku: product.sku,
-        productImage: product.imageUrl,
-        unitPrice: displayPrice,
-        variantId: selectedVariant?.id,
-        variantLabel: selectedVariant
-          ? `${selectedVariant.name}: ${selectedVariant.value}`
-          : undefined,
-      },
-      1,
-    );
-    toast.success('Added to cart');
+    try {
+      await addToCart(
+        {
+          productId: product.id,
+          productName: selectedVariant
+            ? `${product.name} (${selectedVariant.name}: ${selectedVariant.value})`
+            : product.name,
+          productSku: product.sku,
+          productImage: product.imageUrl,
+          unitPrice: displayPrice,
+          variantId: selectedVariant?.id,
+          variantLabel: selectedVariant
+            ? `${selectedVariant.name}: ${selectedVariant.value}`
+            : undefined,
+        },
+        1,
+      );
+      toast.success('Added to cart');
+    } catch {
+      // Cart store already surfaced the API error toast.
+    }
   }
 
   return (

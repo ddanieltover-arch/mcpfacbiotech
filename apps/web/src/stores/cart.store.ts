@@ -72,6 +72,35 @@ function sameLine(
   return a.productId === b.productId && (a.variantId ?? null) === (b.variantId ?? null);
 }
 
+/** Keep selected dosage labels/prices when the live API still omits variant fields. */
+function mergeServerItemsWithLocal(
+  serverItems: LocalCartItem[],
+  previousItems: LocalCartItem[],
+): LocalCartItem[] {
+  return serverItems.map((serverItem) => {
+    const local =
+      previousItems.find((item) => sameLine(item, serverItem)) ??
+      previousItems.find(
+        (item) =>
+          item.productId === serverItem.productId &&
+          !serverItem.variantId &&
+          Boolean(item.variantId),
+      );
+
+    if (!local?.variantLabel || serverItem.variantLabel) {
+      return serverItem;
+    }
+
+    return {
+      ...serverItem,
+      variantId: local.variantId,
+      variantLabel: local.variantLabel,
+      productName: local.productName,
+      unitPrice: local.unitPrice,
+    };
+  });
+}
+
 /** Serialize cart API writes so stale responses cannot overwrite newer local state. */
 let syncChain: Promise<void> = Promise.resolve();
 let appliedSyncSeq = 0;
@@ -83,7 +112,7 @@ function enqueueSync(task: (seq: number) => Promise<void>): Promise<void> {
     try {
       await task(seq);
     } finally {
-      // no-op: chain continues even if task throws
+      // chain continues even if task throws
     }
   });
   syncChain = run.then(
@@ -91,6 +120,25 @@ function enqueueSync(task: (seq: number) => Promise<void>): Promise<void> {
     () => undefined,
   );
   return run;
+}
+
+type CartSet = (
+  partial: Partial<CartStore> | ((state: CartStore) => Partial<CartStore>),
+) => void;
+
+function beginSync(set: CartSet) {
+  // Increment immediately (before the async queue runs) so drawer refresh cannot race.
+  set((state) => ({
+    isSyncing: true,
+    pendingSyncs: state.pendingSyncs + 1,
+  }));
+}
+
+function endSync(set: CartSet) {
+  set((state) => ({
+    isSyncing: state.pendingSyncs <= 1 ? false : true,
+    pendingSyncs: Math.max(0, state.pendingSyncs - 1),
+  }));
 }
 
 export const useCartStore = create<CartStore>()(
@@ -106,9 +154,10 @@ export const useCartStore = create<CartStore>()(
       lastError: undefined,
 
       applyServerCart: (cart) => {
+        const previousItems = get().items;
         set({
           cartId: cart.id,
-          items: toLocalItems(cart.items),
+          items: mergeServerItemsWithLocal(toLocalItems(cart.items), previousItems),
           notes: cart.notes,
           currency: cart.currency,
           lastError: undefined,
@@ -138,11 +187,8 @@ export const useCartStore = create<CartStore>()(
       },
 
       mergeOnLogin: async () => {
+        beginSync(set);
         await enqueueSync(async (seq) => {
-          set((state) => ({
-            isSyncing: true,
-            pendingSyncs: state.pendingSyncs + 1,
-          }));
           try {
             const cart = await mergeCartOnLogin();
             if (seq >= appliedSyncSeq) {
@@ -154,16 +200,15 @@ export const useCartStore = create<CartStore>()(
               lastError: error instanceof Error ? error.message : 'Failed to merge cart',
             });
           } finally {
-            set((state) => ({
-              isSyncing: state.pendingSyncs <= 1 ? false : state.isSyncing,
-              pendingSyncs: Math.max(0, state.pendingSyncs - 1),
-            }));
+            endSync(set);
           }
         });
       },
 
       addItem: async (item, quantity = 1) => {
-        // Optimistic local update — resolve immediately so UI never waits on Supabase RTT.
+        beginSync(set);
+
+        // Optimistic local update — UI updates immediately; sync is still awaited by callers.
         set((state) => {
           const idx = state.items.findIndex((i) => sameLine(i, item));
           if (idx >= 0) {
@@ -181,11 +226,7 @@ export const useCartStore = create<CartStore>()(
           };
         });
 
-        void enqueueSync(async (seq) => {
-          set((state) => ({
-            isSyncing: true,
-            pendingSyncs: state.pendingSyncs + 1,
-          }));
+        await enqueueSync(async (seq) => {
           try {
             const cart = await addCartItem(item.productId, quantity, item.variantId);
             if (seq >= appliedSyncSeq) {
@@ -195,7 +236,10 @@ export const useCartStore = create<CartStore>()(
           } catch (error) {
             const message = error instanceof Error ? error.message : 'Failed to add item';
             set((state) => {
-              const idx = state.items.findIndex((i) => sameLine(i, item));
+              let idx = state.items.findIndex((i) => sameLine(i, item));
+              if (idx < 0) {
+                idx = state.items.findIndex((i) => i.productId === item.productId);
+              }
               if (idx < 0) {
                 return { lastError: message };
               }
@@ -210,26 +254,21 @@ export const useCartStore = create<CartStore>()(
               return { lastError: message, items };
             });
             toast.error(message);
+            throw error;
           } finally {
-            set((state) => ({
-              isSyncing: state.pendingSyncs <= 1 ? false : true,
-              pendingSyncs: Math.max(0, state.pendingSyncs - 1),
-            }));
+            endSync(set);
           }
         });
       },
 
       removeItem: async (productId, variantId) => {
         const snapshot = get().items;
+        beginSync(set);
         set((state) => ({
           items: state.items.filter((i) => !sameLine(i, { productId, variantId })),
         }));
 
         await enqueueSync(async (seq) => {
-          set((state) => ({
-            isSyncing: true,
-            pendingSyncs: state.pendingSyncs + 1,
-          }));
           try {
             const cart = await removeCartItem(productId, variantId);
             if (seq >= appliedSyncSeq) {
@@ -243,10 +282,7 @@ export const useCartStore = create<CartStore>()(
             });
             throw error;
           } finally {
-            set((state) => ({
-              isSyncing: state.pendingSyncs <= 1 ? false : true,
-              pendingSyncs: Math.max(0, state.pendingSyncs - 1),
-            }));
+            endSync(set);
           }
         });
       },
@@ -258,6 +294,7 @@ export const useCartStore = create<CartStore>()(
         }
 
         const snapshot = get().items;
+        beginSync(set);
         set((state) => ({
           items: state.items.map((i) =>
             sameLine(i, { productId, variantId }) ? { ...i, quantity } : i,
@@ -265,10 +302,6 @@ export const useCartStore = create<CartStore>()(
         }));
 
         await enqueueSync(async (seq) => {
-          set((state) => ({
-            isSyncing: true,
-            pendingSyncs: state.pendingSyncs + 1,
-          }));
           try {
             const cart = await updateCartItemQuantity(productId, quantity, variantId);
             if (seq >= appliedSyncSeq) {
@@ -282,21 +315,15 @@ export const useCartStore = create<CartStore>()(
             });
             throw error;
           } finally {
-            set((state) => ({
-              isSyncing: state.pendingSyncs <= 1 ? false : true,
-              pendingSyncs: Math.max(0, state.pendingSyncs - 1),
-            }));
+            endSync(set);
           }
         });
       },
 
       setNotes: async (notes) => {
         set({ notes });
+        beginSync(set);
         await enqueueSync(async (seq) => {
-          set((state) => ({
-            isSyncing: true,
-            pendingSyncs: state.pendingSyncs + 1,
-          }));
           try {
             const cart = await updateCartNotes(notes);
             if (seq >= appliedSyncSeq) {
@@ -309,21 +336,15 @@ export const useCartStore = create<CartStore>()(
             });
             throw error;
           } finally {
-            set((state) => ({
-              isSyncing: state.pendingSyncs <= 1 ? false : true,
-              pendingSyncs: Math.max(0, state.pendingSyncs - 1),
-            }));
+            endSync(set);
           }
         });
       },
 
       clearCart: async () => {
         set({ items: [], notes: undefined, cartId: '' });
+        beginSync(set);
         await enqueueSync(async (seq) => {
-          set((state) => ({
-            isSyncing: true,
-            pendingSyncs: state.pendingSyncs + 1,
-          }));
           try {
             const cart = await clearServerCart();
             if (seq >= appliedSyncSeq) {
@@ -336,10 +357,7 @@ export const useCartStore = create<CartStore>()(
             });
             throw error;
           } finally {
-            set((state) => ({
-              isSyncing: state.pendingSyncs <= 1 ? false : true,
-              pendingSyncs: Math.max(0, state.pendingSyncs - 1),
-            }));
+            endSync(set);
           }
         });
       },
