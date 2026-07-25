@@ -7,7 +7,8 @@ const { execSync } = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const root = path.resolve(__dirname, '../..');
+// vercel.json runs: `cd ../.. && node apps/web/scripts/vercel-build.js` (cwd = monorepo root)
+const root = process.cwd();
 
 function run(command) {
   console.log(`\n> ${command}\n`);
