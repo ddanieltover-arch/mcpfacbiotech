@@ -7,12 +7,10 @@ import type {
 } from '@mcpfac/shared-types';
 import { getBackendOrigin } from '@/lib/backend-origin';
 
-const API_BASE_URL = getBackendOrigin();
-
 type QueryValue = string | number | boolean | undefined;
 
 function buildUrl(path: string, params?: Record<string, QueryValue>): string {
-  const url = new URL(`/api/v1${path}`, API_BASE_URL);
+  const url = new URL(`/api/v1${path}`, getBackendOrigin());
 
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -32,7 +30,7 @@ async function fetchJson<T>(url: string, cache = true): Promise<T> {
     response = await fetch(url, cache ? { next: { revalidate: 60 } } : undefined);
   } catch {
     throw new Error(
-      `Catalog API is unavailable at ${API_BASE_URL}. Start the backend with "pnpm dev" from the repo root.`,
+      `Catalog API is unavailable at ${getBackendOrigin()}. Start the backend with "pnpm dev" from the repo root.`,
     );
   }
 
@@ -76,9 +74,6 @@ export async function getProducts(params: ProductListParams = {}, options?: { ca
 
     const data = response.data;
     const items = await enrichSummariesWithVariants(data.items ?? [], options?.cache ?? true);
-    // #region agent log
-    fetch('http://127.0.0.1:7267/ingest/55f7ba81-d8d9-4dd4-98b1-67ce1d44203b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c73b1e'},body:JSON.stringify({sessionId:'c73b1e',runId:'pre-fix',hypothesisId:'A',location:'catalog-api.ts:getProducts',message:'Product list after enrich',data:{apiBase:API_BASE_URL,rawHadVariants:(data.items??[]).filter((i)=>Boolean(i.variants?.length)).length,enrichedWithVariants:items.filter((i)=>Boolean(i.variants?.length)).length,sample:items.slice(0,3).map((i)=>({name:i.name,hasVariants:i.hasVariants,variantCount:i.variants?.length??0,priceMin:i.priceMin,priceMax:i.priceMax}))},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
     return { ...data, items };
   } catch {
     return { ...EMPTY_CATALOG, limit: params.limit ?? EMPTY_CATALOG.limit };
@@ -91,9 +86,6 @@ export async function getFeaturedProducts(limit = 6) {
   );
 
   const items = await enrichSummariesWithVariants(response.data.slice(0, limit), true);
-  // #region agent log
-  fetch('http://127.0.0.1:7267/ingest/55f7ba81-d8d9-4dd4-98b1-67ce1d44203b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c73b1e'},body:JSON.stringify({sessionId:'c73b1e',runId:'pre-fix',hypothesisId:'A',location:'catalog-api.ts:getFeaturedProducts',message:'Featured list after enrich',data:{count:items.length,withVariants:items.filter((i)=>Boolean(i.variants?.length)).length,sample:items.slice(0,3).map((i)=>({name:i.name,variantCount:i.variants?.length??0}))},timestamp:Date.now()})}).catch(()=>{});
-  // #endregion
   return items;
 }
 
@@ -109,10 +101,6 @@ async function enrichSummariesWithVariants(
   if (missing.length === 0) {
     return items;
   }
-
-  // #region agent log
-  fetch('http://127.0.0.1:7267/ingest/55f7ba81-d8d9-4dd4-98b1-67ce1d44203b',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'c73b1e'},body:JSON.stringify({sessionId:'c73b1e',runId:'pre-fix',hypothesisId:'A',location:'catalog-api.ts:enrichSummariesWithVariants',message:'List missing variants; hydrating from detail',data:{total:items.length,missing:missing.length,slugs:missing.slice(0,8).map((i)=>i.slug)},timestamp:Date.now()})}).catch(()=>{});
-  // #endregion
 
   const details = await Promise.all(
     missing.map(async (item) => {
