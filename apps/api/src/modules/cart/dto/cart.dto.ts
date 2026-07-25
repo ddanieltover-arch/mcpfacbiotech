@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 import {
   IsInt,
   IsOptional,
@@ -9,12 +9,17 @@ import {
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+function emptyToUndefined({ value }: { value: unknown }) {
+  return value === '' || value === null ? undefined : value;
+}
+
 export class AddCartItemDto {
   @ApiProperty({ format: 'uuid' })
   @IsUUID()
   productId!: string;
 
   @ApiPropertyOptional({ format: 'uuid', description: 'Selected product variant' })
+  @Transform(emptyToUndefined)
   @IsOptional()
   @IsUUID()
   variantId?: string;
@@ -37,6 +42,7 @@ export class UpdateCartItemDto {
   quantity!: number;
 
   @ApiPropertyOptional({ format: 'uuid', description: 'Selected product variant' })
+  @Transform(emptyToUndefined)
   @IsOptional()
   @IsUUID()
   variantId?: string;

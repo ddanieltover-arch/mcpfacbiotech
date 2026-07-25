@@ -85,16 +85,47 @@ export async function addCartItem(
   variantId?: string,
 ): Promise<CartSummary> {
   const options = await commerceOptions();
+  const resolvedVariantId =
+    typeof variantId === 'string' && variantId.trim().length > 0 ? variantId.trim() : undefined;
+
+  const body: { productId: string; quantity: number; variantId?: string } = {
+    productId,
+    quantity,
+  };
+  if (resolvedVariantId) {
+    body.variantId = resolvedVariantId;
+  }
+
   try {
-    const response = await apiClient.post<CartSummary>(
-      '/cart/items',
-      { productId, quantity, variantId },
-      options,
-    );
+    const response = await apiClient.post<CartSummary>('/cart/items', body, options);
     return response.data;
   } catch (error) {
+    // Older production API DTOs reject unknown `variantId` (forbidNonWhitelisted).
+    // Retry without it so add-to-cart still works until the API project is redeployed.
+    if (resolvedVariantId && isValidationFailedError(error)) {
+      const response = await apiClient.post<CartSummary>(
+        '/cart/items',
+        { productId, quantity },
+        options,
+      );
+      return response.data;
+    }
     throw error;
   }
+}
+
+function isValidationFailedError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') {
+    return false;
+  }
+  const message = 'message' in error ? String((error as { message?: unknown }).message ?? '') : '';
+  const status =
+    'statusCode' in error
+      ? Number((error as { statusCode?: unknown }).statusCode)
+      : 'status' in error
+        ? Number((error as { status?: unknown }).status)
+        : undefined;
+  return status === 400 && /validation failed/i.test(message);
 }
 
 export async function updateCartItemQuantity(
@@ -103,15 +134,30 @@ export async function updateCartItemQuantity(
   variantId?: string,
 ): Promise<CartSummary> {
   const options = await commerceOptions();
-  const path = variantId
-    ? `/cart/items/${productId}?variantId=${encodeURIComponent(variantId)}`
+  const resolvedVariantId =
+    typeof variantId === 'string' && variantId.trim().length > 0 ? variantId.trim() : undefined;
+  const path = resolvedVariantId
+    ? `/cart/items/${productId}?variantId=${encodeURIComponent(resolvedVariantId)}`
     : `/cart/items/${productId}`;
-  const response = await apiClient.patch<CartSummary>(
-    path,
-    { quantity, variantId },
-    options,
-  );
-  return response.data;
+  const body: { quantity: number; variantId?: string } = { quantity };
+  if (resolvedVariantId) {
+    body.variantId = resolvedVariantId;
+  }
+
+  try {
+    const response = await apiClient.patch<CartSummary>(path, body, options);
+    return response.data;
+  } catch (error) {
+    if (resolvedVariantId && isValidationFailedError(error)) {
+      const response = await apiClient.patch<CartSummary>(
+        `/cart/items/${productId}`,
+        { quantity },
+        options,
+      );
+      return response.data;
+    }
+    throw error;
+  }
 }
 
 export async function removeCartItem(productId: string, variantId?: string): Promise<CartSummary> {
