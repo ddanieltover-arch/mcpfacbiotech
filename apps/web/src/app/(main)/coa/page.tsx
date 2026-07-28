@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, FileCheck2, FlaskConical, Search } from 'lucide-react';
 import { CoaBatchLookup } from '@/components/content/coa-batch-lookup';
+import { CoaLibraryBrowser } from '@/components/content/coa-library-browser';
 import { MarketingSection, ResearchUseBanner } from '@/components/marketing';
 
 export const metadata: Metadata = {
@@ -20,18 +21,18 @@ const PACKET_ITEMS = [
 const ACCESS_STEPS = [
   {
     icon: Search,
+    title: 'COA library',
+    body: 'Browse all published certificates on this page, or filter by product / SKU.',
+  },
+  {
+    icon: FileCheck2,
     title: 'Product page',
     body: 'Open the SKU and use the documentation section when files are attached.',
   },
   {
-    icon: FileCheck2,
-    title: 'Downloads Center',
-    body: 'Browse document types and account-linked files from prior orders.',
-  },
-  {
     icon: FlaskConical,
     title: 'Batch lookup',
-    body: 'Search published COA/HPLC by SKU, or request by email if nothing is listed.',
+    body: 'Search by SKU, or request by email if the lot is not published yet.',
   },
 ] as const;
 
@@ -83,18 +84,18 @@ export default function CoaLibraryPage() {
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
-              href="#batch-lookup"
+              href="#coa-library"
               className="inline-flex items-center gap-2 rounded-lg bg-brand-deep px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-brand-natural hover:shadow-lg"
             >
-              Batch lookup
+              Browse all COAs
               <ArrowRight className="h-4 w-4" aria-hidden />
             </a>
-            <Link
-              href="/downloads"
+            <a
+              href="#batch-lookup"
               className="inline-flex items-center rounded-lg border-2 border-brand-deep px-6 py-3 text-sm font-semibold text-brand-deep transition-all hover:bg-brand-deep hover:text-white"
             >
-              Downloads Center
-            </Link>
+              Batch lookup
+            </a>
           </div>
         </div>
       </section>
@@ -189,8 +190,17 @@ export default function CoaLibraryPage() {
       </section>
 
       <section
-        id="batch-lookup"
+        id="coa-library"
         className="scroll-mt-24 border-y border-neutral-200 bg-neutral-50 py-14 sm:py-16"
+      >
+        <div className="mx-auto max-w-7xl px-4">
+          <CoaLibraryBrowser />
+        </div>
+      </section>
+
+      <section
+        id="batch-lookup"
+        className="scroll-mt-24 bg-white py-14 sm:py-16"
       >
         <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-2 lg:items-start lg:gap-16">
           <div>
@@ -198,15 +208,14 @@ export default function CoaLibraryPage() {
               Batch lookup
             </p>
             <h2 className="mt-1 font-heading text-2xl font-bold tracking-tight text-brand-deep sm:text-3xl">
-              Request a lot packet
+              Search or request a lot packet
             </h2>
             <p className="mt-4 text-neutral-600">
-              Enter the product SKU and batch number from your vial or packing slip. Until the full
-              document CMS is live, this form opens an email request to our documentation team.
+              Search published COA / HPLC by product SKU or name. If nothing is listed yet, the form
+              opens an email request to our documentation team with your batch details.
             </p>
             <p className="mt-4 border-l-2 border-brand-leaf pl-5 text-sm text-neutral-600">
-              For published lots, check the product page documentation section or Downloads Center
-              first.
+              Certificates also appear on each product page under Documentation once attached.
             </p>
           </div>
           <CoaBatchLookup />

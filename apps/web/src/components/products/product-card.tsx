@@ -6,32 +6,43 @@ import Image from 'next/image';
 import { ArrowRight, Beaker, ShoppingCart } from 'lucide-react';
 import { toast } from 'sonner';
 import type { ProductSummary } from '@mcpfac/shared-types';
+import { filterRedundantAggregateVariants } from '@mcpfac/shared-utils';
 import { formatPrice, formatProductPrice } from '@/lib/catalog-api';
 import { useCartStore } from '@/stores/cart.store';
 import { Button } from '@/components/ui/button';
 
+function doseSortKey(value: string): number {
+  const match = value.match(/(\d+(?:\.\d+)?)/);
+  return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+}
+
 function defaultVariantId(product: ProductSummary): string | undefined {
-  const variants = product.variants ?? [];
+  const variants = filterRedundantAggregateVariants(product.variants ?? []);
   if (variants.length === 0) return undefined;
   return variants.find((variant) => variant.isDefault)?.id ?? variants[0]?.id;
 }
 
-function sortVariantsByPriceAsc<T extends { price?: number }>(variants: T[]): T[] {
-  return [...variants].sort((a, b) => (a.price ?? Number.POSITIVE_INFINITY) - (b.price ?? Number.POSITIVE_INFINITY));
+function sortVariants<T extends { price?: number; value: string }>(variants: T[]): T[] {
+  return [...variants].sort((a, b) => {
+    const priceDiff =
+      (a.price ?? Number.POSITIVE_INFINITY) - (b.price ?? Number.POSITIVE_INFINITY);
+    if (priceDiff !== 0) return priceDiff;
+    return doseSortKey(a.value) - doseSortKey(b.value);
+  });
 }
 
 export function ProductCard({ product }: { product: ProductSummary }) {
   const hasMeta = Boolean(product.casNumber || product.purity);
   const addToCart = useCartStore((s) => s.addItem);
   const variants = useMemo(
-    () => sortVariantsByPriceAsc(product.variants ?? []),
+    () => sortVariants(filterRedundantAggregateVariants(product.variants ?? [])),
     [product.variants],
   );
   const hasVariants = variants.length > 0;
   const [selectedVariantId, setSelectedVariantId] = useState(() => defaultVariantId(product));
 
   const selectedVariant = useMemo(
-    () => variants.find((variant) => variant.id === selectedVariantId),
+    () => variants.find((variant) => variant.id === selectedVariantId) ?? variants[0],
     [variants, selectedVariantId],
   );
 

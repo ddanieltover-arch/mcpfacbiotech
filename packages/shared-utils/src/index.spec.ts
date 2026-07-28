@@ -3,6 +3,7 @@ import {
   calculateTotalPages,
   capitalize,
   clamp,
+  filterRedundantAggregateVariants,
   formatCurrency,
   formatFileSize,
   formatStatusLabel,
@@ -103,5 +104,35 @@ describe('pagination helpers', () => {
   it('calculateOffset uses 1-based pages', () => {
     expect(calculateOffset(1, 20)).toBe(0);
     expect(calculateOffset(3, 20)).toBe(40);
+  });
+});
+
+describe('filterRedundantAggregateVariants', () => {
+  it('drops comma-joined values when sibling options already exist', () => {
+    const filtered = filterRedundantAggregateVariants([
+      { name: 'Weight', value: '10mg' },
+      { name: 'Weight', value: '5mg, 10mg' },
+      { name: 'Weight', value: '5mg' },
+    ]);
+    expect(filtered.map((v) => v.value)).toEqual(['10mg', '5mg']);
+  });
+
+  it('keeps multi-part labels that are not aggregates of siblings', () => {
+    const filtered = filterRedundantAggregateVariants([
+      { name: 'Strength', value: '553mg/ml, 10ml × 10 vials' },
+      { name: 'Strength', value: '30mg × 10 vials' },
+    ]);
+    expect(filtered.map((v) => v.value)).toEqual([
+      '553mg/ml, 10ml × 10 vials',
+      '30mg × 10 vials',
+    ]);
+  });
+
+  it('keeps aggregate rows when individual siblings are missing', () => {
+    const filtered = filterRedundantAggregateVariants([
+      { name: 'Weight', value: '5mg, 10mg' },
+      { name: 'Weight', value: '5mg' },
+    ]);
+    expect(filtered.map((v) => v.value)).toEqual(['5mg, 10mg', '5mg']);
   });
 });

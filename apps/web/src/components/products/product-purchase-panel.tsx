@@ -2,23 +2,32 @@
 
 import { useMemo, useState } from 'react';
 import type { ProductDetail, ProductVariant } from '@mcpfac/shared-types';
+import { filterRedundantAggregateVariants } from '@mcpfac/shared-utils';
 import { formatPrice } from '@/lib/catalog-api';
 import { ProductActions } from '@/components/products/product-actions';
+
+function doseSortKey(value: string): number {
+  const match = value.match(/(\d+(?:\.\d+)?)/);
+  return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+}
 
 function pickDefaultVariant(variants: ProductVariant[]): ProductVariant | undefined {
   if (variants.length === 0) return undefined;
   return variants.find((variant) => variant.isDefault) ?? variants[0];
 }
 
-function sortVariantsByPriceAsc(variants: ProductVariant[]): ProductVariant[] {
-  return [...variants].sort(
-    (a, b) => (a.price ?? Number.POSITIVE_INFINITY) - (b.price ?? Number.POSITIVE_INFINITY),
-  );
+function sortVariants(variants: ProductVariant[]): ProductVariant[] {
+  return [...variants].sort((a, b) => {
+    const priceDiff =
+      (a.price ?? Number.POSITIVE_INFINITY) - (b.price ?? Number.POSITIVE_INFINITY);
+    if (priceDiff !== 0) return priceDiff;
+    return doseSortKey(a.value) - doseSortKey(b.value);
+  });
 }
 
 export function ProductPurchasePanel({ product }: { product: ProductDetail }) {
   const variants = useMemo(
-    () => sortVariantsByPriceAsc(product.variants ?? []),
+    () => sortVariants(filterRedundantAggregateVariants(product.variants ?? [])),
     [product.variants],
   );
   const [selectedVariantId, setSelectedVariantId] = useState(
@@ -26,7 +35,7 @@ export function ProductPurchasePanel({ product }: { product: ProductDetail }) {
   );
 
   const selectedVariant = useMemo(
-    () => variants.find((variant) => variant.id === selectedVariantId),
+    () => variants.find((variant) => variant.id === selectedVariantId) ?? variants[0],
     [variants, selectedVariantId],
   );
 

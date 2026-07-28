@@ -51,3 +51,24 @@ export function colOptionalString(row: Record<string, unknown>, field?: string):
   const value = colString(row, field);
   return value.length > 0 ? value : undefined;
 }
+
+/**
+ * True when `value` is a comma-joined list of options that already exist as
+ * sibling values (legacy summary rows like "5mg, 10mg").
+ */
+export function isRedundantAggregateVariantValue(
+  value: string,
+  siblingValues: Iterable<string>,
+): boolean {
+  if (!value.includes(',')) return false;
+  const tokens = value
+    .split(',')
+    .map((token) => token.trim().toLowerCase())
+    .filter(Boolean);
+  if (tokens.length < 2) return false;
+
+  const siblings = new Set(
+    [...siblingValues].map((sibling) => sibling.trim().toLowerCase()),
+  );
+  return tokens.every((token) => siblings.has(token));
+}

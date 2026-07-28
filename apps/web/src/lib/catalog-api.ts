@@ -5,6 +5,7 @@ import type {
   ProductDetail,
   ProductSummary,
 } from '@mcpfac/shared-types';
+import { filterRedundantAggregateVariants } from '@mcpfac/shared-utils';
 import { getBackendOrigin } from '@/lib/backend-origin';
 
 type QueryValue = string | number | boolean | undefined;
@@ -74,7 +75,14 @@ export async function getProducts(params: ProductListParams = {}, options?: { ca
 
     const data = response.data;
     const items = await enrichSummariesWithVariants(data.items ?? [], options?.cache ?? true);
-    return { ...data, items };
+    return {
+      ...data,
+      items: items.map((item) => {
+        if (!item.variants?.length) return item;
+        const variants = filterRedundantAggregateVariants(item.variants);
+        return { ...item, variants, hasVariants: variants.length > 0 };
+      }),
+    };
   } catch {
     return { ...EMPTY_CATALOG, limit: params.limit ?? EMPTY_CATALOG.limit };
   }
@@ -129,7 +137,7 @@ async function enrichSummariesWithVariants(
       return item;
     }
 
-    const sorted = [...detail.variants].sort(
+    const sorted = filterRedundantAggregateVariants([...detail.variants]).sort(
       (a, b) => (a.price ?? Number.POSITIVE_INFINITY) - (b.price ?? Number.POSITIVE_INFINITY),
     );
     const prices = sorted
@@ -158,7 +166,12 @@ async function enrichSummariesWithVariants(
 export async function getProductBySlug(slug: string): Promise<ProductDetail | null> {
   try {
     const response = await fetchJson<ApiResponse<ProductDetail>>(buildUrl(`/products/${slug}`));
-    return response.data;
+    const product = response.data;
+    if (!product.variants?.length) return product;
+    return {
+      ...product,
+      variants: filterRedundantAggregateVariants(product.variants),
+    };
   } catch {
     return null;
   }

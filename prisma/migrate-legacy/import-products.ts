@@ -10,6 +10,7 @@ import {
   col,
   colOptionalString,
   colString,
+  isRedundantAggregateVariantValue,
   isUuid,
   parseBoolean,
   parsePrice,
@@ -449,6 +450,20 @@ async function main() {
 
   // ── 4. Variants ────────────────────────────────────────────────────────────
   console.log('Importing variants...');
+
+  // Build sibling value sets so we can skip legacy aggregate rows like "5mg, 10mg".
+  const siblingValuesByProductAttr = new Map<string, Set<string>>();
+  for (const row of dataset.variants ?? []) {
+    const legacyProductId = colString(row, legacyMapping.variant.productId);
+    const name = colString(row, legacyMapping.variant.name);
+    const value = colString(row, legacyMapping.variant.value);
+    if (!legacyProductId || !name || !value) continue;
+    const key = `${legacyProductId}::${name.trim().toLowerCase()}`;
+    const set = siblingValuesByProductAttr.get(key) ?? new Set<string>();
+    set.add(value);
+    siblingValuesByProductAttr.set(key, set);
+  }
+
   for (const [index, row] of (dataset.variants ?? []).entries()) {
     const legacyProductId = colString(row, legacyMapping.variant.productId);
     const name = colString(row, legacyMapping.variant.name);
@@ -456,6 +471,13 @@ async function main() {
     const productId = productIdMap.get(legacyProductId);
 
     if (!productId || !name || !value || !isUuid(legacyProductId)) {
+      stats.skipped += 1;
+      continue;
+    }
+
+    const siblingKey = `${legacyProductId}::${name.trim().toLowerCase()}`;
+    const siblings = siblingValuesByProductAttr.get(siblingKey) ?? new Set<string>();
+    if (isRedundantAggregateVariantValue(value, siblings)) {
       stats.skipped += 1;
       continue;
     }

@@ -115,9 +115,9 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               <ProductPurchasePanel product={product} />
 
               {metaFields.length > 0 ? (
-                <dl className="grid gap-4 sm:grid-cols-2">
+                <dl className="flex flex-wrap gap-x-8 gap-y-4">
                   {metaFields.map((field) => (
-                    <div key={field.label} className="border-l-2 border-brand-leaf pl-4">
+                    <div key={field.label} className="min-w-[7.5rem] border-l-2 border-brand-leaf pl-4">
                       <dt className="text-xs font-medium uppercase tracking-wide text-neutral-500">
                         {field.label}
                       </dt>

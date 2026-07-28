@@ -110,6 +110,42 @@ export function isValidUuid(id: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
 }
 
+// ─── Variant Helpers ─────────────────────────────────────────────────────────
+
+/**
+ * Drop legacy "summary" variant rows whose value is a comma-joined list of
+ * sibling options that already exist (e.g. "5mg, 10mg" when 5mg and 10mg exist).
+ * Keeps legitimate multi-part labels like "553mg/ml, 10ml × 10 vials".
+ */
+export function filterRedundantAggregateVariants<T extends { name: string; value: string }>(
+  variants: T[],
+): T[] {
+  if (variants.length < 2) return variants;
+
+  const valuesByAttr = new Map<string, Set<string>>();
+  for (const variant of variants) {
+    const key = variant.name.trim().toLowerCase();
+    const set = valuesByAttr.get(key) ?? new Set<string>();
+    set.add(variant.value.trim().toLowerCase());
+    valuesByAttr.set(key, set);
+  }
+
+  return variants.filter((variant) => {
+    if (!variant.value.includes(',')) return true;
+
+    const tokens = variant.value
+      .split(',')
+      .map((token) => token.trim().toLowerCase())
+      .filter(Boolean);
+    if (tokens.length < 2) return true;
+
+    const siblings = valuesByAttr.get(variant.name.trim().toLowerCase());
+    if (!siblings) return true;
+
+    return !tokens.every((token) => siblings.has(token));
+  });
+}
+
 // ─── Pagination Helpers ──────────────────────────────────────────────────────
 
 /**

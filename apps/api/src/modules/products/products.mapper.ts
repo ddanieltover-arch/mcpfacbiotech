@@ -15,6 +15,7 @@ import type {
   ProductStatus,
   DocumentType,
 } from '@mcpfac/shared-types';
+import { filterRedundantAggregateVariants } from '@mcpfac/shared-utils';
 
 type ProductWithRelations = Product & {
   images: ProductImage[];
@@ -79,7 +80,8 @@ function sortVariantsByPriceAsc(
 export function toProductSummary(product: ProductWithRelations): ProductSummary {
   const category = product.productCategories[0]?.category;
   const basePrice = decimalToNumber(product.retailPrice);
-  const sortedVariants = sortVariantsByPriceAsc(product.retailPrice, product.variants ?? []);
+  const usableVariants = filterRedundantAggregateVariants(product.variants ?? []);
+  const sortedVariants = sortVariantsByPriceAsc(product.retailPrice, usableVariants);
   const variants = sortedVariants.map((variant) => {
     const priceModifier = decimalToNumber(variant.priceModifier) ?? 0;
     return {
@@ -90,7 +92,7 @@ export function toProductSummary(product: ProductWithRelations): ProductSummary 
       isDefault: variant.isDefault,
     };
   });
-  const prices = effectivePrices(product.retailPrice, product.variants);
+  const prices = effectivePrices(product.retailPrice, usableVariants);
   const priceMin = prices.length ? Math.min(...prices) : undefined;
   const priceMax = prices.length ? Math.max(...prices) : undefined;
 
@@ -150,24 +152,25 @@ export function toProductDetail(
         value: spec.value,
         sortOrder: spec.sortOrder,
       })),
-    variants: sortVariantsByPriceAsc(product.retailPrice, product.variants ?? []).map(
-      (variant) => {
-        const priceModifier = decimalToNumber(variant.priceModifier) ?? 0;
-        const basePrice = decimalToNumber(product.retailPrice);
+    variants: sortVariantsByPriceAsc(
+      product.retailPrice,
+      filterRedundantAggregateVariants(product.variants ?? []),
+    ).map((variant) => {
+      const priceModifier = decimalToNumber(variant.priceModifier) ?? 0;
+      const basePrice = decimalToNumber(product.retailPrice);
 
-        return {
-          id: variant.id,
-          name: variant.name,
-          value: variant.value,
-          priceModifier,
-          price: basePrice != null ? basePrice + priceModifier : undefined,
-          stockQuantity: variant.stockQuantity,
-          sku: variant.sku ?? undefined,
-          isDefault: variant.isDefault,
-          sortOrder: variant.sortOrder,
-        };
-      },
-    ),
+      return {
+        id: variant.id,
+        name: variant.name,
+        value: variant.value,
+        priceModifier,
+        price: basePrice != null ? basePrice + priceModifier : undefined,
+        stockQuantity: variant.stockQuantity,
+        sku: variant.sku ?? undefined,
+        isDefault: variant.isDefault,
+        sortOrder: variant.sortOrder,
+      };
+    }),
     downloads:
       product.productDocuments?.map((item) => ({
         id: item.document.id,
