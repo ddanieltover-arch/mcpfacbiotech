@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Vercel web build: generate Prisma, build shared-types + Nest API,
+ * Vercel web build: generate Prisma, build shared packages + Nest API,
  * copy Nest dist into apps/web/vendor for serverless tracing, then build Next.
  */
 const { execSync } = require('node:child_process');
@@ -17,6 +17,8 @@ function run(command) {
 
 run('pnpm db:generate');
 run('pnpm --filter @mcpfac/shared-types build');
+run('pnpm --filter @mcpfac/shared-utils build');
+run('pnpm --filter @mcpfac/shared-validators build');
 run('pnpm --filter @mcpfac/api build');
 
 const src = path.join(root, 'apps', 'api', 'dist');

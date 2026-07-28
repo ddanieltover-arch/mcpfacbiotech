@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "cd ../.. && pnpm install --frozen-lockfile && pnpm db:generate",
-  "buildCommand": "cd ../.. && pnpm --filter @mcpfac/shared-types build && pnpm --filter @mcpfac/api build",
+  "buildCommand": "cd ../.. && pnpm --filter @mcpfac/shared-types build && pnpm --filter @mcpfac/shared-utils build && pnpm --filter @mcpfac/shared-validators build && pnpm --filter @mcpfac/api build",
   "outputDirectory": "dist",
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
   "functions": {
