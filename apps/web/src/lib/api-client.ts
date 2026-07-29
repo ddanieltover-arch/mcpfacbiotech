@@ -1,8 +1,6 @@
 import type { ApiResponse, ApiPaginatedResponse, ApiErrorResponse } from '@mcpfac/shared-types';
 import { getBackendOrigin } from '@/lib/backend-origin';
 
-const API_BASE_URL = getBackendOrigin();
-
 type RequestOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   body?: unknown;
@@ -16,14 +14,9 @@ type RequestOptions = {
  * Handles auth tokens, error parsing, and typed responses.
  */
 class ApiClient {
-  private baseUrl: string;
-
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
-  }
-
   private buildUrl(path: string, params?: Record<string, string | number | boolean | undefined>): string {
-    const url = new URL(`/api/v1${path}`, this.baseUrl);
+    // Resolve per request so browser origin / env changes are never stale.
+    const url = new URL(`/api/v1${path}`, getBackendOrigin());
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined) {
@@ -46,12 +39,28 @@ class ApiClient {
       requestHeaders['Authorization'] = `Bearer ${token}`;
     }
 
-    const response = await fetch(this.buildUrl(path, params), {
-      method,
-      headers: requestHeaders,
-      body: body ? JSON.stringify(body) : undefined,
-      signal: AbortSignal.timeout(30_000),
-    });
+    let response: Response;
+    try {
+      response = await fetch(this.buildUrl(path, params), {
+        method,
+        headers: requestHeaders,
+        body: body ? JSON.stringify(body) : undefined,
+        signal: AbortSignal.timeout(30_000),
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error && error.name === 'TimeoutError'
+          ? 'Request timed out — try again'
+          : error instanceof Error
+            ? error.message
+            : 'Failed to fetch';
+      throw new ApiError({
+        success: false,
+        statusCode: 0,
+        message,
+        timestamp: new Date().toISOString(),
+      });
+    }
 
     if (!response.ok) {
       const error: ApiErrorResponse = await response.json().catch(() => ({
@@ -114,4 +123,4 @@ export class ApiError extends Error {
 /**
  * Singleton API client instance.
  */
-export const apiClient = new ApiClient(API_BASE_URL);
+export const apiClient = new ApiClient();

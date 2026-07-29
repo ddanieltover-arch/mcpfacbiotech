@@ -13,6 +13,18 @@ const PROTECTED_ROUTES = ['/account', '/orders', '/quotes', '/invoices', '/admin
 /** Routes that should redirect authenticated users away. */
 const AUTH_ROUTES = ['/login', '/register', '/forgot-password'];
 
+const CANONICAL_HOST = 'www.mcpfacbiotech.site';
+
+function redirectApexToWww(request: NextRequest): NextResponse | null {
+  const host = request.headers.get('host')?.split(':')[0]?.toLowerCase();
+  if (host !== 'mcpfacbiotech.site') return null;
+
+  const url = request.nextUrl.clone();
+  url.protocol = 'https:';
+  url.host = CANONICAL_HOST;
+  return NextResponse.redirect(url, 308);
+}
+
 async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -68,18 +80,18 @@ async function updateSession(request: NextRequest) {
 }
 
 export async function middleware(request: NextRequest) {
+  const apexRedirect = redirectApexToWww(request);
+  if (apexRedirect) return apexRedirect;
+
   return await updateSession(request);
 }
 
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - Public assets (svg, png, jpg, etc.)
+     * Match page routes only. `/api` uses Bearer auth in Nest and must not
+     * run through cookie session middleware (breaks admin fetches).
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };

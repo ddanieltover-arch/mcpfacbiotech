@@ -10,9 +10,16 @@ export function getBackendOrigin(): string {
   if (typeof window !== 'undefined') {
     const explicit = process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
     if (explicit) {
-      return explicit.replace(/\/+$/, '');
+      // Never ship browser traffic to localhost from a deployed host.
+      if (
+        /localhost|127\.0\.0\.1/i.test(explicit) &&
+        !/localhost|127\.0\.0\.1/i.test(window.location.hostname)
+      ) {
+        return canonicalizeBrowserOrigin(window.location.origin);
+      }
+      return canonicalizeBrowserOrigin(explicit.replace(/\/+$/, ''));
     }
-    return window.location.origin;
+    return canonicalizeBrowserOrigin(window.location.origin);
   }
 
   // Server-side (RSC / route handlers calling catalog helpers).
@@ -35,4 +42,17 @@ export function getBackendOrigin(): string {
   }
 
   return cleaned;
+}
+
+/** Apex → www so API calls are not broken by Vercel’s 308 domain redirect. */
+function canonicalizeBrowserOrigin(origin: string): string {
+  try {
+    const url = new URL(origin);
+    if (url.hostname.toLowerCase() === 'mcpfacbiotech.site') {
+      url.hostname = 'www.mcpfacbiotech.site';
+    }
+    return url.origin;
+  } catch {
+    return origin.replace(/\/+$/, '');
+  }
 }

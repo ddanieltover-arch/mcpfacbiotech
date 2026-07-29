@@ -22,15 +22,16 @@ function corsOriginOption():
       origin: string | undefined,
       callback: (err: Error | null, allow?: boolean | string) => void,
     ) => void) {
-  const allowed = new Set(
-    (
-      process.env.FRONTEND_URL ??
-      'http://localhost:3000,https://www.mcpfacbiotech.site,https://mcpfacbiotech.site'
-    )
-      .split(',')
-      .map(normalizeOrigin)
-      .filter(Boolean),
-  );
+  const defaults = [
+    'http://localhost:3000',
+    'https://www.mcpfacbiotech.site',
+    'https://mcpfacbiotech.site',
+  ];
+  const fromEnv = (process.env.FRONTEND_URL ?? '')
+    .split(',')
+    .map(normalizeOrigin)
+    .filter(Boolean);
+  const allowed = new Set([...defaults, ...fromEnv].map(normalizeOrigin));
 
   return (origin, callback) => {
     // Non-browser / same-origin tools may omit Origin
