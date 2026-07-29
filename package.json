@@ -28,6 +28,8 @@
     "db:migrate-legacy:dry-run": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/migrate-legacy/import-products.ts --dry-run",
     "db:cleanup-aggregate-variants": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/migrate-legacy/cleanup-aggregate-variants.ts",
     "db:cleanup-aggregate-variants:dry-run": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/migrate-legacy/cleanup-aggregate-variants.ts --dry-run",
+    "db:sync-ph-prices": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/sync-ph-research-prices.ts",
+    "db:sync-ph-prices:dry-run": "ts-node --project prisma/tsconfig.seed.json --transpile-only prisma/sync-ph-research-prices.ts --dry-run",
     "db:studio": "npx prisma studio --schema prisma",
     "clean": "turbo run clean"
   },

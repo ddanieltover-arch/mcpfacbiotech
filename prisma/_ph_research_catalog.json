@@ -1,0 +1,3599 @@
+[
+  {
+    "id": "dc0fd881-638e-405f-98d2-418db65d8b38",
+    "name": "5-Amino-1MQ",
+    "slug": "5-amino-1mq",
+    "basePrice": 169,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "3d5e65b9-ad9a-4e6e-aae7-3b945e49eda2",
+        "name": "weight",
+        "value": "50mg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "cb9c2ed8-666a-4561-9939-f650772d31f9",
+    "name": "5-Amino-1MQ 10mg",
+    "slug": "5-amino-1mq-10mg",
+    "basePrice": 49.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "4b73d640-9b77-415a-9665-09c93fbc5f1c",
+    "name": "5-Amino-1MQ 5mg",
+    "slug": "5-amino-1mq-5mg",
+    "basePrice": 34.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "14c1df66-ef1f-4522-a270-d1c3ecd2faed",
+    "name": "ACCUTANE (20MG) (50 TABLETS)",
+    "slug": "accutane-20mg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "16a586f8-9761-4d6f-8b17-4ffb58d19e05",
+    "name": "Acetic Acid",
+    "slug": "acetic-acid",
+    "basePrice": 13.99,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "34d5d8af-6cb5-47f1-a65c-dbd713743952",
+        "name": "volume",
+        "value": "10mL",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "c82647ff-bd4e-4b9a-b23e-286f4788854a",
+    "name": "Acetic Acid 0.6% 3ml",
+    "slug": "acetic-acid-0-6-3ml",
+    "basePrice": 7.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "50038386-cd34-4331-bddd-7c83aad51efa",
+    "name": "Adipotide",
+    "slug": "adipotide",
+    "basePrice": 42,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "28f96451-6c88-435e-b444-36453d65d408",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "d402bab1-05b5-4eef-a0f2-c9a58e3e80e0",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "13429885-ba1b-45b9-9cc3-0f97d39b3c64",
+    "name": "AHK-CU",
+    "slug": "ahk-cu",
+    "basePrice": 55,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "38c6aab0-1ee6-4a94-b3b4-5e8072070151",
+        "name": "Strength",
+        "value": "100mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "AHKCU-100MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "89ba3d25-ae02-4648-85ff-5360d032f26e",
+    "name": "AICAR",
+    "slug": "aicar",
+    "basePrice": 45,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "c8c73c27-8424-42e0-ba88-9620e6ebcc99",
+        "name": "weight",
+        "value": "50mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "09c2d764-2547-4a6a-b70f-1550d2d21cf7",
+    "name": "AICAR (10MG) (50 TABLETS)",
+    "slug": "aicar-10mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "a7f752dc-616a-4c76-9fe6-ad0802d52976",
+    "name": "ANADROL (50MG) (50 TABLETS)",
+    "slug": "anadrol-50mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "56309845-e8a2-4804-a1fc-aafbceae3a7d",
+    "name": "ANAVAR (10MG) (60 TABLETS)",
+    "slug": "anavar-10mg-60-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "263457bd-a2a2-40ed-86a5-c0b47dc7ba25",
+    "name": "ANAVAR (20MG) (50 TABLETS)",
+    "slug": "anavar-20mg-50-tablets",
+    "basePrice": 110,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "4b036c19-742b-4f3c-ae22-2881cf58504a",
+    "name": "ANAVAR (25MG) (50 TABLETS)",
+    "slug": "anavar-25mg-50-tablets",
+    "basePrice": 110,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "e0b9865a-899d-47f0-b5ce-bda6019fb09b",
+    "name": "ANDARINE S4 (25MG) (50 TABLETS)",
+    "slug": "andarine-s4-25mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "f6abcac6-871e-4954-87e6-6ed8c24291bc",
+    "name": "AOD-9604 5mg",
+    "slug": "aod-9604",
+    "basePrice": 59.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "963b2f48-f801-4690-b931-5cad40cb15ed",
+    "name": "AOD9604",
+    "slug": "aod9604",
+    "basePrice": 42,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "b164d9ec-32b8-42f6-b997-978e939244a6",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "731b5e82-c832-4736-bf80-0bf094c31eb9",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "84bac2ad-fa62-4aa0-9752-679b322d837b",
+    "name": "ARA-290",
+    "slug": "ara-290",
+    "basePrice": 51,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "bdd7a14b-4c98-4e0e-b7b8-df0b5e9622df",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "c917d6fa-a19e-45ee-83ae-df85a696bb02",
+        "name": "weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "bf705aa9-5e8d-4d0a-b6be-6f4d44074f99",
+    "name": "ARIMIDEX (1MG) (50 TABLETS)",
+    "slug": "arimidex-1mg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "3f27bd41-1363-4872-9b5b-fef344af3e7c",
+    "name": "AROMASIN (25MG) (50 TABLETS)",
+    "slug": "aromasin-25mg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "58146650-99d8-4088-b1d2-e07b538d3fec",
+    "name": "BAC WATER",
+    "slug": "bac-water",
+    "basePrice": 10,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "996d6008-ae5c-4b4c-8f4e-63a73b4f0ace",
+        "name": "Strength",
+        "value": "WA10",
+        "priceModifier": 5,
+        "stock": 100,
+        "sku": "BACWATER-WA10"
+      },
+      {
+        "id": "ad1e3914-5784-4299-a1a2-6952b5182647",
+        "name": "Strength",
+        "value": "WA3",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "BACWATER-WA3"
+      }
+    ]
+  },
+  {
+    "id": "f1eadc0f-738c-41e9-9dd6-6292067d1cb4",
+    "name": "Bacteriostatic Water",
+    "slug": "bacteriostatic-water",
+    "basePrice": 10.99,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "bc809765-3fb8-47c5-bab4-f0e938a20e50",
+        "name": "Weight",
+        "value": "10ml",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "20a2c5b9-b038-4540-9160-7f38de12e220",
+    "name": "Bacteriostatic Water",
+    "slug": "bacteriostatic-water-30ml",
+    "basePrice": 24.99,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "754f6302-771f-4fe8-b995-57544af84549",
+        "name": "Weight",
+        "value": "10ml",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "5062af94-e313-441f-b8bb-fe21bf8eb7c6",
+    "name": "BAM15",
+    "slug": "bam15",
+    "basePrice": 189,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "ca23d5f1-478d-4e2d-b428-5e1895ee4fa6",
+        "name": "weight",
+        "value": "50mg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "7a17866c-94c0-4a0b-a8e7-84af2cac4616",
+    "name": "BD LUER-LOK SYRINGE (3ML) (10-PACK)",
+    "slug": "bd-luer-lok-syringe-3ml-10-pack",
+    "basePrice": 15,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "ed94f42a-55dd-4529-9db9-d326068c5277",
+    "name": "BOLDENONE UNDECYLENATE (300MG)",
+    "slug": "boldenone-undecylenate-300mg",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "fac477ec-1831-41e2-a5dc-3ad5fb5f0286",
+    "name": "BPC-157",
+    "slug": "bpc-157",
+    "basePrice": 33,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "f406b82e-6a8e-4651-a1eb-90122295c94b",
+        "name": "Dosage",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "ca6257ad-686f-4164-90b6-8f6d174b7b4d",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 22,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "a0023009-f979-4803-9998-a2c35409ed29",
+        "name": "Dosage",
+        "value": "30mg × 10 vials",
+        "priceModifier": 76,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "caf566ce-fa43-4a69-a26f-edfaca228839",
+    "name": "BPC-157 (Arginate Salt)",
+    "slug": "bpc-157-arginate-salt",
+    "basePrice": 89,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "ca4cb87f-2ad5-45a5-b867-112f4e9006e3",
+        "name": "weight",
+        "value": "500mcg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "ce1672ba-ad97-4bb1-80e0-a224422905f6",
+    "name": "BPC-157/TB-500",
+    "slug": "bpc-157-tb-500",
+    "basePrice": 52,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "a1d6bb04-639f-4d7c-8785-1fe4df3de954",
+        "name": "Weight",
+        "value": "5/5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "ddb522b2-940b-4b1c-af15-f31180f63c18",
+        "name": "Weight",
+        "value": "10/10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "4e0f5398-f2a7-4d47-97b8-c30bb018238d",
+    "name": "BPC-157 + TB-500 5mg/5mg",
+    "slug": "bpc-157-tb-500-5mg-5mg",
+    "basePrice": 69.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "1dbe0ad0-6cb2-4505-8b12-eedcac1e08a5",
+    "name": "BPC-157 + TB-500 5mg/5mg",
+    "slug": "bpc-157-tb-500-blend",
+    "basePrice": 69.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "19917634-fc56-41a7-9db8-8f33c774d45a",
+    "name": "BPC-157 / TB-500(Tβ4)",
+    "slug": "bpc-157-tb-500-tb4",
+    "basePrice": 149,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "de923638-9efb-4005-8514-b5183962e36b",
+        "name": "weight",
+        "value": "30/30mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "b67bf669-c452-4ff9-9d1a-effd1138220d",
+    "name": "BPC-157 / TB-500 (Tβ4) Blend",
+    "slug": "bpc-157-tb-500-tb4-blend",
+    "basePrice": 139,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "444b2a96-8932-4f96-80cf-dbf1469ebe15",
+        "name": "weight",
+        "value": "500/500mcg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "2f16536c-4d04-4584-8eeb-2ee762a0b746",
+    "name": "Cagrilintide",
+    "slug": "cagrilintide",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "e82ad92a-55f9-4316-8f40-1128a1c5d65e",
+        "name": "Strength",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "CAGRILINTIDE-5MG10VIALS"
+      },
+      {
+        "id": "c10dba0f-9108-4ffb-9615-4e5e48e9a2c4",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 70,
+        "stock": 100,
+        "sku": "CAGRILINTIDE-10MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "73b873d1-635b-44bc-905f-744b22c1dce5",
+    "name": "Cerebrolysin",
+    "slug": "cerebrolysin",
+    "basePrice": 20,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "8f101fd5-c279-4105-ac70-42c9d295100d",
+        "name": "Dosage",
+        "value": "30mg × 6 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "8ba830a7-ab52-46f6-906e-3f6b171f3c4b",
+        "name": "Dosage",
+        "value": "60mg × 6 vials",
+        "priceModifier": 10,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "209d9686-aad9-4825-bf06-6ead119314aa",
+    "name": "Chonluten",
+    "slug": "chonluten",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "72ce4039-c427-4724-bdb9-e7680ca4ff57",
+        "name": "weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "e4c4454e-d1ab-480d-925d-ff7126513c58",
+    "name": "CIALIS (25MG) (50 TABLETS)",
+    "slug": "cialis-25mg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "7fdf8f26-9210-4e7b-9496-3d0c74f963f9",
+    "name": "CIALIS (30MG) (50 TABLETS)",
+    "slug": "cialis-30mg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "1cf07a42-1d3d-4746-b497-18ec5e405530",
+    "name": "CJC-1295",
+    "slug": "cjc-1295",
+    "basePrice": 34,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "c9467845-f44a-4342-9495-5cf2aeb7cb7e",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "dba3e46f-39f2-476c-aea9-2b569100d040",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "a5d0f800-53c0-492f-8d4f-ad553716b041",
+    "name": "CJC-1295 (DAC)",
+    "slug": "cjc-1295-dac",
+    "basePrice": 46,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "2e6c7278-d5d0-4fde-bc51-6b61cca49a2e",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "2888cf42-7300-426f-b0fb-c2cbbd3956f1",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "e6419be1-8d75-45a5-aeeb-ab54a043f1b1",
+    "name": "CJC-1295 (DAC)/Ipamorelin",
+    "slug": "cjc-1295-dac-ipamorelin",
+    "basePrice": 58,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "2e7482e5-da18-4995-bb42-de7cf096afc8",
+        "name": "weight",
+        "value": "5/5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "4ed12890-b8ef-4008-b142-99b45924a9a9",
+        "name": "weight",
+        "value": "10/10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "b504b64f-415b-47fa-930c-c7ec2eb89c1d",
+    "name": "CJC-1295/Ipamorelin",
+    "slug": "cjc-1295-ipamorelin",
+    "basePrice": 47,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "31278de6-33f5-4fca-93f0-ebb0c6b6cadb",
+        "name": "Weight",
+        "value": "5/5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "3ea9f42f-0f94-41bf-8cb6-b66b2e055ca9",
+        "name": "Weight",
+        "value": "10/10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "b2f9d6d1-857c-4b61-a04d-fdf34c4bf0bd",
+    "name": "CJC-1295 with DAC",
+    "slug": "cjc-1295-with-dac",
+    "basePrice": 75,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "2322eec9-55df-4139-a859-99c3241b3473",
+        "name": "Strength",
+        "value": "2mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "CJC1295WITHDAC-2MG10VIALS"
+      },
+      {
+        "id": "4ed53777-5e80-412f-a484-618beba29e52",
+        "name": "Strength",
+        "value": "5mg × 10 vials",
+        "priceModifier": 80,
+        "stock": 100,
+        "sku": "CJC1295WITHDAC-5MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "a279ae74-1533-47b0-bb14-e00c80203c43",
+    "name": "CJC-1295 without DAC",
+    "slug": "cjc-1295-without-dac",
+    "basePrice": 38,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "d09a9c2f-e0a7-41e7-a88b-59ca519f52cf",
+        "name": "Strength",
+        "value": "2mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "CJC1295WITHOUTDAC-2MG10VIALS"
+      },
+      {
+        "id": "4970bdc9-fd29-4291-9896-eff87048a040",
+        "name": "Strength",
+        "value": "5mg × 10 vials",
+        "priceModifier": 32,
+        "stock": 100,
+        "sku": "CJC1295WITHOUTDAC-5MG10VIALS"
+      },
+      {
+        "id": "b41bd7b4-8841-4033-8bd7-e98ad98b2afb",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 102,
+        "stock": 100,
+        "sku": "CJC1295WITHOUTDAC-10MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "d6ad9071-13bb-46dc-aa1e-63f8d12dee32",
+    "name": "CJC-1295 without DAC + IPA 5mg",
+    "slug": "cjc-1295-without-dac-ipa-5mg",
+    "basePrice": 85,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "96aa806f-955b-4842-a01d-74369807b494",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "CJC1295WITHOUTDACIPA5MG-10MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "be021e68-df26-4413-907a-7d129e889658",
+    "name": "CJC/IPA 5mg/5mg (No DAC)",
+    "slug": "cjc-ipa-no-dac",
+    "basePrice": 54.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "ba52ae6c-121f-4f34-8b38-9e4a52db09b7",
+    "name": "CJC1295 WITH DAC (2MG)",
+    "slug": "cjc1295-with-dac",
+    "basePrice": 60,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "425c1f13-dedf-4018-8a0c-61f206b491c2",
+    "name": "CLENBUTEROL (100MCG) (50 TABLETS)",
+    "slug": "clenbuterol-100mcg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "dcc2ea87-5cc6-46b1-8dd1-966a3a4b7b78",
+    "name": "CLENBUTEROL (50MCG) (50 TABLETS)",
+    "slug": "clenbuterol-50mcg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "c291dd35-c940-459b-845c-bbb70342dfa4",
+    "name": "CLOMID (50MG) (50 TABLETS)",
+    "slug": "clomid-50mg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "7e17e3d0-933f-43b9-a736-61b8d5b1d735",
+    "name": "Cortagen",
+    "slug": "cortagen",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "7461134c-1cc1-4767-8c22-0b073ee9a8e6",
+        "name": "weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "5800faa5-174d-41b3-9870-4d000947794c",
+    "name": "D-BOL (25MG) (50 TABLETS)",
+    "slug": "d-bol-25mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "c4043840-e329-4199-b525-c7a522ceae14",
+    "name": "DECA DURABOLIN (250MG)",
+    "slug": "deca-durabolin-250mg",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "6c65b6e2-db2b-4886-9998-e824842a4ce7",
+    "name": "DHX / PNB-0408",
+    "slug": "dhx-pnb-0408",
+    "basePrice": 79,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "01567220-32cc-44ac-a1ec-45f1179c28a3",
+        "name": "weight",
+        "value": "5mg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "6c72fcab-65bf-49e7-b9ac-26120a7e3e26",
+        "name": "weight",
+        "value": "10mg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "72e2eb1e-0d34-40bc-af83-072a9b6b82f8",
+    "name": "DIANABOL (20MG) (50 TABLETS)",
+    "slug": "dianabol-20mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "1a143525-9a56-4c28-8127-23a0dd7d7d56",
+    "name": "DROSTANOLONE ENANTHATE (200MG)",
+    "slug": "drostanolone-enanthate-200mg",
+    "basePrice": 110,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "ce346c07-489c-4579-8f65-561602654920",
+    "name": "DROSTANOLONE PROPIONATE (100MG)",
+    "slug": "drostanolone-propionate-100mg",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "7afcbfea-5fe0-42df-b004-93a6cbf236a4",
+    "name": "DSIP",
+    "slug": "dsip",
+    "basePrice": 17,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "42c4c774-2793-4bcc-b308-0765fff0196e",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "3b2d48f0-fff5-4b3c-8184-b8a6c6f0886e",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "956ba0da-8b25-445a-b0dd-28bd3762a4e2",
+    "name": "DSIP 10mg",
+    "slug": "dsip-10mg",
+    "basePrice": 59.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "eeca8261-873e-4bb5-982c-159bdbf2a9e7",
+    "name": "DSIP 5mg",
+    "slug": "dsip-5mg",
+    "basePrice": 39.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "21c8c418-c533-4666-8a18-b42884c9d952",
+    "name": "Epitalon 10mg",
+    "slug": "epitalon",
+    "basePrice": 29.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "e7410f24-a94d-409f-8627-2c3220cfa457",
+    "name": "Epitalon 50mg",
+    "slug": "epitalon-50mg",
+    "basePrice": 129.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "f2551b53-5073-43d1-8eed-33c76e127d65",
+    "name": "Epithalon",
+    "slug": "epithalon",
+    "basePrice": 32,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "a605d5b9-3964-4d9b-8e14-e0878f0bdac8",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "793fac97-9de8-4dd3-89b1-5251edc4d0e9",
+        "name": "Dosage",
+        "value": "50mg × 10 vials",
+        "priceModifier": 98,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "fd1dbf39-5793-4199-be05-000087fa711d",
+    "name": "EQ (250MG)",
+    "slug": "eq-250mg",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "18bc7304-f69b-4e08-9440-a8ff10b1e4c0",
+    "name": "Fat Blaster (LC526)",
+    "slug": "fat-blaster-lc526",
+    "basePrice": 89,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "59381c24-c4db-4962-a215-85f16c03c907",
+        "name": "Strength",
+        "value": "553mg/ml, 10ml × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "FATBLASTERLC526-553MGML10ML10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "cc309454-f369-4db3-84d8-ae449f2fb89f",
+    "name": "FLIBANSERIN (100MG) (50 TABLETS)",
+    "slug": "flibanserin-100mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "939e021f-d69b-4d10-a147-a55637c73dce",
+    "name": "Follistatin 315",
+    "slug": "follistatin-315",
+    "basePrice": 99,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "e666016d-9f82-49ec-aecc-fac9f57a2d54",
+        "name": "weight",
+        "value": "1mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "c33be6ed-f09a-48e4-b9a8-f79d977c936c",
+    "name": "Follistatin 344",
+    "slug": "follistatin-344",
+    "basePrice": 99,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "e03b9590-871e-4857-b90b-5c55e1c6d5d1",
+        "name": "weight",
+        "value": "1mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "a8c4f9d7-4ee5-437a-9d43-07781025f9d5",
+    "name": "FOXO4-DRI",
+    "slug": "foxo4-dri",
+    "basePrice": 99,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "627eeee5-eb4e-4958-9c02-5a57bf67bcf4",
+        "name": "weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "39600ce7-5b1e-4712-9ac4-1e682821f661",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "e20b6136-0c97-4fec-9943-3155f4cbc4b0",
+    "name": "Free Acetic Acid 0.6% 3ml",
+    "slug": "free-acetic-acid-0-6-3ml",
+    "basePrice": 7.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "9e9d68e0-ed90-45dd-a879-c0f0ed3f845b",
+    "name": "GDF-8",
+    "slug": "gdf-8",
+    "basePrice": 119,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "ffdff138-61bb-4ecb-a1bb-7b9009303c54",
+        "name": "weight",
+        "value": "1mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "b0ad1076-5907-408d-8ddd-f518a67c8da0",
+        "name": "weight",
+        "value": "2mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "2e521bde-aabf-4937-958e-4a511ea88756",
+    "name": "GHK-CU",
+    "slug": "ghk-cu",
+    "basePrice": 25,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "8deca3b6-53bd-42cc-98e2-9a01e5cccea3",
+        "name": "Dosage",
+        "value": "50mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "4e5320ac-afae-4744-afdc-df2927df0fd2",
+        "name": "Dosage",
+        "value": "100mg × 10 vials",
+        "priceModifier": 20,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "b97f5f8a-2f0b-4626-aaea-1809d0ed3a2e",
+    "name": "GHPR-2",
+    "slug": "ghpr-2",
+    "basePrice": 21,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "4a5eb511-c1e8-47e6-9a6a-a6744675ff40",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "e6d9aa25-fb83-4fb5-8c7e-2e953da9b8ce",
+    "name": "GHPR-6",
+    "slug": "ghpr-6",
+    "basePrice": 17,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "21ee1bcc-cf6f-4918-8d37-46f87b90fdcd",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "d443ed45-5165-4d1c-bb3f-5327404a6cdd",
+    "name": "GHRP (5MG)",
+    "slug": "ghrp",
+    "basePrice": 60,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "e4489d3c-18ee-41d1-bbac-2dd91471d36d",
+    "name": "GLOW",
+    "slug": "glow",
+    "basePrice": 149,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "48de6563-900b-4afc-ba1b-d7b6ab01322a",
+        "name": "weight",
+        "value": "0.5/2/0.5mg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "cfacddc0-f4b1-4c6c-82c7-d666c1448792",
+    "name": "GLOW 10mg/70mg/10mg",
+    "slug": "glow-10mg-70mg-10mg",
+    "basePrice": 129.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "e11880bf-9d98-4846-8484-3fa5856ce278",
+    "name": "GLOW &amp;#8211; BPC-157/GHK-Cu/TB-500 Blend",
+    "slug": "glow-bpc-157-ghk-cu-tb-500-blend",
+    "basePrice": 65,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "8a45d09c-529e-4874-9fe5-7bd3fbf8121e",
+        "name": "Weight",
+        "value": "5/50/2mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "b3815e6e-3144-40bf-bbea-35726d0d77c8",
+        "name": "Weight",
+        "value": "10/50/10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "4e686b00-5cf1-455a-8c89-92a0cf9e59fe",
+    "name": "GLOW Plus (BPC-157/GHK-Cu/TB-500/Thymosin Alpha-1 Blend)",
+    "slug": "glow-plus-bpc-157-ghk-cu-tb-500-thymosin-alpha-1-blend",
+    "basePrice": 115,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "0d54f806-2a40-451b-8d6c-e0cf5b4a2975",
+        "name": "Weight",
+        "value": "5/50/2/3mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "273a1ebe-885b-490c-ad77-3fb3df738194",
+        "name": "Weight",
+        "value": "10/50/10/5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "1b7600b5-b49c-40c5-b02a-5e8a4b8c7b02",
+    "name": "GLP-1 (C)",
+    "slug": "glp-1-c",
+    "basePrice": 115,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "59b37d8f-39df-460b-8ef5-cfd785d8e736",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "210ebddb-3b3d-49b0-a5f3-79b20cd51546",
+    "name": "GLP-1 (C/S)",
+    "slug": "glp-1-c-s",
+    "basePrice": 89,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "24cbc8e6-a6fe-4f3f-b630-261054d0c04e",
+        "name": "weight",
+        "value": "5/5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "951cc5d3-c774-4943-bcf5-c92d70514324",
+        "name": "weight",
+        "value": "10/10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "b14dd91e-541e-440c-9027-38e1b50360ad",
+    "name": "GLP-1 (S)",
+    "slug": "glp-1-s",
+    "basePrice": 43,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "e8f60115-b5e6-423f-898e-b52a67084995",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "d56afe6d-bdca-43d4-bfa7-e11ac033a290",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "5ab1857c-b15c-45f9-a4ac-51a45b19b781",
+        "name": "Weight",
+        "value": "15mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "5b08e2eb-5cbc-429a-862d-6694b9e13b6b",
+        "name": "Weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "b20610fb-7afd-4295-be28-832a8d836762",
+        "name": "Weight",
+        "value": "30mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "02ab2421-436f-434d-b8c6-0db912c3c0b0",
+    "name": "GLP-2 (T)",
+    "slug": "glp-2-t",
+    "basePrice": 89,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "e93f031d-5a6e-4088-b339-baf2cc3f0c2d",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "3e6c2e6f-a24d-42cf-b50f-3ef5d81fe0b8",
+        "name": "Weight",
+        "value": "15mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "439ea594-c694-4dfc-9314-08d8b5a00a78",
+        "name": "Weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "a8feb164-1ffb-4166-ac32-da15d668a479",
+        "name": "Weight",
+        "value": "30mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "a93d27fc-0c11-4c0f-a4f9-5e130b45ad2c",
+    "name": "GLP-3 (R)",
+    "slug": "glp-3-r",
+    "basePrice": 57,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "baad9fec-cee1-40c4-831e-fbe56f987f40",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "b4d14d8a-379d-49df-abe9-dcf0c3f91708",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "cb8c3540-000e-4477-b095-cd21f6ef907b",
+        "name": "Weight",
+        "value": "15mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "d329a4f3-b262-401c-875f-cf6a81f331e4",
+        "name": "Weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "6ba3f737-e962-44af-8c4d-8c6657b34dd9",
+        "name": "Weight",
+        "value": "30mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "139801f1-4514-43ca-a942-b5ef4fe55d27",
+    "name": "Glutathione",
+    "slug": "glutathione",
+    "basePrice": 41,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "2edd4a2e-8be5-4ced-bde3-684c920e4f78",
+        "name": "Weight",
+        "value": "600mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "f898c755-565d-41bb-ab8e-7af496a8c001",
+        "name": "Weight",
+        "value": "1500mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "e9b3e0dd-e851-4cb7-9ce9-59680309ec77",
+    "name": "Glutathione 1200mg",
+    "slug": "glutathione-1200mg",
+    "basePrice": 99.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "c1ed92db-8c01-4994-85ab-09100f933089",
+    "name": "Gonadorelin",
+    "slug": "gonadorelin",
+    "basePrice": 17,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "8550785f-4cb0-4ecf-b354-5ff758c66356",
+        "name": "weight",
+        "value": "2mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "c591d906-7f31-4e68-9c53-5965cb30bd05",
+    "name": "GW-501516 (10MG) (50 TABLETS)",
+    "slug": "gw-501516-10mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "176e63c9-7204-4368-b510-0b872896beea",
+    "name": "HALO (10MG) (50 TABLETS)",
+    "slug": "halo-10mg-50-tablets",
+    "basePrice": 110,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "381d2c9e-959e-427d-ba4d-9a54fcdba0db",
+    "name": "HCG",
+    "slug": "hcg",
+    "basePrice": 70,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "cf197c0d-3950-4cbe-87dc-873b0068c97c",
+        "name": "Strength",
+        "value": "5000 IU × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "HCG-5000IU10VIALS"
+      },
+      {
+        "id": "8ae237c1-c106-49f7-b660-b7cd13d4557f",
+        "name": "Strength",
+        "value": "10000 IU × 10 vials",
+        "priceModifier": 70,
+        "stock": 100,
+        "sku": "HCG-10000IU10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "d30ecc7c-ba30-4d84-9e7b-6c202c2a7346",
+    "name": "Hexarelin",
+    "slug": "hexarelin",
+    "basePrice": 34,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "414f5775-b6ad-46b9-9d30-274dc819480b",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "46305c27-c8dd-4cc7-9baf-8839b7b06428",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "b1c933b3-dfda-4536-9eba-2dab0c1e8c74",
+    "name": "Hexarelin Acetate",
+    "slug": "hexarelin-acetate",
+    "basePrice": 75,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "b76ddc75-b23a-439c-aeab-5afa67fb22fe",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "cb94eec1-7fd3-41f7-ab49-129efca98bbe",
+    "name": "HGH 176-191",
+    "slug": "hgh-176-191",
+    "basePrice": 41,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "a5edbd56-6a3d-47ae-98c2-d84804279112",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "2972a30d-9808-439e-9a6b-dfddca869121",
+    "name": "HGH 191AA (Somatropin)",
+    "slug": "hgh-191aa-somatropin",
+    "basePrice": 48,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "dbf3df33-8051-4c8e-86c1-5ea76b318c05",
+        "name": "Strength",
+        "value": "10 IU × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "HGH191AASOMATROPIN-10IU10VIALS"
+      },
+      {
+        "id": "88983461-4faa-4d67-b625-70829ad3ee1f",
+        "name": "Strength",
+        "value": "12 IU × 10 vials",
+        "priceModifier": 10,
+        "stock": 100,
+        "sku": "HGH191AASOMATROPIN-12IU10VIALS"
+      },
+      {
+        "id": "14ce5d89-0442-4047-af41-7cea84a911a6",
+        "name": "Strength",
+        "value": "15 IU × 10 vials",
+        "priceModifier": 24,
+        "stock": 100,
+        "sku": "HGH191AASOMATROPIN-15IU10VIALS"
+      },
+      {
+        "id": "7e44b761-50d6-4d51-855d-ce263580c2e8",
+        "name": "Strength",
+        "value": "24 IU × 10 vials",
+        "priceModifier": 68,
+        "stock": 100,
+        "sku": "HGH191AASOMATROPIN-24IU10VIALS"
+      },
+      {
+        "id": "7e9589c3-7285-4460-a2e3-b85e053c0c51",
+        "name": "Strength",
+        "value": "36 IU × 10 vials",
+        "priceModifier": 112,
+        "stock": 100,
+        "sku": "HGH191AASOMATROPIN-36IU10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "101ab42b-4d67-4512-9b28-a7af9e41e8b5",
+    "name": "HGH Fragment 176-191",
+    "slug": "hgh-fragment-176-191",
+    "basePrice": 62,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "00a738c1-9cf3-4070-86fd-15ebbab8dc3e",
+        "name": "Strength",
+        "value": "2mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "HGHFRAGMENT176191-2MG10VIALS"
+      },
+      {
+        "id": "6e3531ee-e1a1-459d-bc58-12e075b3777c",
+        "name": "Strength",
+        "value": "5mg × 10 vials",
+        "priceModifier": 28,
+        "stock": 100,
+        "sku": "HGHFRAGMENT176191-5MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "85af1c22-db75-4f11-9dfc-0a4b5b720475",
+    "name": "HMG",
+    "slug": "hmg",
+    "basePrice": 55,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "5a2b8669-b279-423c-8c1a-9ef48a0486a3",
+        "name": "Strength",
+        "value": "75 IU × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "HMG-75IU10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "a9d76e10-b9b5-4ae8-9fd8-059d51703037",
+    "name": "Humanin",
+    "slug": "humanin",
+    "basePrice": 51,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "230a5243-9192-4c75-9991-017e474bf2db",
+        "name": "weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "aa8df3a9-e273-4936-bbf6-52096186e8ba",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "73e21165-85a7-4579-af66-19ed40ca1c41",
+    "name": "Ibutamorin",
+    "slug": "ibutamorin",
+    "basePrice": 109,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "b8f241c8-ef78-4891-b66e-43fffbb42dbe",
+        "name": "weight",
+        "value": "12.5mg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "bc88107a-dfcf-493d-a3a0-45fe66b20320",
+        "name": "weight",
+        "value": "25mg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "ff547b4c-ea9e-42f5-8267-a83142ad8d5d",
+    "name": "IGF-1 LR3",
+    "slug": "igf-1-lr3",
+    "basePrice": 30,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "c4422d4d-bd8f-4dd8-90c8-d59607a669c0",
+        "name": "Dosage",
+        "value": "0.1mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "94495eb4-ab23-4da5-a846-aa9288999d54",
+        "name": "Dosage",
+        "value": "1mg × 10 vials",
+        "priceModifier": 150,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "f9d8d460-4398-4dcd-8d4e-e3b9ca76b167",
+    "name": "Insulin Syringes (10 pack)",
+    "slug": "insulin-syringes-10-pack",
+    "basePrice": 8.99,
+    "stock": 300,
+    "variants": []
+  },
+  {
+    "id": "4cbc381b-76ab-4a1a-9f3a-1c4781a4c46d",
+    "name": "Ipamorelin",
+    "slug": "ipamorelin",
+    "basePrice": 35,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "1a04cfa1-60d5-4e67-b34e-173c656aef8c",
+        "name": "Dosage",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "4897f810-32d7-4c24-b2d3-86c25af76d95",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 15,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "485715f8-9291-473f-accd-f94f68528c61",
+    "name": "Kisspeptin-10",
+    "slug": "kisspeptin-10",
+    "basePrice": 60,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "bf516b16-845a-4c25-a5bc-7156ad5a5948",
+        "name": "Strength",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "KISSPEPTIN10-5MG10VIALS"
+      },
+      {
+        "id": "a36744d3-5d28-4e77-9326-bba5d29d35e0",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 15,
+        "stock": 100,
+        "sku": "KISSPEPTIN10-10MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "4e26cf4d-068b-41df-92f8-b7a4c8c82a3e",
+    "name": "KLOW",
+    "slug": "klow",
+    "basePrice": 139,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "6af52902-5e2c-49aa-9ba0-da6304d76505",
+        "name": "weight",
+        "value": "10/50/10/10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "9c37b38c-ede5-4392-983c-3669790e8508",
+    "name": "KLOW 10mg/10mg/10mg/50mg",
+    "slug": "klow-10mg-10mg-10mg-50mg",
+    "basePrice": 149.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "4f25dc8a-39bd-499b-9aec-3b32d0517e0f",
+    "name": "KPV",
+    "slug": "kpv",
+    "basePrice": 55,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "17e75278-82be-46c2-8940-12a763448c77",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "3092f865-d97d-4866-9cd3-34ef70f33eb7",
+    "name": "LC 120 (Lipo-C formulation)",
+    "slug": "lc-120-lipo-c-formulation",
+    "basePrice": 44,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "8072835b-84e0-4794-9244-2e26093e6d41",
+        "name": "volume",
+        "value": "10ml",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "305e1ef4-136a-40c8-8a7d-67b6dedabfba",
+    "name": "LC 216 (Lipo-B formulation)",
+    "slug": "lc-216-lipo-b-formulation",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "8f493068-51d1-4f07-bb5f-16fafb89da37",
+        "name": "volume",
+        "value": "10 ml",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "0516304f-fe01-46d4-a797-cd8b8cb43563",
+    "name": "LGD-4033 (10MG) (50 TABLETS)",
+    "slug": "lgd-4033-10mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "95515a9b-891f-4a4d-ad70-c35e3252a7f6",
+    "name": "LIPO-B 10ml",
+    "slug": "lipo-b",
+    "basePrice": 89.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "b12ffb6c-6d5c-46ae-b7b0-814379ec3f26",
+    "name": "LIPO-C 10ml",
+    "slug": "lipo-c",
+    "basePrice": 89.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "7d0c511e-b5bf-44f5-8c59-8e65d09ac1f0",
+    "name": "Livagen",
+    "slug": "livagen",
+    "basePrice": 30,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "985232a4-73a0-47e9-96ad-58d6c16ab329",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "e85054dc-8a04-4141-b54b-55943cf45349",
+        "name": "weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "921b7494-197f-4c06-a86c-bc5c33039016",
+    "name": "LL-37",
+    "slug": "ll-37",
+    "basePrice": 69,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "f54088ec-4aaf-4246-9523-b1a64183e9a3",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "3b27d2ce-cd16-4676-bb79-c5a1e2abcd83",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "56cfa5d3-e011-4271-919e-2181425b4636",
+    "name": "MASTERON ENANTHATE (200MG)",
+    "slug": "masteron-enanthate-200mg",
+    "basePrice": 100,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "1c9728eb-b168-4e25-9152-42d62c699ef2",
+    "name": "MASTERON P (100MG)",
+    "slug": "masteron-p-100mg",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "38c2ae99-b3c6-434c-b406-13f1cb04b245",
+    "name": "MELANOTAN (10MG)",
+    "slug": "melanotan",
+    "basePrice": 60,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "9774bceb-641a-452b-8a23-ed11b5371368",
+    "name": "Melanotan-I 10mg",
+    "slug": "melanotan-i",
+    "basePrice": 29.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "85eced6d-c269-4c7b-9579-f0839ef2b756",
+    "name": "Melanotan-II 10mg",
+    "slug": "melanotan-ii",
+    "basePrice": 29.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "b7840511-1a3a-4896-a497-7fa88d9101d2",
+    "name": "Melanoten-2",
+    "slug": "melanoten-2",
+    "basePrice": 27,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "fdc2ed29-b713-462c-af04-e8d419d03038",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "ac00fc06-9d74-4263-9e14-88c5c3fe8248",
+        "name": "Weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "9c33354b-52c8-4498-8637-1c3039118e05",
+    "name": "Methylene Blue",
+    "slug": "methylene-blue",
+    "basePrice": 79,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "08dec858-d0be-4c1d-8b38-cfba3a265550",
+        "name": "weight",
+        "value": "20mg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "bf95dfb3-dee5-462c-ba9c-a8842cbdec09",
+    "name": "MGF",
+    "slug": "mgf",
+    "basePrice": 35,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "412a8d50-fd23-416d-b887-421ab0ee409f",
+        "name": "Strength",
+        "value": "2mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "MGF-2MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "723a0217-dd97-478a-a750-d52c115667e3",
+    "name": "MK-2866 (10MG) (50 TABLETS)",
+    "slug": "mk-2866-10mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "6c13f3f7-3acb-40e2-be66-7f83fbd8aff3",
+    "name": "MK-677 (10MG) (50 TABLETS)",
+    "slug": "mk-677-10mg-50-tablets",
+    "basePrice": 100,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "8bd7c110-ff28-47aa-89ea-0371f5c20e2b",
+    "name": "MK-906 (5MG) (50 TABLETS)",
+    "slug": "mk-906-5mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "8697cfe5-41f0-4321-9c6b-7ec731c03702",
+    "name": "MOTS-C",
+    "slug": "mots-c",
+    "basePrice": 55,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "46e2d0d4-f45f-4cfc-8e46-a26c7ba7ecf4",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "a67ddd84-3164-46f2-b884-175013faec75",
+        "name": "Dosage",
+        "value": "20mg × 10 vials",
+        "priceModifier": 55,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "53df5aeb-fe92-47da-a727-c1ba46ef62cd",
+        "name": "Dosage",
+        "value": "40mg × 10 vials",
+        "priceModifier": 110,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "d1184cf2-13e9-4e6c-8533-3f327298404c",
+    "name": "MT-1",
+    "slug": "mt-1",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "13015cc7-24b3-402a-8794-b2b131641898",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "MT1-10MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "a2532583-e241-4661-8e68-94f21f981823",
+    "name": "MT-2 (Melanotan 2 Acetate)",
+    "slug": "mt-2-melanotan-2-acetate",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "2b5ae166-1b3d-425d-8edb-feb526377c3c",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "MT2MELANOTAN2ACETATE-10MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "1de74b76-48ce-4c9e-86ec-8d4f12049c3d",
+    "name": "N-Acetyl Epithalon Amidate",
+    "slug": "n-acetyl-epithalon-amidate",
+    "basePrice": 31,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "1772d832-d31a-46e7-8025-8344e1d64656",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "45141802-c832-4e72-a82c-acfa4fb251f1",
+    "name": "N-Acetyl Selank Amidate",
+    "slug": "n-acetyl-selank-amidate",
+    "basePrice": 29,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "1411f06c-a546-46ba-b7d0-680a9d9762b2",
+        "name": "weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "29637bd6-120e-496e-8700-502baf1a4bed",
+    "name": "N-Acetyl Semx Amidate",
+    "slug": "n-acetyl-semx-amidate",
+    "basePrice": 28,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "3df15ade-952d-4dd8-8aab-af0d97573be4",
+        "name": "weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "092419d6-c889-491d-a090-2d286e9520f7",
+    "name": "NAD⁺ (Nicotinamide Adenine Dinucleotide)",
+    "slug": "nad-nicotinamide-adenine-dinucleotide",
+    "basePrice": 114,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "3643b4cb-96e0-45bd-8e5a-0a965a21cc21",
+        "name": "weight",
+        "value": "1500mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "040362af-6a5a-4f8a-9206-dd1b8bc18ce7",
+    "name": "NAD+",
+    "slug": "nad-plus",
+    "basePrice": 60,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "01e41886-0588-4747-b7a1-c36dc905d9f7",
+        "name": "Dosage",
+        "value": "500mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "2ee46d36-ad15-4055-b437-6b8c59c76605",
+        "name": "Dosage",
+        "value": "1000mg × 10 vials",
+        "priceModifier": 40,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "c8d2e746-9253-4c04-be38-c5ff6909fd29",
+    "name": "NANDROLONE DECANOATE (300MG)",
+    "slug": "nandrolone-decanoate-300mg",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "760c060e-9337-4089-9e85-359d95cfab30",
+    "name": "NOLVADEX (20MG) (50 TABLETS)",
+    "slug": "nolvadex-20mg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "d4948ea0-c06e-4907-90e4-4b28481512ac",
+    "name": "NOLVADEX (25MG) (50 TABLETS)",
+    "slug": "nolvadex-25mg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "dc7250a1-4a4a-4a4c-b1df-a885d8023e03",
+    "name": "NPP (100MG)",
+    "slug": "npp-100mg",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "40f1c7dd-f3e3-4240-bb7f-a5ecc84cfebd",
+    "name": "NPP (150MG)",
+    "slug": "npp-150mg",
+    "basePrice": 85,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "7a91f58f-85b2-41be-94a1-54e355392d2d",
+    "name": "Ovagen",
+    "slug": "ovagen",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "16a8aa47-8563-4d7a-b63f-110d7ed36913",
+        "name": "weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "ad15fdb9-4a86-41de-a6c3-b9d7b318b299",
+    "name": "Oxytocin",
+    "slug": "oxytocin",
+    "basePrice": 31,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "96563ee3-959d-4ee2-a040-06b44833e04e",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "5ec1d68f-3452-412e-b64b-5b49f0d98fcd",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "7030b258-504b-4f58-8a1b-af4a30ca290d",
+    "name": "P-21 (Adamantane)",
+    "slug": "p-21-adamantane",
+    "basePrice": 119,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "ca7ee975-bd2f-45e7-9728-44d8f2b003a8",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "997286a1-2212-4de6-ba18-6c53c38c9d9b",
+    "name": "PEG-MGF",
+    "slug": "peg-mgf",
+    "basePrice": 34,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "8e2072ae-9a7e-41ac-a845-627767f3c71c",
+        "name": "Weight",
+        "value": "2mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "32939da8-4073-4b9d-b70d-f1bbc55e46d3",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "2f7d74ec-e2bc-4f93-ad97-2c53e31b6358",
+    "name": "Peptide-31 25mg",
+    "slug": "peptide-31",
+    "basePrice": 139.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "48e4317f-f133-4590-bc3e-5391eb25600d",
+    "name": "Peptide-31 60mg",
+    "slug": "peptide-31-60mg",
+    "basePrice": 179.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "7914a4cb-4d93-4493-9cf1-356c3335741e",
+    "name": "Peptide-C 5mg",
+    "slug": "peptide-c",
+    "basePrice": 99.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "54838b35-8ef8-4fe2-9d14-23410b41408e",
+    "name": "Peptide-C 10mg",
+    "slug": "peptide-c-10mg",
+    "basePrice": 149.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "305762d6-9aad-4098-9f9c-47bb274b7c6d",
+    "name": "Peptide-C 20mg",
+    "slug": "peptide-c-20mg",
+    "basePrice": 249.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "2b39d80c-5c39-44b1-96e3-2dcbde46f14f",
+    "name": "Peptide-CS 5mg/5mg",
+    "slug": "peptide-cs",
+    "basePrice": 149.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "821d76ea-aac1-406d-8095-b35923df9d1f",
+    "name": "Peptide-M 10mg",
+    "slug": "peptide-m",
+    "basePrice": 139.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "6d3cf2ac-3325-44b6-b6b8-5ccddbeb9e01",
+    "name": "Peptide-M 15mg",
+    "slug": "peptide-m-15mg",
+    "basePrice": 199.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "5dc2222e-3db2-4e69-8bbe-c62f7b7b08b0",
+    "name": "Peptide-R 10mg",
+    "slug": "peptide-r",
+    "basePrice": 129.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "f7f78c48-7b8b-410d-8363-353da9ec55af",
+    "name": "Peptide-R 20mg",
+    "slug": "peptide-r-20mg",
+    "basePrice": 189.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "b11d3e7d-8cca-4ace-bed9-8c292c0d8413",
+    "name": "Peptide-R 50mg",
+    "slug": "peptide-r-50mg",
+    "basePrice": 299.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "01958eb2-3afc-4185-949a-e96c4bfa7523",
+    "name": "Peptide-S 5mg",
+    "slug": "peptide-s",
+    "basePrice": 87.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "de9cdee7-c935-4811-addb-aa50a7f1ad90",
+    "name": "Peptide-S 10mg",
+    "slug": "peptide-s-10mg",
+    "basePrice": 129.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "71ad2aed-d521-4b01-a453-d8534f63eeb5",
+    "name": "Peptide-S 15mg",
+    "slug": "peptide-s-15mg",
+    "basePrice": 159.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "2c2fdb28-e9ca-4618-8461-6645bf253392",
+    "name": "Peptide-SU 10mg",
+    "slug": "peptide-su",
+    "basePrice": 99.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "9638e357-e368-4319-bbd6-443382eebea3",
+    "name": "Peptide-T 10mg",
+    "slug": "peptide-t",
+    "basePrice": 99.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "e58a267a-0e68-438b-8ec1-876241dc6cb0",
+    "name": "Peptide-T 100mg",
+    "slug": "peptide-t-100mg",
+    "basePrice": 449.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "e6091f6f-57a2-4d48-8e11-e076b897d9ba",
+    "name": "Peptide-T 15mg",
+    "slug": "peptide-t-15mg",
+    "basePrice": 119.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "01f6f31a-daed-4a93-8cee-de6e458fb91d",
+    "name": "Peptide-T 30mg",
+    "slug": "peptide-t-30mg",
+    "basePrice": 189.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "40c10a1d-7952-4831-9231-0ddb7df47e97",
+    "name": "Peptide-T 60mg",
+    "slug": "peptide-t-60mg",
+    "basePrice": 289.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "bc1f3995-b956-4ee5-a097-d5b012a6d38c",
+    "name": "Pinealon",
+    "slug": "pinealon",
+    "basePrice": 29,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "7c7b9426-d00e-4a8f-85bf-69f207d583a2",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "14c70819-b881-4479-b339-13d911f60252",
+        "name": "weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "41ac2dfc-6859-42c3-8c52-3ea6d04f9ec8",
+    "name": "PNC-27",
+    "slug": "pnc-27",
+    "basePrice": 79,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "f4587e42-fa37-4ed8-9ce1-3a32fd682e6d",
+        "name": "weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "7567f824-d974-4443-a1a0-5cb81b151c2c",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "dedd5761-b04b-494d-b1d6-59d44797ac9a",
+    "name": "Portable Insulin Cooler",
+    "slug": "portable-insulin-cooler",
+    "basePrice": 236.99,
+    "stock": 50,
+    "variants": [
+      {
+        "id": "f18b5238-7372-497a-b0d5-6def417ef875",
+        "name": "Battery",
+        "value": "1 battery",
+        "priceModifier": 0,
+        "stock": 25,
+        "sku": "PIC-1BAT"
+      },
+      {
+        "id": "fca9db3d-6f6d-4130-bfa9-d23be391743d",
+        "name": "Battery",
+        "value": "2 battery",
+        "priceModifier": 18,
+        "stock": 25,
+        "sku": "PIC-2BAT"
+      }
+    ]
+  },
+  {
+    "id": "73b06c59-495e-4845-8d47-91f711c45c5a",
+    "name": "PRIMO (100MG)",
+    "slug": "primo-100mg",
+    "basePrice": 110,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "a28c73d5-f221-44ff-854d-95167740f1bf",
+    "name": "PRIMO (200MG)",
+    "slug": "primo-200mg",
+    "basePrice": 140,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "6509205e-91c0-4942-bf34-4ca3e0a84fd3",
+    "name": "PRIMOBOLAN (100MG)",
+    "slug": "primobolan-100mg",
+    "basePrice": 110,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "2e8195eb-9e26-46e1-88ac-148525108581",
+    "name": "Prostamax",
+    "slug": "prostamax",
+    "basePrice": 52,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "b67dd63c-fdd2-4be0-82ca-31509f43cb3d",
+        "name": "Weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "d9bfda0a-6cc2-428a-8444-be322316bb4c",
+        "name": "Weight",
+        "value": "40mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "a6b79f90-25d4-46c5-8b73-586ccd67c505",
+    "name": "PROVIRON (20MG) (50 TABLETS)",
+    "slug": "proviron-20mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "98f10e5a-1fe8-46fa-84f2-175c047e1d6d",
+    "name": "PROVIRON (25MG) (50 TABLETS)",
+    "slug": "proviron-25mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "8ba970a1-cf8b-47bf-8504-267d4fca5776",
+    "name": "PT-141",
+    "slug": "pt-141",
+    "basePrice": 129,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "c00f24ee-5c2c-4e63-8028-818da5d0772a",
+        "name": "weight",
+        "value": "30mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "64e023bb-b2fb-44e0-a4f1-eb0385185149",
+    "name": "PT-141 10mg",
+    "slug": "pt-141-10mg",
+    "basePrice": 42.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "df77bc2a-4ad4-4f29-ad8b-c6b845574f35",
+    "name": "RAD140 (10MG) (50 TABLETS)",
+    "slug": "rad140-10mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "b493025b-3f17-47ed-9f55-621ccccfea16",
+    "name": "Reconstitution Solution &amp;#8211; 30ml",
+    "slug": "reconstitution-solution-30ml",
+    "basePrice": 19.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "a4a40123-48fb-49fc-b6de-8a58eea0f688",
+    "name": "Retatrutide",
+    "slug": "retatrutide",
+    "basePrice": 57,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "33b7a9dc-67a5-4eaa-bc41-2c1fa28bc42e",
+        "name": "Strength",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "RET-5MG-10V"
+      },
+      {
+        "id": "9ee66acd-53de-47c2-8705-8db0d8f84b2e",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 31,
+        "stock": 100,
+        "sku": "RET-10MG-10V"
+      },
+      {
+        "id": "1899698e-cc8b-444c-bf69-a252dfbfd6a8",
+        "name": "Strength",
+        "value": "15mg × 10 vials",
+        "priceModifier": 48,
+        "stock": 100,
+        "sku": "RET-15MG-10V"
+      },
+      {
+        "id": "da59dc38-434a-496e-9d88-5368a6af8856",
+        "name": "Strength",
+        "value": "20mg × 10 vials",
+        "priceModifier": 59,
+        "stock": 100,
+        "sku": "RET-20MG-10V"
+      },
+      {
+        "id": "0c79a442-d5cf-4d3a-b57d-bce7a6a29801",
+        "name": "Strength",
+        "value": "30mg × 10 vials",
+        "priceModifier": 103,
+        "stock": 100,
+        "sku": "RET-30MG-10V"
+      },
+      {
+        "id": "01803a31-fc28-423d-883e-9d210d0008f7",
+        "name": "Strength",
+        "value": "60mg × 10 vials",
+        "priceModifier": 243,
+        "stock": 100,
+        "sku": "RET-60MG-10V"
+      }
+    ]
+  },
+  {
+    "id": "704d07c1-e832-41a7-a6b4-57ec8c308ce8",
+    "name": "Selank",
+    "slug": "selank",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "9d0827df-8f05-425f-813e-30a7c632469c",
+        "name": "Dosage",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "df28402f-a850-4e68-95b0-68a92564bc6d",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 16,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "36f13832-d98a-413e-9f2e-1e627d7a86c4",
+    "name": "Selank TP-7",
+    "slug": "selank-tp-7",
+    "basePrice": 114,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "309cd207-9e72-4681-b726-19c541d90c66",
+        "name": "weight",
+        "value": "40mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "30814c98-d858-45a8-9036-1f21663d54ac",
+    "name": "Semaglutide",
+    "slug": "semaglutide",
+    "basePrice": 32,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "b804cddb-6e84-43b5-8f1b-b33fabcb6480",
+        "name": "Strength",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "SEMAGLUTIDE-5MG10VIALS"
+      },
+      {
+        "id": "ff7a5066-3832-498f-b4da-e2b45400870c",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 18,
+        "stock": 100,
+        "sku": "SEMAGLUTIDE-10MG10VIALS"
+      },
+      {
+        "id": "1564cd69-2e93-4888-956e-ef524ecfbc5b",
+        "name": "Strength",
+        "value": "15mg × 10 vials",
+        "priceModifier": 28,
+        "stock": 100,
+        "sku": "SEMAGLUTIDE-15MG10VIALS"
+      },
+      {
+        "id": "218bb142-d853-49cb-b4b9-3566c34682d6",
+        "name": "Strength",
+        "value": "20mg × 10 vials",
+        "priceModifier": 38,
+        "stock": 100,
+        "sku": "SEMAGLUTIDE-20MG10VIALS"
+      },
+      {
+        "id": "73a93bea-b7b3-456c-bc55-a9d17fad9808",
+        "name": "Strength",
+        "value": "30mg × 10 vials",
+        "priceModifier": 56,
+        "stock": 100,
+        "sku": "SEMAGLUTIDE-30MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "ace29784-310d-4675-88c4-87967b2d2afa",
+    "name": "Semax",
+    "slug": "semax",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "47b91e60-b9c2-4430-a8e0-6c32c4521e06",
+        "name": "Dosage",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "704323ff-b9c9-46b0-a0f6-c99858e96baa",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 16,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "c9d90385-324b-42cc-b918-4b49faa902fb",
+    "name": "Semx",
+    "slug": "semx",
+    "basePrice": 114,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "46bc6590-8fdb-499d-a5e7-2c311427666a",
+        "name": "weight",
+        "value": "50mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "6aac6f55-fe4a-40b4-9716-ecf125aca2cc",
+    "name": "Sermorelin 10mg",
+    "slug": "sermorelin",
+    "basePrice": 69.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "75b9aac2-271b-4a27-8996-9015658cbc84",
+    "name": "Sermorelin Acetate",
+    "slug": "sermorelin-acetate",
+    "basePrice": 65,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "808e5f2b-ba3e-4508-afdd-2d01bddd7f04",
+        "name": "Strength",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "SERMORELINACETATE-5MG10VIALS"
+      },
+      {
+        "id": "c005676f-2909-40af-95cf-42ec36966496",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 60,
+        "stock": 100,
+        "sku": "SERMORELINACETATE-10MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "24e430bb-8e82-46c3-b302-5198a2137e73",
+    "name": "Sermorlin",
+    "slug": "sermorlin",
+    "basePrice": 34,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "c1e0c3a5-559b-4180-8095-e1ac951463af",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "30abf775-2a4d-451a-9f5b-04870a63fbc1",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "42179512-e7d3-42ca-8221-6c4669674844",
+    "name": "SLU-PP-332",
+    "slug": "slu-pp-332",
+    "basePrice": 99,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "2bde3024-f58e-4e01-9e80-3a2e0efa8a6e",
+        "name": "weight",
+        "value": "500mcg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "7331f308-f597-4195-b66c-948e408dd34b",
+        "name": "weight",
+        "value": "1000mcg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "31abda81-bca5-4a46-a4e4-c2bccffc9a8a",
+    "name": "SNAP-8 10mg",
+    "slug": "snap-8-10mg",
+    "basePrice": 59.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "795c51c8-374d-457e-b45c-bc877f4c0845",
+    "name": "SR9009 (10MG) (50 TABLETS)",
+    "slug": "sr9009-10mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "8724211c-55c5-4318-a79a-0f892f42cc0c",
+    "name": "SS-31",
+    "slug": "ss-31",
+    "basePrice": 75,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "72adf8de-7121-4fb4-ad2d-e7fdf4079a5b",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "SS31-10MG10VIALS"
+      },
+      {
+        "id": "d0d3b08a-3af9-47fa-a309-8241b1052014",
+        "name": "Strength",
+        "value": "50mg × 10 vials",
+        "priceModifier": 185,
+        "stock": 100,
+        "sku": "SS31-50MG10VIALS"
+      }
+    ]
+  },
+  {
+    "id": "c0c28c58-5bc0-4a43-a237-06a1650b93c2",
+    "name": "SUPERDROL (10MG) (50 TABLETS)",
+    "slug": "superdrol-10mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "d6f60709-909f-451d-8bfd-f2363ca14e67",
+    "name": "SUPERDROL (25MG) (50 TABLETS)",
+    "slug": "superdrol-25mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "8c98fa62-e30c-41b0-a331-7f4743bd4ab0",
+    "name": "SUPERMAN (50MG) (50 TABLETS)",
+    "slug": "superman-50mg-50-tablets",
+    "basePrice": 100,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "166e59e4-dbc5-43cf-8095-4b13b1ddaaa7",
+    "name": "SUSTANON (250MG)",
+    "slug": "sustanon-250mg",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "1714b44b-cc9c-4bc9-b1d2-3da33d8e483d",
+    "name": "T-BOL (25MG) (50 TABLETS)",
+    "slug": "t-bol-25mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "fa42f4c7-8839-4865-b8da-e647b8add3fb",
+    "name": "T3 (25MCG) (50 TABLETS)",
+    "slug": "t3-25mcg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "43762e5c-21b4-43b9-a38e-21b6bbd44cb6",
+    "name": "T400 (400MG)",
+    "slug": "t400-400mg",
+    "basePrice": 100,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "18302a9e-c403-4c3f-bea2-43ece4346cd0",
+    "name": "TB-500 (Thymosin Beta-4 synthetic fragment)",
+    "slug": "tb-500",
+    "basePrice": 35,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "ab5fee09-e2ae-4cfb-b24a-3f8ebe30e358",
+        "name": "Strength",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": "TB500-5MG10V"
+      },
+      {
+        "id": "a92e6d50-46a0-4e0b-96a2-1b2f023d7e22",
+        "name": "Strength",
+        "value": "10mg × 10 vials",
+        "priceModifier": 30,
+        "stock": 100,
+        "sku": "TB500-10MG10V"
+      }
+    ]
+  },
+  {
+    "id": "bd5fdf7e-cb76-48e5-bd96-b57dbec72df2",
+    "name": "TB-500 10mg",
+    "slug": "tb-500-10mg",
+    "basePrice": 69.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "decdf5ce-c378-4c95-949b-cdafcf00c675",
+    "name": "TB-500 (Tβ-4)",
+    "slug": "tb-500-tb-4",
+    "basePrice": 99,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "e6325f57-89a9-4363-b5eb-5f259775d17e",
+        "name": "weight",
+        "value": "500mcg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "1324aaa3-403d-4d0b-89e4-50d041a96953",
+    "name": "TB-500 (Tβ4)",
+    "slug": "tb-500-tb4",
+    "basePrice": 109,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "0562dc61-1b54-4c19-9469-8d2d1a48a027",
+        "name": "weight",
+        "value": "30mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "46cdacc1-cb0a-4eae-8090-eb79aefed406",
+    "name": "TB500 (5MG)",
+    "slug": "tb500",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "9d1b132c-5048-42b5-af48-b7bf30d713eb",
+    "name": "Tesamorelin",
+    "slug": "tesamorelin",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "d86e4a68-4a6b-4426-8042-c4648dcdbb55",
+        "name": "Dosage",
+        "value": "2mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "8c1d1c27-a8d7-4306-8fd8-cfc2341dec4b",
+        "name": "Dosage",
+        "value": "5mg × 10 vials",
+        "priceModifier": 51,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "68b10a74-fbf7-4219-bd81-0a1244407d39",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 97,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "a6f5dc69-8dc2-42e9-bb2a-038931d12be7",
+        "name": "Dosage",
+        "value": "20mg × 10 vials",
+        "priceModifier": 211,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "79e9e155-dc7c-4e0f-b70e-94ddf0fa9aac",
+    "name": "Tesmorelin",
+    "slug": "tesmorelin",
+    "basePrice": 47,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "0aaaded8-c0c8-4056-97c5-48a6e7a697f0",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "b5b85569-cd47-45f0-b3c9-5368647b6a55",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "9c27c54d-4390-4d94-a434-0e5dd1e12020",
+    "name": "TESO / NS2330",
+    "slug": "teso-ns2330",
+    "basePrice": 169,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "76bac48a-57e9-4fb2-bc5a-d4aec03e6e31",
+        "name": "weight",
+        "value": "500mcg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "24be270f-cef8-4fa5-a5af-27ad0fac43cd",
+    "name": "TEST CYPIONATE (250MG)",
+    "slug": "test-cypionate-250mg",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "3d2cf265-7952-429f-bd65-742f17110a2e",
+    "name": "TEST ENANTHATE (250MG)",
+    "slug": "test-enanthate-250mg",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "11b35d01-c2bf-46f7-b9f2-f995a50858b8",
+    "name": "TEST PROPIONATE (100MG)",
+    "slug": "test-propionate-100mg",
+    "basePrice": 70,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "aba2fb53-1d7c-48ab-89e4-0d1393750d88",
+    "name": "TESTOSTERONE 400 (400MG)",
+    "slug": "testosterone-400-400mg",
+    "basePrice": 105,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "c2ca28c0-920e-4bb1-9f56-962774ac53cc",
+    "name": "TESTOSTERONE CYPIONATE (300MG)",
+    "slug": "testosterone-cypionate-300mg",
+    "basePrice": 85,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "4153c223-1e26-4e94-814f-2f9e5dd987b3",
+    "name": "TESTOSTERONE ENANTHATE (300MG)",
+    "slug": "testosterone-enanthate-300mg",
+    "basePrice": 85,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "2f87b0f3-3ef1-4c30-801a-926b5ac3d9f6",
+    "name": "TESTOSTERONE MIX (300MG)",
+    "slug": "testosterone-mix-300mg",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "af16d561-54b0-48c2-a755-9cdd1a99c44c",
+    "name": "TESTOSTERONE PROPIONATE (100MG)",
+    "slug": "testosterone-propionate-100mg",
+    "basePrice": 75,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "031894b4-90eb-485d-920b-93cec1cf661e",
+    "name": "TESTOSTERONE TRENBOLONE (400MG)",
+    "slug": "testosterone-trenbolone-400mg",
+    "basePrice": 110,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "43efe68b-2242-4720-a722-c25dccf83610",
+    "name": "TESTOSTERONE UNDECANOATE (250MG)",
+    "slug": "testosterone-undecanoate-250mg",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "dbb0eaa3-9064-401a-8dbb-02054e7bec4a",
+    "name": "Thymalin",
+    "slug": "thymalin",
+    "basePrice": 19,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "3422c963-1b58-4f68-bf4e-603a2cd018a2",
+        "name": "Weight",
+        "value": "5mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "894b23e3-5d66-4f00-9965-151ead27b492",
+        "name": "Weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "5b45bb77-d575-4d5c-9e30-923f8c4dd11c",
+    "name": "Thymogen",
+    "slug": "thymogen",
+    "basePrice": 29,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "486223b3-34f5-4eb2-83f9-fd98d9273c9f",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "753f27c6-5dfc-4b2f-9e03-65003d25e071",
+        "name": "weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "78bbbfec-e866-41dd-b8cb-7711f758f02e",
+    "name": "Thymosin-α1 5mg",
+    "slug": "thymosin-a1",
+    "basePrice": 29.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "f6e55717-5fe6-4342-9330-94bc3d21df18",
+    "name": "Thymosin-α1 10mg",
+    "slug": "thymosin-a1-10mg",
+    "basePrice": 64.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "46272bb6-3da3-4e7e-a61d-8c7b0fe5bd4f",
+    "name": "Tirzepatide",
+    "slug": "tirzepatide",
+    "basePrice": 35,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "c969725c-3fc2-4feb-9d46-51ffa729f878",
+        "name": "Dosage",
+        "value": "5mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "773448a7-d9c2-4799-a93a-e43fc0e2bdfb",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 15,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "59f8cfb0-4c37-4310-8f89-4e8a49f9b0ab",
+        "name": "Dosage",
+        "value": "15mg × 10 vials",
+        "priceModifier": 30,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "307fd446-b0c4-42e7-bc57-b16fda15c25c",
+        "name": "Dosage",
+        "value": "20mg × 10 vials",
+        "priceModifier": 40,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "e00f4191-40cb-486b-83e3-0a696594e6cf",
+        "name": "Dosage",
+        "value": "30mg × 10 vials",
+        "priceModifier": 60,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "9bcd3264-5fde-4dd1-9328-3e045f47e6f8",
+        "name": "Dosage",
+        "value": "40mg × 10 vials",
+        "priceModifier": 80,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "0df8a274-4fce-49b7-aab9-4b1832f014a9",
+        "name": "Dosage",
+        "value": "50mg × 10 vials",
+        "priceModifier": 105,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "d39211bb-425b-477f-ac0d-b3e53421e555",
+        "name": "Dosage",
+        "value": "60mg × 10 vials",
+        "priceModifier": 115,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "187e4e13-3623-4320-9381-f8b128a15c6f",
+        "name": "Dosage",
+        "value": "80mg × 10 vials",
+        "priceModifier": 175,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "62ed01b3-eb51-4db3-9bb7-904ed420ca89",
+        "name": "Dosage",
+        "value": "100mg × 10 vials",
+        "priceModifier": 215,
+        "stock": 100,
+        "sku": null
+      },
+      {
+        "id": "33f5b647-70d2-4f98-a418-121e8831d984",
+        "name": "Dosage",
+        "value": "120mg × 10 vials",
+        "priceModifier": 235,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "867173b9-8251-47f7-a3d6-2ada7d8e18bf",
+    "name": "TNT 200 (200MG)",
+    "slug": "tnt-200-200mg",
+    "basePrice": 110,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "f0afb426-1f17-411d-ac47-ddbdf4868cd2",
+    "name": "TNT 400 (400MG)",
+    "slug": "tnt-400-400mg",
+    "basePrice": 110,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "c2fb2dc2-8cb3-4d7c-8013-84e1fa5db6e8",
+    "name": "Travel Cold-Case",
+    "slug": "travel-cold-case",
+    "basePrice": 39.99,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "3d94e9fc-4256-4d1d-8dd1-93ddc9c3e256",
+    "name": "TREN A (100MG)",
+    "slug": "tren-a-100mg",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "d0f66a8a-7269-4f1f-a8ed-c54f670f9458",
+    "name": "TREN E (200MG)",
+    "slug": "tren-e-200mg",
+    "basePrice": 100,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "fe8e8599-b7fa-4b85-ac42-84553cf7b956",
+    "name": "TRENBOLONE ENANTHATE (200MG)",
+    "slug": "trenbolone-enanthate-200mg",
+    "basePrice": 100,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "7a948b8c-62ad-47b8-b51e-b9b436dee5ff",
+    "name": "TUDCA",
+    "slug": "tudca",
+    "basePrice": 59,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "90996082-a9f3-41f7-9529-cfdbd34e120d",
+        "name": "weight",
+        "value": "500mg/cap",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "d27582d4-8c2f-4ea8-b66f-30d60ba86e45",
+    "name": "TURINABOL (20MG) (50 TABLETS)",
+    "slug": "turinabol-20mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "60630d03-6ef4-4dcf-aebb-6d7d64d81b2e",
+    "name": "Vesugen",
+    "slug": "vesugen",
+    "basePrice": 49,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "a4c0e6a3-72bf-4f9f-91ad-7bec0a60038f",
+        "name": "weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "ddc48556-2dd7-4a75-9f4c-39efa8c1fa7f",
+    "name": "VIAGRA (50MG) (50 TABLETS)",
+    "slug": "viagra-50mg-50-tablets",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "8930d87c-b948-466f-a75e-fac7eb7c957f",
+    "name": "Vilon",
+    "slug": "vilon",
+    "basePrice": 37,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "2b67ac76-7ba3-4022-8f58-7a50e24d8e63",
+        "name": "weight",
+        "value": "10mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      },
+      {
+        "id": "e9d13f4b-6c62-4c07-bfaa-f6419f635bc7",
+        "name": "weight",
+        "value": "20mg",
+        "priceModifier": 0,
+        "stock": 0,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "b76f2f34-a280-46fc-a2b3-190245e35ac0",
+    "name": "VIP",
+    "slug": "vip",
+    "basePrice": 155,
+    "stock": 100,
+    "variants": [
+      {
+        "id": "970b993c-6607-45d7-b42b-b66d9169ee66",
+        "name": "Dosage",
+        "value": "10mg × 10 vials",
+        "priceModifier": 0,
+        "stock": 100,
+        "sku": null
+      }
+    ]
+  },
+  {
+    "id": "9aa870b3-5a28-4c56-b1bc-bf04d15f7a1c",
+    "name": "WIN DEPOT (50MG)",
+    "slug": "win-depot-50mg",
+    "basePrice": 80,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "bf8c53e3-6f08-40da-a5cc-f54efa00e8b0",
+    "name": "WINSTROL (20MG) (50 TABLETS)",
+    "slug": "winstrol-20mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "b5b4fb53-8acb-49c4-8d9a-97975044af0c",
+    "name": "WINSTROL (25MG) (50 TABLETS)",
+    "slug": "winstrol-25mg-50-tablets",
+    "basePrice": 100,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "528d7da2-de58-4f6d-8339-8bc3f427df2c",
+    "name": "YK11 (10MG) (50 TABLETS)",
+    "slug": "yk11-10mg-50-tablets",
+    "basePrice": 90,
+    "stock": 100,
+    "variants": []
+  },
+  {
+    "id": "74929131-2081-4cdb-8228-92c2ea47506a",
+    "name": "ZIO SHREDZ (20MG) (50 TABLETS)",
+    "slug": "zio-shredz-20mg-50-tablets",
+    "basePrice": 115,
+    "stock": 100,
+    "variants": []
+  }
+]
