@@ -135,6 +135,34 @@ export const HOME_HERO = {
   secondaryCta: { href: '/coa', label: 'COA library' },
 } as const;
 
+/** Full-bleed homepage hero slideshow — desktop / tablet landscape. */
+export const HOME_HERO_SLIDES = [
+  {
+    src: '/images/home/hero.png',
+    alt: 'MCPFAC BIOTECH laboratory reagents, peptides, and research materials on illuminated display platforms',
+    objectPosition: 'object-[72%_center] sm:object-[68%_center] lg:object-center',
+  },
+  {
+    src: '/images/home/hero-lab.png',
+    alt: 'MCPFAC BIOTECH research laboratory with scientists and holographic molecular analysis displays',
+    objectPosition: 'object-[78%_center] sm:object-[70%_center] lg:object-center',
+  },
+] as const;
+
+/** Portrait slides used below the `md` breakpoint only. Products first. */
+export const HOME_HERO_SLIDES_MOBILE = [
+  {
+    src: '/images/home/hero-mobile-products.png',
+    alt: 'MCPFAC BIOTECH research peptides, reagents, and laboratory materials on illuminated display shelves',
+    objectPosition: 'object-center',
+  },
+  {
+    src: '/images/home/hero-mobile-lab.png',
+    alt: 'MCPFAC BIOTECH research laboratory with scientists and holographic molecular analysis displays',
+    objectPosition: 'object-[60%_center]',
+  },
+] as const;
+
 /** Full FAQ catalog — homepage teaser uses the first four entries. */
 export const FAQ_ITEMS = [
   {
