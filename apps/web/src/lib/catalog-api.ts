@@ -66,6 +66,12 @@ export type ProductListParams = {
   direction?: 'asc' | 'desc';
 };
 
+function normalizeSummaryVariants(item: ProductSummary): ProductSummary {
+  if (!item.variants?.length) return item;
+  const variants = filterRedundantAggregateVariants(item.variants);
+  return { ...item, variants, hasVariants: variants.length > 0 };
+}
+
 export async function getProducts(params: ProductListParams = {}, options?: { cache?: boolean }) {
   try {
     const response = await fetchJson<ApiPaginatedResponse<ProductSummary>>(
@@ -74,14 +80,9 @@ export async function getProducts(params: ProductListParams = {}, options?: { ca
     );
 
     const data = response.data;
-    const items = await enrichSummariesWithVariants(data.items ?? [], options?.cache ?? true);
     return {
       ...data,
-      items: items.map((item) => {
-        if (!item.variants?.length) return item;
-        const variants = filterRedundantAggregateVariants(item.variants);
-        return { ...item, variants, hasVariants: variants.length > 0 };
-      }),
+      items: (data.items ?? []).map(normalizeSummaryVariants),
     };
   } catch {
     return { ...EMPTY_CATALOG, limit: params.limit ?? EMPTY_CATALOG.limit };
@@ -93,74 +94,7 @@ export async function getFeaturedProducts(limit = 6) {
     buildUrl('/products/featured'),
   );
 
-  const items = await enrichSummariesWithVariants(response.data.slice(0, limit), true);
-  return items;
-}
-
-/**
- * Production API may still omit summary.variants while detail returns them.
- * Bridge: hydrate missing variants from /products/:slug (cached).
- */
-async function enrichSummariesWithVariants(
-  items: ProductSummary[],
-  cache = true,
-): Promise<ProductSummary[]> {
-  const missing = items.filter((item) => !item.variants?.length);
-  if (missing.length === 0) {
-    return items;
-  }
-
-  const details = await Promise.all(
-    missing.map(async (item) => {
-      try {
-        const response = await fetchJson<ApiResponse<ProductDetail>>(
-          buildUrl(`/products/${item.slug}`),
-          cache,
-        );
-        return response.data;
-      } catch {
-        return null;
-      }
-    }),
-  );
-
-  const byId = new Map(
-    details.filter((detail): detail is ProductDetail => Boolean(detail)).map((detail) => [detail.id, detail]),
-  );
-
-  return items.map((item) => {
-    if (item.variants?.length) {
-      return item;
-    }
-    const detail = byId.get(item.id);
-    if (!detail?.variants?.length) {
-      return item;
-    }
-
-    const sorted = filterRedundantAggregateVariants([...detail.variants]).sort(
-      (a, b) => (a.price ?? Number.POSITIVE_INFINITY) - (b.price ?? Number.POSITIVE_INFINITY),
-    );
-    const prices = sorted
-      .map((variant) => variant.price)
-      .filter((price): price is number => price != null && Number.isFinite(price));
-    const priceMin = prices.length ? Math.min(...prices) : item.price;
-    const priceMax = prices.length ? Math.max(...prices) : item.price;
-
-    return {
-      ...item,
-      price: priceMin ?? item.price,
-      priceMin,
-      priceMax,
-      hasVariants: true,
-      variants: sorted.map((variant) => ({
-        id: variant.id,
-        name: variant.name,
-        value: variant.value,
-        price: variant.price,
-        isDefault: variant.isDefault,
-      })),
-    };
-  });
+  return response.data.slice(0, limit).map(normalizeSummaryVariants);
 }
 
 export async function getProductBySlug(slug: string): Promise<ProductDetail | null> {
@@ -247,7 +181,7 @@ export async function getProductsByIds(ids: string[]): Promise<ProductSummary[]>
     false,
   );
 
-  return enrichSummariesWithVariants(response.data, false);
+  return (response.data ?? []).map(normalizeSummaryVariants);
 }
 
 /** @deprecated Use getCategoryOptions() — hardcoded seeds had 0 products in live DB. */

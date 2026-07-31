@@ -6,19 +6,8 @@
  * Talk to Nest directly — local :3001 or the API host while embed is still settling.
  */
 export function getBackendOrigin(): string {
-  // Browser: prefer same-origin unless an explicit public backend is set.
+  // Browser: always same-origin so `/api/v1` goes through the Next nest-bridge.
   if (typeof window !== 'undefined') {
-    const explicit = process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
-    if (explicit) {
-      // Never ship browser traffic to localhost from a deployed host.
-      if (
-        /localhost|127\.0\.0\.1/i.test(explicit) &&
-        !/localhost|127\.0\.0\.1/i.test(window.location.hostname)
-      ) {
-        return canonicalizeBrowserOrigin(window.location.origin);
-      }
-      return canonicalizeBrowserOrigin(explicit.replace(/\/+$/, ''));
-    }
     return canonicalizeBrowserOrigin(window.location.origin);
   }
 

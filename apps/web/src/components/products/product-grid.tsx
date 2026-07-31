@@ -50,7 +50,14 @@ export function ProductGrid({
         { cache: false },
       );
 
+      // getProducts swallows API failures into an empty catalog — treat that as an error
+      // unless we are genuinely past the last page.
       if (catalog.items.length === 0) {
+        if (nextPage > catalog.totalPages && catalog.totalPages > 0) {
+          setPage(catalog.totalPages);
+          setTotalPages(catalog.totalPages);
+          return;
+        }
         setError('Could not load more products. Please try again.');
         return;
       }
