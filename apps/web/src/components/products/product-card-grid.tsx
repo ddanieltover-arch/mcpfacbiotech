@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { ProductSummary } from '@mcpfac/shared-types';
 import { ProductCard } from '@/components/products/product-card';
 import { ProductCardSkeleton } from '@/components/products/product-card-skeleton';
-import { slideUp, staggerChildren, staggerFor, variantsFor } from '@/lib/motion';
+import { easeOut } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
 type ProductCardGridProps = {
@@ -17,6 +17,10 @@ type ProductCardGridProps = {
   skeletonCount?: number;
 };
 
+/** Cap entrance stagger so large catalog pages never sit at opacity 0 for seconds. */
+const MAX_STAGGERED_ITEMS = 12;
+const STAGGER_DELAY = 0.05;
+
 export function ProductCardGrid({
   products,
   className,
@@ -24,41 +28,46 @@ export function ProductCardGrid({
   skeletonCount = 0,
 }: ProductCardGridProps) {
   const reduceMotion = useReducedMotion();
-  const container = staggerFor(reduceMotion, staggerChildren);
-  const item = variantsFor(reduceMotion, slideUp);
-  const [seenIds, setSeenIds] = useState<Set<string>>(() => new Set());
-  const [isFirstPass, setIsFirstPass] = useState(true);
+  /** Count of products already committed after paint — new items animate from this index. */
+  const committedCountRef = useRef(0);
+  const animateFrom = committedCountRef.current;
 
   useEffect(() => {
-    setSeenIds((prev) => {
-      const next = new Set(prev);
-      products.forEach((product) => next.add(product.id));
-      return next;
-    });
-    setIsFirstPass(false);
+    committedCountRef.current = products.length;
   }, [products]);
 
   return (
-    <motion.div
-      className={cn(className)}
-      variants={container}
-      initial="hidden"
-      animate="visible"
-    >
+    <div className={cn(className)}>
       {products.map((product, index) => {
-        const isAppended = !isFirstPass && !seenIds.has(product.id);
+        const itemClassName = cn(
+          collapseBelowLgFromIndex != null &&
+            index >= collapseBelowLgFromIndex &&
+            'hidden lg:block',
+        );
+        const isNew = index >= animateFrom;
+        const staggerIndex = index - animateFrom;
+        const shouldAnimate =
+          !reduceMotion && isNew && staggerIndex < MAX_STAGGERED_ITEMS;
+
+        if (!shouldAnimate) {
+          return (
+            <div key={product.id} className={itemClassName}>
+              <ProductCard product={product} />
+            </div>
+          );
+        }
 
         return (
           <motion.div
             key={product.id}
-            variants={item}
-            initial={isAppended ? 'hidden' : undefined}
-            animate="visible"
-            className={cn(
-              collapseBelowLgFromIndex != null &&
-                index >= collapseBelowLgFromIndex &&
-                'hidden lg:block',
-            )}
+            className={itemClassName}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.35,
+              delay: staggerIndex * STAGGER_DELAY,
+              ease: easeOut,
+            }}
           >
             <ProductCard product={product} />
           </motion.div>
@@ -69,6 +78,6 @@ export function ProductCardGrid({
             <ProductCardSkeleton key={`skeleton-${index}`} />
           ))
         : null}
-    </motion.div>
+    </div>
   );
 }

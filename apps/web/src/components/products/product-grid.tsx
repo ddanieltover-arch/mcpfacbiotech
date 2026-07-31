@@ -1,10 +1,9 @@
-'use client';
-
-import { useState } from 'react';
-import { PackageSearch } from 'lucide-react';
+import Link from 'next/link';
+import { ChevronLeft, ChevronRight, PackageSearch } from 'lucide-react';
 import type { ProductSummary } from '@mcpfac/shared-types';
-import { getProducts, PRODUCTS_PAGE_SIZE, type ProductListParams } from '@/lib/catalog-api';
+import { PRODUCTS_PAGE_SIZE } from '@/lib/catalog-api';
 import { EmptyState } from '@/components/ui/empty-state';
+import { cn } from '@/lib/utils';
 import { ProductCardGrid } from './product-card-grid';
 
 type ProductGridProps = {
@@ -12,70 +11,25 @@ type ProductGridProps = {
   page: number;
   totalPages: number;
   total: number;
-  filters: Omit<ProductListParams, 'page' | 'limit'>;
+  /** Current catalog query string params (without `page`) for pagination links. */
+  query: Record<string, string | undefined>;
 };
 
-export function ProductGrid({
-  products: initialProducts,
-  page: initialPage,
-  totalPages: initialTotalPages,
-  total,
-  filters,
-}: ProductGridProps) {
-  const [products, setProducts] = useState(initialProducts);
-  const [page, setPage] = useState(initialPage);
-  const [totalPages, setTotalPages] = useState(initialTotalPages);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+function buildPageHref(query: Record<string, string | undefined>, page: number): string {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    if (value) params.set(key, value);
+  }
+  if (page > 1) params.set('page', String(page));
+  const qs = params.toString();
+  return qs ? `/products?${qs}` : '/products';
+}
 
-  const hasMore = page < totalPages;
-  const skeletonCount = isLoading
-    ? Math.min(PRODUCTS_PAGE_SIZE, Math.max(total - products.length, 2))
-    : 0;
+function visiblePages(total: number): number[] {
+  return Array.from({ length: total }, (_, index) => index + 1);
+}
 
-  const handleViewMore = async () => {
-    if (isLoading || !hasMore) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const nextPage = page + 1;
-      const catalog = await getProducts(
-        {
-          ...filters,
-          page: nextPage,
-          limit: PRODUCTS_PAGE_SIZE,
-        },
-        { cache: false },
-      );
-
-      // getProducts swallows API failures into an empty catalog — treat that as an error
-      // unless we are genuinely past the last page.
-      if (catalog.items.length === 0) {
-        if (nextPage > catalog.totalPages && catalog.totalPages > 0) {
-          setPage(catalog.totalPages);
-          setTotalPages(catalog.totalPages);
-          return;
-        }
-        setError('Could not load more products. Please try again.');
-        return;
-      }
-
-      setProducts((current) => {
-        const seen = new Set(current.map((product) => product.id));
-        const appended = catalog.items.filter((product) => !seen.has(product.id));
-        return [...current, ...appended];
-      });
-      setPage(catalog.page);
-      setTotalPages(catalog.totalPages);
-    } catch {
-      setError('Could not load more products. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+export function ProductGrid({ products, page, totalPages, total, query }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <EmptyState
@@ -87,31 +41,68 @@ export function ProductGrid({
     );
   }
 
+  const rangeStart = (page - 1) * PRODUCTS_PAGE_SIZE + 1;
+  const rangeEnd = Math.min(page * PRODUCTS_PAGE_SIZE, total);
+  const pages = visiblePages(totalPages);
+  const showPagination = totalPages > 1;
+
   return (
     <div className="space-y-8">
       <ProductCardGrid
         products={products}
-        skeletonCount={skeletonCount}
         className="grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3"
       />
 
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-4">
         <p className="text-sm text-neutral-500">
-          Showing {products.length} of {total} products
+          Showing {rangeStart}–{rangeEnd} of {total} products
         </p>
 
-        {hasMore && (
-          <button
-            type="button"
-            onClick={() => void handleViewMore()}
-            disabled={isLoading}
-            className="inline-flex min-w-44 items-center justify-center gap-2 rounded-lg bg-brand-deep px-6 py-2.5 text-sm font-semibold text-white transition-[color,background-color,transform] duration-200 hover:bg-brand-natural disabled:cursor-not-allowed disabled:opacity-60 motion-safe:active:scale-[0.98]"
-          >
-            {isLoading ? 'Loading…' : 'View more'}
-          </button>
-        )}
+        {showPagination ? (
+          <nav aria-label="Product pages" className="flex flex-wrap items-center justify-center gap-1.5">
+            <Link
+              href={buildPageHref(query, page - 1)}
+              aria-disabled={page <= 1}
+              tabIndex={page <= 1 ? -1 : undefined}
+              className={cn(
+                'inline-flex h-10 items-center gap-1 rounded-lg border border-neutral-300 bg-white px-3 text-sm font-medium text-neutral-700 transition-colors hover:border-brand-leaf hover:bg-neutral-50',
+                page <= 1 && 'pointer-events-none opacity-40',
+              )}
+            >
+              <ChevronLeft className="h-4 w-4" aria-hidden />
+              Prev
+            </Link>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+            {pages.map((entry) => (
+              <Link
+                key={entry}
+                href={buildPageHref(query, entry)}
+                aria-current={entry === page ? 'page' : undefined}
+                className={cn(
+                  'inline-flex h-10 min-w-10 items-center justify-center rounded-lg px-3 text-sm font-semibold transition-colors',
+                  entry === page
+                    ? 'bg-brand-deep text-white'
+                    : 'border border-neutral-300 bg-white text-neutral-700 hover:border-brand-leaf hover:bg-neutral-50',
+                )}
+              >
+                {entry}
+              </Link>
+            ))}
+
+            <Link
+              href={buildPageHref(query, page + 1)}
+              aria-disabled={page >= totalPages}
+              tabIndex={page >= totalPages ? -1 : undefined}
+              className={cn(
+                'inline-flex h-10 items-center gap-1 rounded-lg border border-neutral-300 bg-white px-3 text-sm font-medium text-neutral-700 transition-colors hover:border-brand-leaf hover:bg-neutral-50',
+                page >= totalPages && 'pointer-events-none opacity-40',
+              )}
+            >
+              Next
+              <ChevronRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </nav>
+        ) : null}
       </div>
     </div>
   );

@@ -23,6 +23,8 @@ function getParam(params: Record<string, string | string[] | undefined>, key: st
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
   const sort = getParam(params, 'sort') || 'featured';
+  const pageParam = Number.parseInt(getParam(params, 'page') || '1', 10);
+  const page = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
   const filters = {
     search: getParam(params, 'search') || undefined,
     category: getParam(params, 'category') || undefined,
@@ -33,7 +35,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   const [catalog, categories] = await Promise.all([
     getProducts({
-      page: 1,
+      page,
       limit: PRODUCTS_PAGE_SIZE,
       ...filters,
     }),
@@ -43,7 +45,13 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const activeCategory = getParam(params, 'category');
   const categoryLabel =
     categories.find((category) => category.slug === activeCategory)?.label ?? 'All products';
-  const filterKey = [filters.search, filters.category, filters.availability, filters.sort].join('|');
+  const filterKey = [
+    filters.search,
+    filters.category,
+    filters.availability,
+    filters.sort,
+    String(catalog.page),
+  ].join('|');
 
   return (
     <>
@@ -104,7 +112,12 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             page={catalog.page}
             totalPages={catalog.totalPages}
             total={catalog.total}
-            filters={filters}
+            query={{
+              search: filters.search,
+              category: filters.category,
+              availability: filters.availability,
+              sort: filters.sort !== 'featured' ? filters.sort : undefined,
+            }}
           />
         </div>
       </section>
