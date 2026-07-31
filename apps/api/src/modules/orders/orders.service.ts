@@ -244,7 +244,8 @@ export class OrdersService {
 
     void this.notifyOrderConfirmation(order.id);
 
-    return this.getById(profileId, order.id);
+    // Return the created row — avoid a second getById round-trip under cold DB.
+    return this.toDetail(order);
   }
 
   /**
@@ -532,22 +533,22 @@ export class OrdersService {
       throw new BadRequestException('Cart is empty');
     }
 
-    const lines: LineInput[] = [];
-    for (const item of cart.items) {
-      const product = await this.pricing.loadSellableProduct(item.productId, {
-        requirePrice: true,
-        variantId: item.variantId,
-      });
-      this.pricing.assertQuantity(product, item.quantity);
-      lines.push({
-        productId: product.id,
-        productName: product.name,
-        productSku: product.sku,
-        quantity: item.quantity,
-        unitPrice: product.unitPrice,
-      });
-    }
-    return lines;
+    return Promise.all(
+      cart.items.map(async (item) => {
+        const product = await this.pricing.loadSellableProduct(item.productId, {
+          requirePrice: true,
+          variantId: item.variantId,
+        });
+        this.pricing.assertQuantity(product, item.quantity);
+        return {
+          productId: product.id,
+          productName: product.name,
+          productSku: product.sku,
+          quantity: item.quantity,
+          unitPrice: product.unitPrice,
+        } satisfies LineInput;
+      }),
+    );
   }
 
   private async linesFromQuote(customerId: string, quoteId: string): Promise<LineInput[]> {

@@ -95,18 +95,12 @@ describe('OrdersService', () => {
       items: [{ productId: 'prod-amino', quantity: 1 }],
     });
     prisma.order.findUnique.mockResolvedValue(null);
-    prisma.$transaction.mockImplementation(async (fn: (tx: typeof prisma) => Promise<unknown>) => {
-      const created = {
-        id: 'order-1',
-        orderNumber: 'ORD-20260720-1234',
-      };
-      prisma.order.create.mockResolvedValue(created);
-      return fn(prisma);
-    });
-    prisma.order.findFirst.mockResolvedValue({
+    const createdOrder = {
       id: 'order-1',
       orderNumber: 'ORD-20260720-1234',
       status: OrderStatus.PENDING,
+      paymentMethod: 'BANK_TRANSFER',
+      shippingMethod: 'STANDARD',
       subtotal: { toString: () => '169' },
       shippingCost: { toString: () => '0' },
       taxAmount: { toString: () => '0' },
@@ -132,6 +126,14 @@ describe('OrdersService', () => {
       ],
       statusHistory: [],
       invoices: [],
+    };
+    prisma.$transaction.mockImplementation(async (fn: (tx: typeof prisma) => Promise<unknown>) => {
+      prisma.order.create.mockResolvedValue(createdOrder);
+      return fn(prisma);
+    });
+    // Email notifier still loads the order after checkout returns.
+    prisma.order.findFirst.mockResolvedValue({
+      ...createdOrder,
       customer: {
         profile: { email: 'lab@example.com', firstName: 'Ada', lastName: 'Lab' },
       },
@@ -157,17 +159,12 @@ describe('OrdersService', () => {
     prisma.profile.create.mockResolvedValue({ id: 'guest-profile-1' });
     prisma.address.create.mockResolvedValue({ id: 'addr-guest-1' });
     prisma.order.findUnique.mockResolvedValue(null);
-    prisma.$transaction.mockImplementation(async (fn: (tx: typeof prisma) => Promise<unknown>) => {
-      prisma.order.create.mockResolvedValue({
-        id: 'order-guest-1',
-        orderNumber: 'ORD-GUEST-001',
-      });
-      return fn(prisma);
-    });
-    prisma.order.findFirst.mockResolvedValue({
+    const createdGuestOrder = {
       id: 'order-guest-1',
       orderNumber: 'ORD-GUEST-001',
       status: OrderStatus.PENDING,
+      paymentMethod: 'BANK_TRANSFER',
+      shippingMethod: 'STANDARD',
       subtotal: { toString: () => '169' },
       shippingCost: { toString: () => '25' },
       taxAmount: { toString: () => '0' },
@@ -193,6 +190,13 @@ describe('OrdersService', () => {
       ],
       statusHistory: [],
       invoices: [],
+    };
+    prisma.$transaction.mockImplementation(async (fn: (tx: typeof prisma) => Promise<unknown>) => {
+      prisma.order.create.mockResolvedValue(createdGuestOrder);
+      return fn(prisma);
+    });
+    prisma.order.findFirst.mockResolvedValue({
+      ...createdGuestOrder,
       customer: {
         profile: { email: 'guest@example.com', firstName: 'Guest', lastName: 'Buyer' },
       },

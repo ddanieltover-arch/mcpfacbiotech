@@ -346,7 +346,12 @@ export async function checkoutOrder(input: {
   };
 }): Promise<OrderDetail> {
   const options = await commerceOptions();
-  const response = await apiClient.post<OrderDetail>('/orders/checkout', input, options);
+  // Checkout can exceed the default 30s when the API bridge/DB is cold
+  // (guest profile + cart merge + pricing + order write). Server allows 60s.
+  const response = await apiClient.post<OrderDetail>('/orders/checkout', input, {
+    ...options,
+    timeoutMs: 55_000,
+  });
   return response.data;
 }
 

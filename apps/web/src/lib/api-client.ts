@@ -7,6 +7,8 @@ type RequestOptions = {
   headers?: Record<string, string>;
   params?: Record<string, string | number | boolean | undefined>;
   token?: string;
+  /** Client abort timeout in ms. Default 30s; use a higher value for slow mutations (e.g. checkout). */
+  timeoutMs?: number;
 };
 
 /**
@@ -28,7 +30,7 @@ class ApiClient {
   }
 
   private async request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-    const { method = 'GET', body, headers = {}, params, token } = options;
+    const { method = 'GET', body, headers = {}, params, token, timeoutMs = 30_000 } = options;
 
     const requestHeaders: Record<string, string> = {
       ...headers,
@@ -51,7 +53,8 @@ class ApiClient {
         method,
         headers: requestHeaders,
         body: body !== undefined ? JSON.stringify(body) : undefined,
-        signal: AbortSignal.timeout(30_000),
+        // Keep under serverless maxDuration (60s) so the bridge can still respond.
+        signal: AbortSignal.timeout(timeoutMs),
       });
     } catch (error) {
       const message =
