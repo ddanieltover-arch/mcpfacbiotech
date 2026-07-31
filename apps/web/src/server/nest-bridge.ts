@@ -37,12 +37,24 @@ let cachedApp: Express | null = null;
 let bootPromise: Promise<Express> | null = null;
 let bootError: Error | null = null;
 
+const HOP_BY_HOP_HEADERS = [
+  'connection',
+  'keep-alive',
+  'proxy-authenticate',
+  'proxy-authorization',
+  'te',
+  'trailers',
+  'transfer-encoding',
+  'upgrade',
+  'host',
+  'content-length',
+  'content-encoding',
+];
+
 function candidateCreateAppPaths(): string[] {
   const cwd = process.cwd();
   return [
-    // Copied next to the Next app during Vercel build (most reliable for tracing).
     path.join(cwd, 'vendor', 'nest-api', 'create-app.js'),
-    // Monorepo sibling (local / full checkout).
     path.join(cwd, '..', 'api', 'dist', 'create-app.js'),
     path.join(cwd, 'node_modules', '@mcpfac', 'api', 'dist', 'create-app.js'),
     path.join(cwd, '..', '..', 'node_modules', '@mcpfac', 'api', 'dist', 'create-app.js'),
@@ -296,6 +308,29 @@ export async function handleWithNest(
   });
 }
 
+function buildProxyHeaders(request: Request, bodyLength: number | null): Headers {
+  const headers = new Headers();
+  request.headers.forEach((value, key) => {
+    if (HOP_BY_HOP_HEADERS.includes(key.toLowerCase())) {
+      return;
+    }
+    // Vercel forwarding headers can confuse the upstream project.
+    if (key.toLowerCase().startsWith('x-vercel-')) {
+      return;
+    }
+    if (key.toLowerCase().startsWith('x-forwarded-')) {
+      return;
+    }
+    headers.set(key, value);
+  });
+
+  if (bodyLength !== null) {
+    headers.set('content-length', String(bodyLength));
+  }
+
+  return headers;
+}
+
 export async function proxyToOrigin(
   origin: string,
   request: Request,
@@ -305,8 +340,12 @@ export async function proxyToOrigin(
   const incoming = new URL(request.url);
   const target = new URL(`${incoming.pathname}${incoming.search}`, nestOrigin);
 
-  const headers = new Headers(request.headers);
-  headers.delete('host');
+  const method = request.method.toUpperCase();
+  const hasBufferedBody = method !== 'GET' && method !== 'HEAD';
+  const bytes =
+    hasBufferedBody && bodyBuffer ? new Uint8Array(bodyBuffer) : null;
+
+  const headers = buildProxyHeaders(request, bytes ? bytes.byteLength : hasBufferedBody ? 0 : null);
 
   const init: RequestInit & { duplex?: 'half' } = {
     method: request.method,
@@ -314,20 +353,26 @@ export async function proxyToOrigin(
     redirect: 'manual',
   };
 
-  const method = request.method.toUpperCase();
-  if (method !== 'GET' && method !== 'HEAD') {
-    if (bodyBuffer) {
-      // Uint8Array is a valid BodyInit; Buffer alone is not under DOM typings.
-      const bytes = new Uint8Array(bodyBuffer);
-      init.body = bytes;
-      headers.set('content-length', String(bytes.byteLength));
-    } else if (request.body) {
-      init.body = request.body;
-      init.duplex = 'half';
-    }
+  if (bytes) {
+    init.body = bytes;
+  } else if (hasBufferedBody && bodyBuffer) {
+    init.body = new Uint8Array(0);
+  } else if (hasBufferedBody && request.body) {
+    init.body = request.body;
+    init.duplex = 'half';
   }
 
-  return fetch(target, init);
+  try {
+    return await fetch(target, init);
+  } catch (error) {
+    const cause =
+      error instanceof Error && 'cause' in error
+        ? ` (${String((error as Error & { cause?: unknown }).cause)})`
+        : '';
+    throw new Error(
+      `Proxy to ${nestOrigin} failed: ${error instanceof Error ? error.message : String(error)}${cause}`,
+    );
+  }
 }
 
 /** Local turbo dx: proxy :3000 API traffic to Nest on :3001. */
@@ -338,13 +383,16 @@ export async function proxyToLocalNest(
   return proxyToOrigin(process.env.BACKEND_URL || 'http://localhost:3001', request, bodyBuffer);
 }
 
+/**
+ * In-process Nest embed. Opt-in only — on Vercel the embed currently fails to
+ * boot and every request fell through to the proxy with a consumed body.
+ */
 export function shouldEmbedNest(): boolean {
-  return process.env.VERCEL === '1' || process.env.NEST_EMBEDDED === '1';
+  return process.env.NEST_EMBEDDED === '1';
 }
 
 /**
- * Temporary bridge while Nest embed cold-start / tracing is verified.
- * Keep the old API project until same-origin embed is healthy, then unset.
+ * Upstream Nest origin used when embed is off or fails.
  */
 export function getNestFallbackOrigin(): string | undefined {
   const explicit =
@@ -352,7 +400,6 @@ export function getNestFallbackOrigin(): string | undefined {
     process.env.BACKEND_URL?.trim() ||
     process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
   if (explicit) {
-    // Never proxy browser-facing bridge traffic to localhost from Vercel.
     if (process.env.VERCEL === '1' && /localhost|127\.0\.0\.1/i.test(explicit)) {
       return 'https://api.mcpfacbiotech.site';
     }
@@ -381,6 +428,11 @@ function resolveCorsOrigin(request: Request): string | null {
     .filter(Boolean);
   if (fromEnv.includes(origin)) return origin;
 
+  // Keep apex/www siblings allowed even when FRONTEND_URL lists only one.
+  if (origin === 'https://mcpfacbiotech.site' || origin === 'https://www.mcpfacbiotech.site') {
+    return origin;
+  }
+
   return null;
 }
 
@@ -402,4 +454,41 @@ export function handleCorsPreflight(request: Request): Response {
   }
 
   return new Response(null, { status: 204, headers });
+}
+
+/**
+ * Ensure browser can read proxied responses even when the upstream API has a
+ * stale FRONTEND_URL allowlist (apex vs www).
+ */
+export function applyCorsHeaders(request: Request, response: Response): Response {
+  const allowed = resolveCorsOrigin(request);
+  if (!allowed) {
+    return response;
+  }
+
+  const headers = new Headers(response.headers);
+  headers.set('Access-Control-Allow-Origin', allowed);
+  headers.set('Access-Control-Allow-Credentials', 'true');
+  headers.set('Access-Control-Expose-Headers', 'X-Request-ID');
+  const vary = headers.get('Vary');
+  if (!vary) {
+    headers.set('Vary', 'Origin');
+  } else if (!/\bOrigin\b/i.test(vary)) {
+    headers.set('Vary', `${vary}, Origin`);
+  }
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
+/** Resolve the Nest origin for this deployment (proxy target). */
+export function resolveProxyOrigin(): string {
+  return (
+    getNestFallbackOrigin() ||
+    process.env.BACKEND_URL?.trim() ||
+    'http://localhost:3001'
+  );
 }

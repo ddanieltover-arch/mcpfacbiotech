@@ -18,6 +18,8 @@ export class AdminDashboardService {
   ) {}
 
   async getDashboard(): Promise<AdminDashboard> {
+    // Run in two waves — a single 11-way Promise.all exhausts small Prisma
+    // pools on the serverless API and can drop the connection ("Failed to fetch").
     const [
       products,
       publishedProducts,
@@ -25,11 +27,6 @@ export class AdminDashboardService {
       customers,
       pendingQuotes,
       pendingOrders,
-      openOrders,
-      invoicesIssued,
-      recentOrderRows,
-      recentQuoteRows,
-      recentCustomerRows,
     ] = await Promise.all([
       this.prisma.product.count({ where: { deletedAt: null } }),
       this.prisma.product.count({
@@ -46,57 +43,61 @@ export class AdminDashboardService {
       this.prisma.order.count({
         where: { deletedAt: null, status: OrderStatus.PENDING },
       }),
-      this.prisma.order.count({
-        where: {
-          deletedAt: null,
-          status: {
-            in: [
-              OrderStatus.PENDING,
-              OrderStatus.CONFIRMED,
-              OrderStatus.PROCESSING,
-              OrderStatus.PACKED,
-              OrderStatus.SHIPPED,
-            ],
-          },
-        },
-      }),
-      this.prisma.invoice.count({ where: { status: 'ISSUED' } }),
-      this.prisma.order.findMany({
-        where: { deletedAt: null },
-        include: {
-          _count: { select: { items: true } },
-          customer: {
-            include: {
-              profile: { select: { email: true, firstName: true, lastName: true } },
-            },
-          },
-        },
-        orderBy: { createdAt: 'desc' },
-        take: 8,
-      }),
-      this.prisma.quote.findMany({
-        where: { deletedAt: null },
-        include: {
-          _count: { select: { items: true } },
-          customer: {
-            include: {
-              profile: { select: { email: true, firstName: true, lastName: true } },
-            },
-          },
-        },
-        orderBy: { createdAt: 'desc' },
-        take: 8,
-      }),
-      this.prisma.customer.findMany({
-        where: { deletedAt: null },
-        include: {
-          profile: { select: { email: true, firstName: true, lastName: true } },
-          _count: { select: { orders: true, quotes: true } },
-        },
-        orderBy: { createdAt: 'desc' },
-        take: 8,
-      }),
     ]);
+
+    const [openOrders, invoicesIssued, recentOrderRows, recentQuoteRows, recentCustomerRows] =
+      await Promise.all([
+        this.prisma.order.count({
+          where: {
+            deletedAt: null,
+            status: {
+              in: [
+                OrderStatus.PENDING,
+                OrderStatus.CONFIRMED,
+                OrderStatus.PROCESSING,
+                OrderStatus.PACKED,
+                OrderStatus.SHIPPED,
+              ],
+            },
+          },
+        }),
+        this.prisma.invoice.count({ where: { status: 'ISSUED' } }),
+        this.prisma.order.findMany({
+          where: { deletedAt: null },
+          include: {
+            _count: { select: { items: true } },
+            customer: {
+              include: {
+                profile: { select: { email: true, firstName: true, lastName: true } },
+              },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
+          take: 8,
+        }),
+        this.prisma.quote.findMany({
+          where: { deletedAt: null },
+          include: {
+            _count: { select: { items: true } },
+            customer: {
+              include: {
+                profile: { select: { email: true, firstName: true, lastName: true } },
+              },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
+          take: 8,
+        }),
+        this.prisma.customer.findMany({
+          where: { deletedAt: null },
+          include: {
+            profile: { select: { email: true, firstName: true, lastName: true } },
+            _count: { select: { orders: true, quotes: true } },
+          },
+          orderBy: { createdAt: 'desc' },
+          take: 8,
+        }),
+      ]);
 
     const recentOrders: AdminOrderSummary[] = recentOrderRows.map((order) => ({
       id: order.id,

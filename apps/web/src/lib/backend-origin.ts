@@ -1,14 +1,28 @@
 /**
  * Resolve the Nest/API origin.
  *
- * Browser: same-origin `/api/v1` on the storefront (unified deploy).
+ * Browser: always same-origin `/api/v1` on the storefront so requests hit the
+ * Next.js bridge (which proxies to Nest). This avoids apex/www CORS splits and
+ * stale NEXT_PUBLIC_BACKEND_URL values that caused admin "Failed to fetch".
+ *
  * Server/SSR: never fetch this Next deployment (self-fetch deadlocks / empty catalog).
  * Talk to Nest directly — local :3001 or the API host while embed is still settling.
  */
 export function getBackendOrigin(): string {
-  // Browser: always same-origin so `/api/v1` goes through the Next nest-bridge.
   if (typeof window !== 'undefined') {
-    return canonicalizeBrowserOrigin(window.location.origin);
+    // Ignore NEXT_PUBLIC_BACKEND_URL in the browser except as a documented escape
+    // hatch when it points at a real non-localhost host AND the page is local.
+    const explicit = process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
+    if (
+      explicit &&
+      !/localhost|127\.0\.0\.1/i.test(explicit) &&
+      /localhost|127\.0\.0\.1/i.test(window.location.hostname)
+    ) {
+      return explicit.replace(/\/+$/, '');
+    }
+    // Same-origin — do not rewrite apex→www here; middleware already canonicalizes
+    // document navigations, and same-origin avoids CORS on admin Bearer fetches.
+    return window.location.origin;
   }
 
   // Server-side (RSC / route handlers calling catalog helpers).
@@ -31,17 +45,4 @@ export function getBackendOrigin(): string {
   }
 
   return cleaned;
-}
-
-/** Apex → www so API calls are not broken by Vercel’s 308 domain redirect. */
-function canonicalizeBrowserOrigin(origin: string): string {
-  try {
-    const url = new URL(origin);
-    if (url.hostname.toLowerCase() === 'mcpfacbiotech.site') {
-      url.hostname = 'www.mcpfacbiotech.site';
-    }
-    return url.origin;
-  } catch {
-    return origin.replace(/\/+$/, '');
-  }
 }

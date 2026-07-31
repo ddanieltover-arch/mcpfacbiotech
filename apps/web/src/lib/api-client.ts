@@ -60,10 +60,14 @@ class ApiClient {
           : error instanceof Error
             ? error.message
             : 'Failed to fetch';
+      const origin = getBackendOrigin();
       throw new ApiError({
         success: false,
         statusCode: 0,
-        message,
+        message:
+          message === 'Failed to fetch'
+            ? `Failed to fetch ${path} via ${origin}`
+            : message,
         timestamp: new Date().toISOString(),
       });
     }
