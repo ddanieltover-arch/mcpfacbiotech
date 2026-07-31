@@ -131,16 +131,28 @@ function toBuffer(chunk: unknown, encoding?: unknown): Buffer {
   return Buffer.from(String(chunk ?? ''), enc);
 }
 
+/** Read the body once so embed → fallback proxy can reuse it. */
+export async function readRequestBody(request: Request): Promise<Buffer | null> {
+  if (request.method === 'GET' || request.method === 'HEAD' || request.method === 'OPTIONS') {
+    return null;
+  }
+  return Buffer.from(await request.arrayBuffer());
+}
+
 /**
  * Bridge a Web Fetch Request into the Nest Express instance and return a Fetch Response.
  */
-export async function handleWithNest(request: Request): Promise<Response> {
+export async function handleWithNest(
+  request: Request,
+  bodyBuffer: Buffer | null = null,
+): Promise<Response> {
   const app = await loadNestExpress();
   const url = new URL(request.url);
-  const bodyBuffer =
-    request.method === 'GET' || request.method === 'HEAD'
+  const body =
+    bodyBuffer ??
+    (request.method === 'GET' || request.method === 'HEAD' || request.method === 'OPTIONS'
       ? null
-      : Buffer.from(await request.arrayBuffer());
+      : Buffer.from(await request.arrayBuffer()));
 
   return new Promise<Response>((resolve, reject) => {
     const req = new Readable({
@@ -152,8 +164,8 @@ export async function handleWithNest(request: Request): Promise<Response> {
     req.method = request.method;
     req.url = `${url.pathname}${url.search}`;
     req.headers = toNodeHeaders(request.headers);
-    if (bodyBuffer && bodyBuffer.length > 0) {
-      req.headers['content-length'] = String(bodyBuffer.length);
+    if (body && body.length > 0) {
+      req.headers['content-length'] = String(body.length);
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (req as any).socket = { remoteAddress: '127.0.0.1' };
@@ -170,7 +182,7 @@ export async function handleWithNest(request: Request): Promise<Response> {
       }
       resolved = true;
 
-      const body = Buffer.concat(resChunks);
+      const responseBody = Buffer.concat(resChunks);
       const headers = new Headers();
       headerStore.forEach((value, key) => {
         if (key === 'content-encoding' || key === 'transfer-encoding' || key === 'content-length') {
@@ -186,7 +198,7 @@ export async function handleWithNest(request: Request): Promise<Response> {
       });
 
       resolve(
-        new Response(body.length > 0 ? body : null, {
+        new Response(responseBody.length > 0 ? responseBody : null, {
           status: res.statusCode,
           statusText: res.statusMessage,
           headers,
@@ -270,8 +282,8 @@ export async function handleWithNest(request: Request): Promise<Response> {
     };
 
     try {
-      if (bodyBuffer && bodyBuffer.length > 0) {
-        req.push(bodyBuffer);
+      if (body && body.length > 0) {
+        req.push(body);
       }
       req.push(null);
       app(req, res as never);
@@ -284,7 +296,11 @@ export async function handleWithNest(request: Request): Promise<Response> {
   });
 }
 
-export async function proxyToOrigin(origin: string, request: Request): Promise<Response> {
+export async function proxyToOrigin(
+  origin: string,
+  request: Request,
+  bodyBuffer: Buffer | null = null,
+): Promise<Response> {
   const nestOrigin = origin.replace(/\/$/, '');
   const incoming = new URL(request.url);
   const target = new URL(`${incoming.pathname}${incoming.search}`, nestOrigin);
@@ -298,17 +314,28 @@ export async function proxyToOrigin(origin: string, request: Request): Promise<R
     redirect: 'manual',
   };
 
-  if (request.method !== 'GET' && request.method !== 'HEAD' && request.body) {
-    init.body = request.body;
-    init.duplex = 'half';
+  const method = request.method.toUpperCase();
+  if (method !== 'GET' && method !== 'HEAD') {
+    if (bodyBuffer) {
+      // Uint8Array is a valid BodyInit; Buffer alone is not under DOM typings.
+      const bytes = new Uint8Array(bodyBuffer);
+      init.body = bytes;
+      headers.set('content-length', String(bytes.byteLength));
+    } else if (request.body) {
+      init.body = request.body;
+      init.duplex = 'half';
+    }
   }
 
   return fetch(target, init);
 }
 
 /** Local turbo dx: proxy :3000 API traffic to Nest on :3001. */
-export async function proxyToLocalNest(request: Request): Promise<Response> {
-  return proxyToOrigin(process.env.BACKEND_URL || 'http://localhost:3001', request);
+export async function proxyToLocalNest(
+  request: Request,
+  bodyBuffer: Buffer | null = null,
+): Promise<Response> {
+  return proxyToOrigin(process.env.BACKEND_URL || 'http://localhost:3001', request, bodyBuffer);
 }
 
 export function shouldEmbedNest(): boolean {
@@ -325,10 +352,54 @@ export function getNestFallbackOrigin(): string | undefined {
     process.env.BACKEND_URL?.trim() ||
     process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
   if (explicit) {
+    // Never proxy browser-facing bridge traffic to localhost from Vercel.
+    if (process.env.VERCEL === '1' && /localhost|127\.0\.0\.1/i.test(explicit)) {
+      return 'https://api.mcpfacbiotech.site';
+    }
     return explicit.replace(/\/$/, '');
   }
   if (process.env.VERCEL === '1') {
     return 'https://api.mcpfacbiotech.site';
   }
   return undefined;
+}
+
+const CORS_ALLOWED_ORIGINS = new Set([
+  'http://localhost:3000',
+  'https://www.mcpfacbiotech.site',
+  'https://mcpfacbiotech.site',
+]);
+
+function resolveCorsOrigin(request: Request): string | null {
+  const origin = request.headers.get('origin')?.trim().replace(/\/+$/, '');
+  if (!origin) return null;
+  if (CORS_ALLOWED_ORIGINS.has(origin)) return origin;
+
+  const fromEnv = (process.env.FRONTEND_URL ?? '')
+    .split(',')
+    .map((value) => value.trim().replace(/\/+$/, ''))
+    .filter(Boolean);
+  if (fromEnv.includes(origin)) return origin;
+
+  return null;
+}
+
+/** Answer CORS preflight without booting Nest (embed mock often breaks OPTIONS). */
+export function handleCorsPreflight(request: Request): Response {
+  const headers = new Headers({
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+    'Access-Control-Allow-Headers':
+      request.headers.get('access-control-request-headers') ||
+      'Content-Type, Authorization, X-Request-ID, X-Cart-Session',
+    'Access-Control-Max-Age': '86400',
+    Vary: 'Origin',
+  });
+
+  const allowed = resolveCorsOrigin(request);
+  if (allowed) {
+    headers.set('Access-Control-Allow-Origin', allowed);
+    headers.set('Access-Control-Allow-Credentials', 'true');
+  }
+
+  return new Response(null, { status: 204, headers });
 }

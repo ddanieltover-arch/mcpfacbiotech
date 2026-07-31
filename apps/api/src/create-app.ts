@@ -31,8 +31,16 @@ function corsOriginOption():
     .split(',')
     .map(normalizeOrigin)
     .filter(Boolean);
+  // Always keep both apex and www — FRONTEND_URL alone used to replace the
+  // list and break admin fetches from the other hostname ("Failed to fetch").
   const allowed = new Set([...defaults, ...fromEnv].map(normalizeOrigin));
-
+  // If env only listed one production host, ensure its sibling stays allowed.
+  if (allowed.has('https://www.mcpfacbiotech.site')) {
+    allowed.add('https://mcpfacbiotech.site');
+  }
+  if (allowed.has('https://mcpfacbiotech.site')) {
+    allowed.add('https://www.mcpfacbiotech.site');
+  }
   return (origin, callback) => {
     // Non-browser / same-origin tools may omit Origin
     if (!origin) {

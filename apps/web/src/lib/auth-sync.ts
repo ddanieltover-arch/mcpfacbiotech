@@ -1,14 +1,12 @@
 import type { AuthUser } from '@mcpfac/shared-types';
 import { getBackendOrigin } from '@/lib/backend-origin';
 
-const API_BASE_URL = getBackendOrigin();
-
 /**
  * Sync the authenticated Supabase user to the NestJS backend profile tables.
  * Safe to call repeatedly — the backend upserts profile and customer records.
  */
 export async function syncProfileWithBackend(accessToken: string): Promise<AuthUser | null> {
-  const response = await fetch(`${API_BASE_URL}/api/v1/auth/sync`, {
+  const response = await fetch(`${getBackendOrigin()}/api/v1/auth/sync`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -30,7 +28,7 @@ export async function syncProfileWithBackend(accessToken: string): Promise<AuthU
 }
 
 export async function fetchAuthMe(accessToken: string): Promise<AuthUser | null> {
-  const response = await fetch(`${API_BASE_URL}/api/v1/auth/me`, {
+  const response = await fetch(`${getBackendOrigin()}/api/v1/auth/me`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

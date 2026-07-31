@@ -63,7 +63,30 @@ export default function AdminDashboardPage() {
   }
 
   if (error || !data) {
-    return <p className="text-red-600">{error ?? 'No data'}</p>;
+    return (
+      <div className="space-y-3">
+        <p className="text-red-600">{error ?? 'No data'}</p>
+        <button
+          type="button"
+          className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm text-brand-deep hover:bg-brand-pale/40"
+          onClick={() => {
+            setError(undefined);
+            setLoading(true);
+            void getAdminDashboard()
+              .then((dashboard) => {
+                setData(dashboard);
+                setError(undefined);
+              })
+              .catch((err) => {
+                setError(err instanceof Error ? err.message : 'Failed to load admin dashboard');
+              })
+              .finally(() => setLoading(false));
+          }}
+        >
+          Retry
+        </button>
+      </div>
+    );
   }
 
   const { counts } = data;

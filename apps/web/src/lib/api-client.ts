@@ -31,9 +31,15 @@ class ApiClient {
     const { method = 'GET', body, headers = {}, params, token } = options;
 
     const requestHeaders: Record<string, string> = {
-      'Content-Type': 'application/json',
       ...headers,
     };
+
+    // Only set JSON content-type when sending a body — otherwise browsers
+    // treat GETs as non-simple and fire CORS preflights that the API bridge
+    // historically broke (surface as "Failed to fetch" in admin).
+    if (body !== undefined) {
+      requestHeaders['Content-Type'] = 'application/json';
+    }
 
     if (token) {
       requestHeaders['Authorization'] = `Bearer ${token}`;
@@ -44,7 +50,7 @@ class ApiClient {
       response = await fetch(this.buildUrl(path, params), {
         method,
         headers: requestHeaders,
-        body: body ? JSON.stringify(body) : undefined,
+        body: body !== undefined ? JSON.stringify(body) : undefined,
         signal: AbortSignal.timeout(30_000),
       });
     } catch (error) {

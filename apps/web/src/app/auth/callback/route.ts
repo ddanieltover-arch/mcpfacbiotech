@@ -2,10 +2,8 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getBackendOrigin } from '@/lib/backend-origin';
 
-const BACKEND_URL = getBackendOrigin();
-
 async function syncProfileWithBackend(accessToken: string): Promise<void> {
-  const response = await fetch(`${BACKEND_URL}/api/v1/auth/sync`, {
+  const response = await fetch(`${getBackendOrigin()}/api/v1/auth/sync`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
