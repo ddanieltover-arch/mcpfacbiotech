@@ -311,14 +311,17 @@ export async function handleWithNest(
 function buildProxyHeaders(request: Request, bodyLength: number | null): Headers {
   const headers = new Headers();
   request.headers.forEach((value, key) => {
-    if (HOP_BY_HOP_HEADERS.includes(key.toLowerCase())) {
+    const lower = key.toLowerCase();
+    if (HOP_BY_HOP_HEADERS.includes(lower)) {
       return;
     }
     // Vercel forwarding headers can confuse the upstream project.
-    if (key.toLowerCase().startsWith('x-vercel-')) {
+    if (lower.startsWith('x-vercel-') || lower.startsWith('x-forwarded-')) {
       return;
     }
-    if (key.toLowerCase().startsWith('x-forwarded-')) {
+    // Let undici negotiate encoding; forwarding the browser's Accept-Encoding
+    // has produced empty proxied bodies on Vercel (ETag present, 0-byte body).
+    if (lower === 'accept-encoding') {
       return;
     }
     headers.set(key, value);
@@ -328,6 +331,23 @@ function buildProxyHeaders(request: Request, bodyLength: number | null): Headers
     headers.set('content-length', String(bodyLength));
   }
 
+  return headers;
+}
+
+/** Copy upstream headers, dropping encoding/length so a buffered body stays valid. */
+function headersForBufferedBody(upstream: Headers): Headers {
+  const headers = new Headers();
+  upstream.forEach((value, key) => {
+    const lower = key.toLowerCase();
+    if (
+      lower === 'content-encoding' ||
+      lower === 'transfer-encoding' ||
+      lower === 'content-length'
+    ) {
+      return;
+    }
+    headers.set(key, value);
+  });
   return headers;
 }
 
@@ -362,8 +382,9 @@ export async function proxyToOrigin(
     init.duplex = 'half';
   }
 
+  let upstream: Response;
   try {
-    return await fetch(target, init);
+    upstream = await fetch(target, init);
   } catch (error) {
     const cause =
       error instanceof Error && 'cause' in error
@@ -373,6 +394,19 @@ export async function proxyToOrigin(
       `Proxy to ${nestOrigin} failed: ${error instanceof Error ? error.message : String(error)}${cause}`,
     );
   }
+
+  // Buffer before returning — streaming `fetch()` bodies through the Next.js
+  // route on Vercel often yields HTTP 200 + Nest headers with a 0-byte body
+  // (breaks View more, COA library, admin GETs).
+  const body = await upstream.arrayBuffer();
+  const outHeaders = headersForBufferedBody(upstream.headers);
+  outHeaders.set('content-length', String(body.byteLength));
+
+  return new Response(body, {
+    status: upstream.status,
+    statusText: upstream.statusText,
+    headers: outHeaders,
+  });
 }
 
 /** Local turbo dx: proxy :3000 API traffic to Nest on :3001. */
@@ -459,25 +493,32 @@ export function handleCorsPreflight(request: Request): Response {
 /**
  * Ensure browser can read proxied responses even when the upstream API has a
  * stale FRONTEND_URL allowlist (apex vs www).
+ *
+ * Always re-materializes the body from an ArrayBuffer so Vercel does not emit
+ * HTTP 200 responses with Nest headers and a 0-byte body.
  */
-export function applyCorsHeaders(request: Request, response: Response): Response {
+export async function applyCorsHeaders(
+  request: Request,
+  response: Response,
+): Promise<Response> {
+  const body = await response.arrayBuffer();
+  const headers = headersForBufferedBody(response.headers);
+  headers.set('content-length', String(body.byteLength));
+
   const allowed = resolveCorsOrigin(request);
-  if (!allowed) {
-    return response;
+  if (allowed) {
+    headers.set('Access-Control-Allow-Origin', allowed);
+    headers.set('Access-Control-Allow-Credentials', 'true');
+    headers.set('Access-Control-Expose-Headers', 'X-Request-ID');
+    const vary = headers.get('Vary');
+    if (!vary) {
+      headers.set('Vary', 'Origin');
+    } else if (!/\bOrigin\b/i.test(vary)) {
+      headers.set('Vary', `${vary}, Origin`);
+    }
   }
 
-  const headers = new Headers(response.headers);
-  headers.set('Access-Control-Allow-Origin', allowed);
-  headers.set('Access-Control-Allow-Credentials', 'true');
-  headers.set('Access-Control-Expose-Headers', 'X-Request-ID');
-  const vary = headers.get('Vary');
-  if (!vary) {
-    headers.set('Vary', 'Origin');
-  } else if (!/\bOrigin\b/i.test(vary)) {
-    headers.set('Vary', `${vary}, Origin`);
-  }
-
-  return new Response(response.body, {
+  return new Response(body, {
     status: response.status,
     statusText: response.statusText,
     headers,

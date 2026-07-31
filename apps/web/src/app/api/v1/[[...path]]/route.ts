@@ -44,11 +44,11 @@ async function handle(request: Request): Promise<Response> {
       response = await proxyToOrigin(resolveProxyOrigin(), request, bodyBuffer);
     }
 
-    return applyCorsHeaders(request, response);
+    return await applyCorsHeaders(request, response);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error('[nest-route] failed:', message);
-    return applyCorsHeaders(
+    return await applyCorsHeaders(
       request,
       Response.json(
         {

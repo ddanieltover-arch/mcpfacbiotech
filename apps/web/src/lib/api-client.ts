@@ -73,12 +73,18 @@ class ApiClient {
     }
 
     if (!response.ok) {
-      const error: ApiErrorResponse = await response.json().catch(() => ({
-        success: false as const,
-        statusCode: response.status,
-        message: response.statusText || 'Request failed',
-        timestamp: new Date().toISOString(),
-      }));
+      const raw = await response.text();
+      let error: ApiErrorResponse;
+      try {
+        error = JSON.parse(raw) as ApiErrorResponse;
+      } catch {
+        error = {
+          success: false,
+          statusCode: response.status,
+          message: raw.trim() || response.statusText || 'Request failed',
+          timestamp: new Date().toISOString(),
+        };
+      }
       throw new ApiError(error);
     }
 
@@ -87,7 +93,17 @@ class ApiClient {
       return undefined as T;
     }
 
-    return response.json() as Promise<T>;
+    const raw = await response.text();
+    if (!raw) {
+      throw new ApiError({
+        success: false,
+        statusCode: response.status,
+        message: `Empty response from ${path}`,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    return JSON.parse(raw) as T;
   }
 
   async get<T>(path: string, options?: Omit<RequestOptions, 'method' | 'body'>): Promise<ApiResponse<T>> {
