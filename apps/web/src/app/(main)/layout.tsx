@@ -1,6 +1,7 @@
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { MobileBottomNav } from '@/components/layout/mobile-bottom-nav';
+import { WhatsAppFab } from '@/components/layout/whatsapp-fab';
 import { CartDrawer } from '@/components/cart/cart-drawer';
 import { getCategoryOptions } from '@/lib/catalog-api';
 
@@ -18,6 +19,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
       <main className="flex-1">{children}</main>
       <Footer productCategories={productCategories} />
       <MobileBottomNav />
+      <WhatsAppFab />
       <CartDrawer />
     </div>
   );
