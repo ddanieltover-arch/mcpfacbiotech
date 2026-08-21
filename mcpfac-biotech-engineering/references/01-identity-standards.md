@@ -54,7 +54,7 @@ requiring architectural redesign.
 - Established: 2016
 - Address: No. 9 Tangkeng Road, Longgang District, Shenzhen, Guangdong, 518115, China
 - Email: info@mcpfacbiotech.site
-- Phone / WhatsApp: placeholder (to be filled in)
+- Phone / WhatsApp: +852 5324 5098
 - Language: English
 - Markets: China, worldwide
 - Customers: research institutions, universities, pharmaceutical companies,
