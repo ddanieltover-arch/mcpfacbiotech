@@ -256,9 +256,9 @@ export const SHIPPING_EXPECTATIONS = [
 
 export const CONTACT_CHANNELS = {
   email: 'info@mcpfacbiotech.site',
-  whatsapp: '+852 5324 5098',
+  whatsapp: '+852 6513 2793',
   /** Digits only for wa.me links */
-  whatsappDigits: '85253245098',
+  whatsappDigits: '85265132793',
   address: 'No. 9 Tangkeng Road, Longgang District, Shenzhen, Guangdong 518115, China',
   hours: 'Mon–Fri 9:00–18:00 CST (China Standard Time)',
   response: 'Most inquiries receive a reply within one business day',
