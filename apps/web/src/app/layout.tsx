@@ -57,9 +57,9 @@ export const metadata: Metadata = {
       'and laboratory products.',
     images: [
       {
-        url: '/og-image.jpg',
-        width: 512,
-        height: 512,
+        url: '/logo.jpg',
+        width: 640,
+        height: 640,
         alt: 'MCPFAC BIOTECH — Learn • Understand • Grow',
       },
     ],
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     description:
       'Global biotechnology research laboratory and supplier of peptides, research chemicals, ' +
       'and laboratory products.',
-    images: ['/og-image.jpg'],
+    images: ['/logo.jpg'],
   },
   robots: {
     index: true,
